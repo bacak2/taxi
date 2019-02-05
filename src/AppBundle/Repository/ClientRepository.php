@@ -67,4 +67,13 @@ class ClientRepository extends \Doctrine\ORM\EntityRepository
 
         $qb->getQuery()->execute();
     }
+
+    public function getClientNote($name)
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select("c.comment")
+            ->where("c.name = ".$name);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

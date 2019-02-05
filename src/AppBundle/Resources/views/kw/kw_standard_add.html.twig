@@ -1,5 +1,14 @@
 {% extends "@App/base.html.twig" %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #note{
+            display: none;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
     <div class="ui clearing segment">
         <div class="ui container">
@@ -38,6 +47,10 @@
                     {{ form_label(form.recipient) }}
                     {{ form_widget(form.recipient) }}
                 </div>
+                <div id="note" class="field">
+                    <label>Informacje</label>
+                    <div></div>
+                </div>
                 <div class="field">
                     {{ form_label(form.title) }}
                     {{ form_widget(form.title) }}
@@ -72,22 +85,9 @@
             win.focus();
         {% endif %}
 
-        $(document).ready(function(){
-            $('.message .close')
-                .on('click', function() {
-                    $(this)
-                        .closest('.message')
-                        .transition('fade')
-                    ;
-                })
-            ;
-            $('.ui .dropdown').dropdown({
-                fullTextSearch: true,
-                minCharacters: 2,
-                placeholder: false
-            });
-            $('#kwform_amount').inputmask("currency", {prefix: '', groupSeparator: '', rightAlign: false});
-        });
+        let getDriverNoteRoute = '{{ path('get_driver_note_kw_ajax') }}';
+        let getCompanyNoteRoute = '{{ path('get_company_note_kw_ajax') }}';
     </script>
+    <script src="{{ asset('bundles/app/js/kw/kw_standard_add.js') }}"></script>
 {% endblock %}
 

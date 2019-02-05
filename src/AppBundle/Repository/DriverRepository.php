@@ -66,4 +66,13 @@ class DriverRepository extends \Doctrine\ORM\EntityRepository implements UserPro
 
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    public function getDriverNoteByLN($ln)
+    {
+        $qb = $this->createQueryBuilder('d')
+            ->select("d.comment")
+            ->where("d.licenseNumber = ".$ln);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

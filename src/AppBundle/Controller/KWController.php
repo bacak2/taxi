@@ -9,6 +9,8 @@ use AppBundle\Form\CashRegister\KWForm;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use AppBundle\Entity\ApiTaxi360\Driver;
+use AppBundle\Entity\ApiTaxi360\Client;
 
 /**
  * Class KWController
@@ -69,6 +71,7 @@ class KWController extends Controller
             ->setUser($this->getUser());
 
         $form = $this->createForm(KWForm::class, $cashRegister);
+
         if($request->isMethod('POST'))
         {
             $form->handleRequest($request);
@@ -115,6 +118,38 @@ class KWController extends Controller
         }
         return $this->render('@App/kw/kw_standard_add.html.twig', array(
             'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route(
+     *     "/api/driver-note-kw",
+     *     name="get_driver_note_kw_ajax"
+     * )
+     */
+    public function getDriverNote(Request $request)
+    {
+        $licenseNumber = $request->query->get('data');
+        $repo = $this->getDoctrine()->getRepository(Driver::class);
+
+        return $this->json(array(
+            "data" => $repo->getDriverNoteByLN($licenseNumber)
+        ));
+    }
+
+    /**
+     * @Route(
+     *     "/api/company-note-kw",
+     *     name="get_company_note_kw_ajax"
+     * )
+     */
+    public function getCompanyNote(Request $request)
+    {
+        $companyName = $request->query->get('data');
+        $repo = $this->getDoctrine()->getRepository(Client::class);
+
+        return $this->json(array(
+            "data" => $repo->getClientNote($companyName)
         ));
     }
 }
