@@ -1,0 +1,698 @@
+<?php
+namespace AppBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(
+ *     repositoryClass="AppBundle\Repository\FirmRepository"
+ * )
+ * @ORM\Table(name="firm")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class Firm
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="AppBundle\Entity\Agreement",
+     *     mappedBy="firm",
+     *     cascade={"persist"}
+     * )
+     */
+    private $agreements;
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="AppBundle\Entity\Card",
+     *     mappedBy="firm",
+     *     cascade={"persist", "remove"}
+     * )
+     */
+    private $cards;
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="AppBundle\Entity\CashRegister\CashRegisterDetail",
+     *     mappedBy="firm"
+     * )
+     */
+    protected $cashRegisterDetails;
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="AppBundle\Entity\Transaction",
+     *     mappedBy="firm"
+     * )
+     */
+    private $transactions;
+
+    /*******************************************************************/
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $taxi360ID;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $nip;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $regon;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $krs;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $phone;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\Address",
+     *     cascade={"persist","remove"}
+     * )
+     * @ORM\JoinColumn(
+     *     name="address_id",
+     *     referencedColumnName="id",
+     *     nullable=true,
+     *     onDelete="SET NULL"
+     * )
+     */
+    private $address;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\Address",
+     *     cascade={"persist","remove"}
+     * )
+     * @ORM\JoinColumn(
+     *     name="forwarding_address_id",
+     *     referencedColumnName="id",
+     *     nullable=true,
+     *     onDelete="SET NULL"
+     * )
+     */
+    private $forwardingAddress = null;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $notes;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $active = true;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, name="invoice_name")
+     */
+    private $invoiceName;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, name="invoice_sign")
+     */
+    private $invoiceSign;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, name="invoice_email")
+     */
+    private $invoiceEmail;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, name="envelope_sign")
+     */
+    private $envelopeSign;
+
+    /**
+     * @ORM\Column(type="datetime", name="movement_date", nullable=true)
+     */
+    private $movementDate;
+
+    /**
+     * @ORM\Column(type="datetime", name="update_date")
+     */
+    private $updateDate;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->agreements = new ArrayCollection();
+        $this->cards = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
+    }
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set taxi360ID.
+     *
+     * @param int|null $taxi360ID
+     *
+     * @return Firm
+     */
+    public function setTaxi360ID($taxi360ID = null)
+    {
+        $this->taxi360ID = $taxi360ID;
+
+        return $this;
+    }
+
+    /**
+     * Get taxi360ID.
+     *
+     * @return int|null
+     */
+    public function getTaxi360ID()
+    {
+        return $this->taxi360ID;
+    }
+
+    /**
+     * Set name.
+     *
+     * @param string $name
+     *
+     * @return Firm
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set nip.
+     *
+     * @param string|null $nip
+     *
+     * @return Firm
+     */
+    public function setNip($nip = null)
+    {
+        $this->nip = $nip;
+
+        return $this;
+    }
+
+    /**
+     * Get nip.
+     *
+     * @return string|null
+     */
+    public function getNip()
+    {
+        return $this->nip;
+    }
+
+    /**
+     * Set regon.
+     *
+     * @param string|null $regon
+     *
+     * @return Firm
+     */
+    public function setRegon($regon = null)
+    {
+        $this->regon = $regon;
+
+        return $this;
+    }
+
+    /**
+     * Get regon.
+     *
+     * @return string|null
+     */
+    public function getRegon()
+    {
+        return $this->regon;
+    }
+
+    /**
+     * Set krs.
+     *
+     * @param string|null $krs
+     *
+     * @return Firm
+     */
+    public function setKrs($krs = null)
+    {
+        $this->krs = $krs;
+
+        return $this;
+    }
+
+    /**
+     * Get krs.
+     *
+     * @return string|null
+     */
+    public function getKrs()
+    {
+        return $this->krs;
+    }
+
+    /**
+     * Set email.
+     *
+     * @param string|null $email
+     *
+     * @return Firm
+     */
+    public function setEmail($email = null)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email.
+     *
+     * @return string|null
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set phone.
+     *
+     * @param string|null $phone
+     *
+     * @return Firm
+     */
+    public function setPhone($phone = null)
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * Get phone.
+     *
+     * @return string|null
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * Set notes.
+     *
+     * @param string|null $notes
+     *
+     * @return Firm
+     */
+    public function setNotes($notes = null)
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
+    /**
+     * Get notes.
+     *
+     * @return string|null
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * Set active.
+     *
+     * @param string $active
+     *
+     * @return Firm
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active.
+     *
+     * @return string
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set invoiceName.
+     *
+     * @param string|null $invoiceName
+     *
+     * @return Firm
+     */
+    public function setInvoiceName($invoiceName = null)
+    {
+        $this->invoiceName = $invoiceName;
+
+        return $this;
+    }
+
+    /**
+     * Get invoiceName.
+     *
+     * @return string|null
+     */
+    public function getInvoiceName()
+    {
+        return $this->invoiceName;
+    }
+
+    /**
+     * Set invoiceSign.
+     *
+     * @param string|null $invoiceSign
+     *
+     * @return Firm
+     */
+    public function setInvoiceSign($invoiceSign = null)
+    {
+        $this->invoiceSign = $invoiceSign;
+
+        return $this;
+    }
+
+    /**
+     * Get invoiceSign.
+     *
+     * @return string|null
+     */
+    public function getInvoiceSign()
+    {
+        return $this->invoiceSign;
+    }
+
+    /**
+     * Set invoiceEmail.
+     *
+     * @param string|null $invoiceEmail
+     *
+     * @return Firm
+     */
+    public function setInvoiceEmail($invoiceEmail = null)
+    {
+        $this->invoiceEmail = $invoiceEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get invoiceEmail.
+     *
+     * @return string|null
+     */
+    public function getInvoiceEmail()
+    {
+        return $this->invoiceEmail;
+    }
+
+    /**
+     * Set envelopeSign.
+     *
+     * @param string|null $envelopeSign
+     *
+     * @return Firm
+     */
+    public function setEnvelopeSign($envelopeSign = null)
+    {
+        $this->envelopeSign = $envelopeSign;
+
+        return $this;
+    }
+
+    /**
+     * Get envelopeSign.
+     *
+     * @return string|null
+     */
+    public function getEnvelopeSign()
+    {
+        return $this->envelopeSign;
+    }
+
+    /**
+     * Set address.
+     *
+     * @param \AppBundle\Entity\Address|null $address
+     *
+     * @return Firm
+     */
+    public function setAddress(\AppBundle\Entity\Address $address = null)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address.
+     *
+     * @return \AppBundle\Entity\Address|null
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set forwardingAddress.
+     *
+     * @param \AppBundle\Entity\Address|null $forwardingAddress
+     *
+     * @return Firm
+     */
+    public function setForwardingAddress(\AppBundle\Entity\Address $forwardingAddress = null)
+    {
+        $this->forwardingAddress = $forwardingAddress;
+
+        return $this;
+    }
+
+    /**
+     * Get forwardingAddress.
+     *
+     * @return \AppBundle\Entity\Address|null
+     */
+    public function getForwardingAddress()
+    {
+        return $this->forwardingAddress;
+    }
+
+    /**
+     * Add agreement.
+     *
+     * @param \AppBundle\Entity\Agreement $agreement
+     *
+     * @return Firm
+     */
+    public function addAgreement(\AppBundle\Entity\Agreement $agreement)
+    {
+        $agreement->setFirm($this);
+        $this->agreements[] = $agreement;
+
+        return $this;
+    }
+
+    /**
+     * Remove agreement.
+     *
+     * @param \AppBundle\Entity\Agreement $agreement
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeAgreement(\AppBundle\Entity\Agreement $agreement)
+    {
+        return $this->agreements->removeElement($agreement);
+    }
+
+    /**
+     * Get agreements.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAgreements()
+    {
+        return $this->agreements;
+    }
+
+    /**
+     * Add card.
+     *
+     * @param \AppBundle\Entity\Card $card
+     *
+     * @return Firm
+     */
+    public function addCard(\AppBundle\Entity\Card $card)
+    {
+        $card->setFirm($this);
+        $this->cards[] = $card;
+
+        return $this;
+    }
+
+    /**
+     * Remove card.
+     *
+     * @param \AppBundle\Entity\Card $card
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeCard(\AppBundle\Entity\Card $card)
+    {
+        return $this->cards->removeElement($card);
+    }
+
+    /**
+     * Get cards.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCards()
+    {
+        return $this->cards;
+    }
+
+    /**
+     * Add transaction.
+     *
+     * @param \AppBundle\Entity\Transaction $transaction
+     *
+     * @return Firm
+     */
+    public function addTransaction(\AppBundle\Entity\Transaction $transaction)
+    {
+        $transaction->setFirm($this);
+        $this->transactions[] = $transaction;
+
+        return $this;
+    }
+
+    /**
+     * Remove transaction.
+     *
+     * @param \AppBundle\Entity\Transaction $transaction
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeTransaction(\AppBundle\Entity\Transaction $transaction)
+    {
+        return $this->transactions->removeElement($transaction);
+    }
+
+    /**
+     * Get transactions.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTransactions()
+    {
+        return $this->transactions;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMovementDate()
+    {
+        return $this->movementDate;
+    }
+
+    /**
+     * @param mixed $movementDate
+     */
+    public function setMovementDate($movementDate)
+    {
+        $this->movementDate = $movementDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * @param mixed $updateDate
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateDate()
+    {
+        $this->updateDate = new \DateTime();
+    }
+}

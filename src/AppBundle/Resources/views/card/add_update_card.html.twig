@@ -1,0 +1,124 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/calendar.min.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="ui clearing segment">
+        <h3>{{ title }}</h3>
+
+        <div class="ui form">
+            {{ form_start(form) }}
+            <div class="ui two fields">
+                <div class="field">
+                    <label>Numer karty</label>
+                    {{ form_widget(form.pan) }}
+                </div>
+                <div class="field">
+                    <label>Taxi360</label>
+                    {{ form_widget(form.taxiCardId) }}
+                </div>
+            </div>
+
+            <div class="ui two fields">
+                <div class="field">
+                    <label>Typ karty</label>
+                    {{ form_widget(form.cardType) }}
+                </div>
+                <div class="field">
+                    <label>Status</label>
+                    {{ form_widget(form.status) }}
+                </div>
+            </div>
+
+            <div class="ui two fields">
+                <div class="field">
+                    <label>Firma</label>
+                    {{ form_widget(form.client) }}
+                </div>
+                <div class="field">
+                    <label>Ważna do:</label>
+                    <div class="ui calendar" id="datepicker">
+                        <div class="ui input left icon">
+                            <i class="calendar icon"></i>
+                            {{ form_widget(form.validUntil) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui two fields">
+                <div class="field">
+                    <label>Dział</label>
+                    {{ form_widget(form.department) }}
+                </div>
+                <div class="field">
+                    <label>Pasażer</label>
+                    {{ form_widget(form.taxiPassengerId) }}
+                </div>
+            </div>
+
+            <div class="ui two fields">
+                <div class="field">
+                    <label>Zniżka</label>
+                    {{ form_widget(form.discount) }}
+                </div>
+                <div class="field">
+                    <label>Aktywna tylko w dni robocze</label>
+                    {{ form_widget(form.workingDays,{'attr':{'class': 'ui dropdown'}}) }}
+                </div>
+            </div>
+
+            <div class="ui two fields">
+                <div class="field">
+                    <label>Limit Karty</label>
+                    {{ form_widget(form.dailyLimit) }}
+                </div>
+                <div class="field">
+                    <label>Wartość PREPAID</label>
+                    {{ form_widget(form.availableAmount) }}
+                </div>
+            </div>
+
+            <div class="ui two fields">
+                <div class="field">
+                    <label>Limit miesięczny</label>
+                    {{ form_widget(form.monthlyLimit) }}
+                </div>
+                <div class="field">
+                    <label>Dzienne użycie</label>
+                    {{ form_widget(form.dailyUsage) }}
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Uwagi</label>
+                {{ form_widget(form.comment) }}
+            </div>
+            <div class="field">
+                <input type="submit" class="ui right floated green button" value="Zapisz">
+            </div>
+            {% do form.isActive.setRendered %}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/calendarSettings.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendar.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datepicker').calendar({
+                type: 'date',
+                text: calendarText,
+                formatter: calendarFormatter
+            });
+            $('.ui .dropdown').dropdown();
+
+        })
+    </script>
+{% endblock %}

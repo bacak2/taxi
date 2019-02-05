@@ -1,0 +1,130 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+   <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+   <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/calendar.min.css') }}">
+   <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/sweetalert2.css') }}">
+   <link rel="stylesheet" href="{{ asset('bundles/app/css/app.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="ui segments main-content"
+      data-createinvoice="{{ path('route_invoice_client_create') }}"
+      data-editinvoice="{{ path('route_invoice_edit', {'id':'__id__'}) }}"
+    >
+       <div class="ui segment">
+          <div class="ui form">
+             <div class="two fields">
+                <div class="three wide field">
+                   Miesiąc
+                   <div class="ui calendar datepicker">
+                      <div class="ui input left icon">
+                         <i class="calendar icon"></i>
+                         <input type="text"
+                                value="{{ "now"|date("m") }}"
+                                id="txtMonth" name="txtMonth">
+                      </div>
+                   </div>
+                   Rok
+                   <input type="text" name="txtYear" id="txtYear" value="{{ "now"|date('Y') }}">
+                </div>
+                <div class="field" style="padding-top: 20px; padding-left: 15px">
+                   <div class="two fields">
+                      <div class="field">
+                         <button class="ui button" id="btnPrintEnvelop" name="btnPrintEnvelop">Drukuj koperty</button>
+                      </div>
+                      <div class="field">
+                         <button class="ui button" id="btnBook" name="btnBook">Drukuj książkę nadawczą</button>
+                      </div>
+                   </div>
+                   <div class="two fields">
+                      <div class="field">
+                         <button class="ui button" id="btnSendAllInvoices" name="btnSendAllInvoices">Wyślij wszystkie faktury</button>
+                      </div>
+                      <div class="field">
+                         <button class="ui button" id="btnGeneratePDF" name="btnGeneratePDF">Generuj faktury w PDF</button>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+       <div class="ui segment">
+          <div class="ui column ">
+             <div class="ui pointing secondary menu">
+                <a class="item active item-tab"
+                   data-tab="t1">Wystawione faktury</a>
+                <a class="item item-tab "
+                   data-tab="t2">Firmy do fakturowania</a>
+                <div class="right menu">
+                   <a class="ui item" id="save">
+                      <div class="ui green button" id="btnCreateInvoice">Wystaw faktury</div>
+                   </a>
+                </div>
+             </div>
+
+             <div class="ui form">
+                <div class="ui active tab" data-tab="t1">
+                   <div class="ui segment">
+                      <table id="invoiceTable"
+                             data-invoice="{{ path('print_invoice_for_client', {'invoiceId': '__id__'}) }}"
+                             data-url="{{ path('route_invoice_client_get') }}"
+                             class="display cell-border" width="100%" cellspacing="0">
+                         <thead>
+                         <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Numer faktury</th>
+                            <th>Nazwa firmy</th>
+                            <th>Numer firmy</th>
+                            <th>NIP</th>
+                            <th>Netto</th>
+                            <th>Vat</th>
+                            <th>Brutto</th>
+                         </tr>
+                         </thead>
+                      </table>
+                   </div>
+                </div>
+
+                 {#Umowy,prowizje i inne#}
+                <div class="ui tab" data-tab="t2">
+                   <div class="ui segment">
+                      <table id="transactionTable"
+                             data-url="{{ path('route_invoice_client_get_transactions') }}"
+                             class="display cell-border" width="100%" cellspacing="0">
+                         <thead>
+                         <tr>
+                            <th></th>
+                            <th>Firma</th>
+                            <th>Numer</th>
+                            <th>Pierwsza Transakcja</th>
+                            <th>Ostatnia Transakcja</th>
+                            <th>Ilość transakcji</th>
+                            <th>Suma netto</th>
+                         </tr>
+                         </thead>
+                      </table>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+   <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+   <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+   <script src="{{ asset('bundles/app/js/assets/calendarSettings.js') }}"></script>
+   <script src="{{ asset('bundles/app/js/assets/calendar.min.js') }}"></script>
+   <script src="{{ asset('bundles/app/js/assets/sweetalert2.js') }}"></script>
+   <script src="{{ asset('bundles/app/js/invoice/clientInvoice.js') }}"></script>
+{% endblock %}
+

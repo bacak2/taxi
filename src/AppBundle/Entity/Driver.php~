@@ -1,0 +1,978 @@
+<?php
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(
+ *     repositoryClass="AppBundle\Repository\DriverRepository"
+ * )
+ * @ORM\Table(name="driver")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class Driver
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /*****************************************************/
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\Address",
+     *     cascade={"persist","remove"}
+     * )
+     * @ORM\JoinColumn(
+     *     name="address_id",
+     *     referencedColumnName="id",
+     *     onDelete="SET NULL",
+     *     nullable=true
+     * )
+     */
+    private $address;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\Address",
+     *     cascade={"persist","remove"}
+     * )
+     * @ORM\JoinColumn(
+     *     name="forwarding_address_id",
+     *     referencedColumnName="id",
+     *     onDelete="SET NULL",
+     *     nullable=true
+     * )
+     */
+    private $forwardingAddress;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\EmployeeType"
+     * )
+     * @ORM\JoinColumn(
+     *     name="employee_type_id",
+     *     referencedColumnName="id",
+     *     onDelete="SET NULL",
+     *     nullable=true
+     * )
+     */
+    private $employeeType;
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="AppBundle\Entity\Blockade",
+     *     mappedBy="driver",
+     *     cascade={"persist"},
+     *     orphanRemoval=true
+     * )
+     */
+    private $blockade;
+
+    /**
+     * @ORM\OneToMany(
+     *      targetEntity="AppBundle\Entity\Terminal",
+     *     mappedBy="driver",
+     *     cascade={"persist"},
+     *     orphanRemoval=true
+     * )
+     */
+    private $terminals;
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="AppBundle\Entity\CashRegister\CashRegisterDetail",
+     *     mappedBy="driver"
+     * )
+     */
+    private $cashRegisterDetails;
+
+    /***************************************************************/
+    /**
+     * @ORM\Column(type="integer", name="taxi360driver_id", nullable=true)
+     */
+    private $taxi360DriverId;
+
+    /**
+     * @ORM\Column(type="string", name="license_number")
+     */
+    private $licenseNumber;
+
+    /**
+     * @ORM\Column(type="string", name="driver_number", nullable=true)
+     */
+    private $driverNumber;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $surname;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $phone;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $nip;
+
+    /**
+     * @ORM\Column(type="string", name="firm_name", nullable=true)
+     */
+    private $firmName;
+
+    /**
+     * @ORM\Column(type="boolean", name="is_verifone")
+     */
+    private $isVerifone = false;
+
+    /**
+     * @ORM\Column(type="boolean", name="is_vat")
+     */
+    private $isVat = false;
+
+    /**
+     * @ORM\Column(type="decimal", scale=3)
+     */
+    private $vat;
+
+    /***************************************************/
+    /**
+     * @ORM\Column(type="string", name="bank_account", nullable=true)
+     */
+    private $bankAccount;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\Address",
+     *     cascade={"persist", "remove"}
+     * )
+     * @ORM\JoinColumn(
+     *     name="bank_address_id",
+     *     referencedColumnName="id",
+     *     onDelete="SET NULL",
+     *     nullable=true
+     * )
+     */
+    private $bankAddress;
+
+    /**
+     * @ORM\Column(type="boolean", name="is_free_transfer")
+     */
+    private $isFreeTransfer = false;
+
+    /***************************************************/
+
+    /**
+     * @ORM\Column(type="boolean", name="have_periodic_transfer")
+     */
+    private $havePeriodicTransfer = true;
+
+    /**
+     * @ORM\Column(type="boolean", name="is_blocked")
+     */
+    private $isBlocked = false;
+
+    /**
+     * @ORM\Column(type="boolean", name="is_baggage")
+     */
+    private $isBaggage = false;
+
+    /**
+     * @ORM\Column(type="boolean", name="is_active")
+     */
+    private $isActive = true;
+
+    /**
+     * @ORM\Column(type="boolean", name="is_invoice_for_provision")
+     */
+    private $isInvoiceForProvision = false;
+
+    /**
+     * @ORM\Column(type="string", name="internet_password", nullable=true)
+     */
+    private $internetPassword;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $notes;
+
+    /**
+     * @ORM\Column(type="datetime", name="movement_date", nullable=true)
+     */
+    private $movementDate;
+
+    /**
+     * @ORM\Column(type="datetime", name="update_date")
+     */
+    private $updateDate;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->blockade = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->terminals = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set taxi360DriverId.
+     *
+     * @param int|null $taxi360DriverId
+     *
+     * @return Driver
+     */
+    public function setTaxi360DriverId($taxi360DriverId = null)
+    {
+        $this->taxi360DriverId = $taxi360DriverId;
+
+        return $this;
+    }
+
+    /**
+     * Get taxi360DriverId.
+     *
+     * @return int|null
+     */
+    public function getTaxi360DriverId()
+    {
+        return $this->taxi360DriverId;
+    }
+
+    /**
+     * Set licenseNumber.
+     *
+     * @param string $licenseNumber
+     *
+     * @return Driver
+     */
+    public function setLicenseNumber($licenseNumber)
+    {
+        $this->licenseNumber = $licenseNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get licenseNumber.
+     *
+     * @return string
+     */
+    public function getLicenseNumber()
+    {
+        return $this->licenseNumber;
+    }
+
+    /**
+     * Set driverNumber.
+     *
+     * @param string|null $driverNumber
+     *
+     * @return Driver
+     */
+    public function setDriverNumber($driverNumber = null)
+    {
+        $this->driverNumber = $driverNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get driverNumber.
+     *
+     * @return string|null
+     */
+    public function getDriverNumber()
+    {
+        return $this->driverNumber;
+    }
+
+    /**
+     * Set name.
+     *
+     * @param string $name
+     *
+     * @return Driver
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set surname.
+     *
+     * @param string $surname
+     *
+     * @return Driver
+     */
+    public function setSurname($surname)
+    {
+        $this->surname = $surname;
+
+        return $this;
+    }
+
+    /**
+     * Get surname.
+     *
+     * @return string
+     */
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    /**
+     * Set phone.
+     *
+     * @param string|null $phone
+     *
+     * @return Driver
+     */
+    public function setPhone($phone = null)
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * Get phone.
+     *
+     * @return string|null
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * Set email.
+     *
+     * @param string|null $email
+     *
+     * @return Driver
+     */
+    public function setEmail($email = null)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email.
+     *
+     * @return string|null
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set nip.
+     *
+     * @param string|null $nip
+     *
+     * @return Driver
+     */
+    public function setNip($nip = null)
+    {
+        $this->nip = $nip;
+
+        return $this;
+    }
+
+    /**
+     * Get nip.
+     *
+     * @return string|null
+     */
+    public function getNip()
+    {
+        return $this->nip;
+    }
+
+    /**
+     * Set firmName.
+     *
+     * @param string|null $firmName
+     *
+     * @return Driver
+     */
+    public function setFirmName($firmName = null)
+    {
+        $this->firmName = $firmName;
+
+        return $this;
+    }
+
+    /**
+     * Get firmName.
+     *
+     * @return string|null
+     */
+    public function getFirmName()
+    {
+        return $this->firmName;
+    }
+
+    /**
+     * Set isVerifone.
+     *
+     * @param bool $isVerifone
+     *
+     * @return Driver
+     */
+    public function setIsVerifone($isVerifone)
+    {
+        $this->isVerifone = $isVerifone;
+
+        return $this;
+    }
+
+    /**
+     * Get isVerifone.
+     *
+     * @return bool
+     */
+    public function getIsVerifone()
+    {
+        return $this->isVerifone;
+    }
+
+    /**
+     * Set isVat.
+     *
+     * @param bool $isVat
+     *
+     * @return Driver
+     */
+    public function setIsVat($isVat)
+    {
+        $this->isVat = $isVat;
+
+        return $this;
+    }
+
+    /**
+     * Get isVat.
+     *
+     * @return bool
+     */
+    public function getIsVat()
+    {
+        return $this->isVat;
+    }
+
+    /**
+     * Set vat.
+     *
+     * @param string $vat
+     *
+     * @return Driver
+     */
+    public function setVat($vat)
+    {
+        $this->vat = $vat;
+
+        return $this;
+    }
+
+    /**
+     * Get vat.
+     *
+     * @return string
+     */
+    public function getVat()
+    {
+        return $this->vat;
+    }
+
+    /**
+     * Set bankAccount.
+     *
+     * @param string|null $bankAccount
+     *
+     * @return Driver
+     */
+    public function setBankAccount($bankAccount = null)
+    {
+        $this->bankAccount = $bankAccount;
+
+        return $this;
+    }
+
+    /**
+     * Get bankAccount.
+     *
+     * @return string|null
+     */
+    public function getBankAccount()
+    {
+        return $this->bankAccount;
+    }
+
+    /**
+     * Set isFreeTransfer.
+     *
+     * @param bool $isFreeTransfer
+     *
+     * @return Driver
+     */
+    public function setIsFreeTransfer($isFreeTransfer)
+    {
+        $this->isFreeTransfer = $isFreeTransfer;
+
+        return $this;
+    }
+
+    /**
+     * Get isFreeTransfer.
+     *
+     * @return bool
+     */
+    public function getIsFreeTransfer()
+    {
+        return $this->isFreeTransfer;
+    }
+
+    /**
+     * Set havePeriodicTransfer.
+     *
+     * @param bool $havePeriodicTransfer
+     *
+     * @return Driver
+     */
+    public function setHavePeriodicTransfer($havePeriodicTransfer)
+    {
+        $this->havePeriodicTransfer = $havePeriodicTransfer;
+
+        return $this;
+    }
+
+    /**
+     * Get havePeriodicTransfer.
+     *
+     * @return bool
+     */
+    public function getHavePeriodicTransfer()
+    {
+        return $this->havePeriodicTransfer;
+    }
+
+    /**
+     * Set isBlocked.
+     *
+     * @param bool $isBlocked
+     *
+     * @return Driver
+     */
+    public function setIsBlocked($isBlocked)
+    {
+        $this->isBlocked = $isBlocked;
+
+        return $this;
+    }
+
+    /**
+     * Get isBlocked.
+     *
+     * @return bool
+     */
+    public function getIsBlocked()
+    {
+        return $this->isBlocked;
+    }
+
+    /**
+     * Set isBaggage.
+     *
+     * @param bool $isBaggage
+     *
+     * @return Driver
+     */
+    public function setIsBaggage($isBaggage)
+    {
+        $this->isBaggage = $isBaggage;
+
+        return $this;
+    }
+
+    /**
+     * Get isBaggage.
+     *
+     * @return bool
+     */
+    public function getIsBaggage()
+    {
+        return $this->isBaggage;
+    }
+
+    /**
+     * Set isActive.
+     *
+     * @param bool $isActive
+     *
+     * @return Driver
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive.
+     *
+     * @return bool
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Set internetPassword.
+     *
+     * @param string|null $internetPassword
+     *
+     * @return Driver
+     */
+    public function setInternetPassword($internetPassword = null)
+    {
+        $this->internetPassword = $internetPassword;
+
+        return $this;
+    }
+
+    /**
+     * Get internetPassword.
+     *
+     * @return string|null
+     */
+    public function getInternetPassword()
+    {
+        return $this->internetPassword;
+    }
+
+    /**
+     * Set notes.
+     *
+     * @param string|null $notes
+     *
+     * @return Driver
+     */
+    public function setNotes($notes = null)
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
+    /**
+     * Get notes.
+     *
+     * @return string|null
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * Set movementDate.
+     *
+     * @param \DateTime|null $movementDate
+     *
+     * @return Driver
+     */
+    public function setMovementDate($movementDate = null)
+    {
+        $this->movementDate = $movementDate;
+
+        return $this;
+    }
+
+    /**
+     * Get movementDate.
+     *
+     * @return \DateTime|null
+     */
+    public function getMovementDate()
+    {
+        return $this->movementDate;
+    }
+
+    /**
+     * Set updateDate.
+     *
+     * @param \DateTime $updateDate
+     *
+     * @return Driver
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updateDate.
+     *
+     * @return \DateTime
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * Set address.
+     *
+     * @param \AppBundle\Entity\Address|null $address
+     *
+     * @return Driver
+     */
+    public function setAddress(\AppBundle\Entity\Address $address = null)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address.
+     *
+     * @return \AppBundle\Entity\Address|null
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set forwardingAddress.
+     *
+     * @param \AppBundle\Entity\Address|null $forwardingAddress
+     *
+     * @return Driver
+     */
+    public function setForwardingAddress(\AppBundle\Entity\Address $forwardingAddress = null)
+    {
+        $this->forwardingAddress = $forwardingAddress;
+
+        return $this;
+    }
+
+    /**
+     * Get forwardingAddress.
+     *
+     * @return \AppBundle\Entity\Address|null
+     */
+    public function getForwardingAddress()
+    {
+        return $this->forwardingAddress;
+    }
+
+    /**
+     * Set employeeType.
+     *
+     * @param \AppBundle\Entity\EmployeeType|null $employeeType
+     *
+     * @return Driver
+     */
+    public function setEmployeeType(\AppBundle\Entity\EmployeeType $employeeType = null)
+    {
+        $this->employeeType = $employeeType;
+
+        return $this;
+    }
+
+    /**
+     * Get employeeType.
+     *
+     * @return \AppBundle\Entity\EmployeeType|null
+     */
+    public function getEmployeeType()
+    {
+        return $this->employeeType;
+    }
+
+    /**
+     * Add blockade.
+     *
+     * @param \AppBundle\Entity\Blockade $blockade
+     *
+     * @return Driver
+     */
+    public function addBlockade(\AppBundle\Entity\Blockade $blockade)
+    {
+        $blockade->setDriver($this);
+        $this->blockade[] = $blockade;
+
+        return $this;
+    }
+
+    /**
+     * Remove blockade.
+     *
+     * @param \AppBundle\Entity\Blockade $blockade
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeBlockade(\AppBundle\Entity\Blockade $blockade)
+    {
+        $blockade->setDriver(null);
+        return $this->blockade->removeElement($blockade);
+    }
+
+    /**
+     * Get blockade.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBlockade()
+    {
+        return $this->blockade;
+    }
+
+    /**
+     * Add terminal.
+     *
+     * @param \AppBundle\Entity\Terminal $terminal
+     *
+     * @return Driver
+     */
+    public function addTerminal(\AppBundle\Entity\Terminal $terminal)
+    {
+        $terminal->setDriver($this);
+        $this->terminals[] = $terminal;
+
+        return $this;
+    }
+
+    /**
+     * Remove terminal.
+     *
+     * @param \AppBundle\Entity\Terminal $terminal
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeTerminal(\AppBundle\Entity\Terminal $terminal)
+    {
+        $terminal->setDriver(null);
+        return $this->terminals->removeElement($terminal);
+    }
+
+    /**
+     * Get terminals.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTerminals()
+    {
+        return $this->terminals;
+    }
+
+    /**
+     * Set bankAddress.
+     *
+     * @param \AppBundle\Entity\Address|null $bankAddress
+     *
+     * @return Driver
+     */
+    public function setBankAddress(\AppBundle\Entity\Address $bankAddress = null)
+    {
+        $this->bankAddress = $bankAddress;
+
+        return $this;
+    }
+
+    /**
+     * Get bankAddress.
+     *
+     * @return \AppBundle\Entity\Address|null
+     */
+    public function getBankAddress()
+    {
+        return $this->bankAddress;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getisInvoiceForProvision()
+    {
+        return $this->isInvoiceForProvision;
+    }
+
+    /**
+     * @param mixed $isInvoiceForProvision
+     * @return Driver
+     */
+    public function setIsInvoiceForProvision($isInvoiceForProvision)
+    {
+        $this->isInvoiceForProvision = $isInvoiceForProvision;
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateDate()
+    {
+        $this->updateDate  = new \DateTime();
+
+        if($this->forwardingAddress == $this->address
+            || $this->forwardingAddress == NULL)
+        {
+            $this->forwardingAddress = $this->address;
+        }
+    }
+}

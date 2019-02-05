@@ -1,0 +1,32 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="money_transfer")
+ */
+class MoneyTransfer
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="AppBundle\Entity\Transaction",
+     *     mappedBy="moneyTransfer"
+     * )
+     */
+    private $transactions;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $createDate;
+}

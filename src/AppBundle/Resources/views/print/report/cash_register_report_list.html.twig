@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Raporty kasowe</title>
+    <style>
+        table, table td{
+            border-collapse: collapse;
+            padding: 4px;
+            font-size: 12px;
+        }
+        .table-bordered td, .table-bordered th{
+            font-size: 10px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <table width="100%" id="mainTable">
+        <tr>
+            <td colspan="8" style="font-weight: bold; font-size: 14px; border-bottom: 1px solid black;">
+                RAPORTY KASOWE
+            </td>
+            <td rowspan="2" style="text-align: right" width="120px">
+                <img src="{{ logo }}" alt="" width="120" height="55">
+            </td>
+        </tr>
+        <tr><td></td></tr>
+        <tr class="table-bordered">
+            <th>Data sporządzenia</th>
+            <th>Numer</th>
+            <th>Ile KP</th>
+            <th>Ile KW</th>
+            <th>Stan kasy</th>
+            <th>Poprzedni stan</th>
+            <th>Zmiana w kasie</th>
+            <th>Kwota KP</th>
+            <th>Kwota KW</th>
+        </tr>
+        {% for report in reports  %}
+            <tr class="table-bordered">
+                <td>{{ report['reportForDate'] }}</td>
+                <td>{{ report['reportNumber'] }}</td>
+                <td>{{ report['kpCount'] }}</td>
+                <td>{{ report['kwCount'] }}</td>
+                <td>{{ report['amount'] }}</td>
+                <td>{{ report['prevAmount'] }}</td>
+                <td>{{ report['changeAmount'] }}</td>
+                <td>{{ report['kpAmount'] }}</td>
+                <td>{{ report['kwAmount'] }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="6"></td>
+            <td colspan="3" style="padding: 20px">
+                <table style="width: 100%">
+                    <tr>
+                        <td></td>
+                        <td style="width: 210px; text-align: center;">{{ "now"|date("Y-m-d H:i") }}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-top: 20px;">_____________________________________</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="font-size: 8px; text-align: center">Podpis osoby sporządzającej raport</td>
+                    </tr>
+                    <tr>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

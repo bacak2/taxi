@@ -1,0 +1,871 @@
+<?php
+
+namespace AppBundle\Entity;
+
+
+use AppBundle\Entity\Embedded\MoneyEmbedded;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="sequance_package")
+ */
+class SequencePackage
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\Sequence"
+     * )
+     * @ORM\JoinColumn(
+     *     name="squence_id",
+     *     referencedColumnName="id",
+     *     onDelete="CASCADE"
+     * )
+     */
+    private $sequence;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, name="object_type")
+     */
+    private $objectType;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true, name="object_id")
+     */
+    private $objectID;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $action;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true, name="movement_date")
+     */
+    private $movementDate;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true, name="card_id")
+     */
+    private $cardID;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true, name="client_id")
+     */
+    private $clientID;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true, name="corporation_id")
+     */
+    private $corporationID;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true, name="passenger_id")
+     */
+    private $passengerID;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, name="pan")
+     */
+    private $PAN;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, name="card_type")
+     */
+    private $cardType;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $status;
+
+    /**
+     * @ORM\Embedded(
+     *     class="AppBundle\Entity\Embedded\MoneyEmbedded",
+     *     columnPrefix="dailyLimit"
+     * )
+     */
+    private $dailyLimit;
+
+    /**
+     * @ORM\Embedded(
+     *     class="AppBundle\Entity\Embedded\MoneyEmbedded",
+     *     columnPrefix="monthlyLimit"
+     * )
+     */
+    private $monthlyLimit;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true, name="daily_usage")
+     */
+    private $dailyUsage;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, name="working_days")
+     */
+    private $workingDays;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true, name="valid_until")
+     */
+    private $validUntil;
+
+    /**
+     * @ORM\Embedded(
+     *     class="AppBundle\Entity\Embedded\MoneyEmbedded",
+     *     columnPrefix="availableAmount"
+     * )
+     */
+    private $availableAmount;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $comment;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $department;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $info1;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $info2;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $info3;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $mpk;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, name="migration_alias")
+     */
+    private $migrationAlias;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, name="migration_valid_from")
+     */
+    private $migrationValidFrom;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, name="migration_valid_until")
+     */
+    private $migrationValidUntil;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, name="migration_status")
+     */
+    private $migrationStatus;
+
+
+
+    /**
+     * SequancePackageDetails constructor.
+     */
+    public function __construct()
+    {
+        $this->dailyLimit = new MoneyEmbedded();
+        $this->monthlyLimit = new MoneyEmbedded();
+        $this->availableAmount = new MoneyEmbedded();
+    }
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set objectType.
+     *
+     * @param string|null $objectType
+     *
+     * @return SequencePackage
+     */
+    public function setObjectType($objectType = null)
+    {
+        $this->objectType = $objectType;
+
+        return $this;
+    }
+
+    /**
+     * Get objectType.
+     *
+     * @return string|null
+     */
+    public function getObjectType()
+    {
+        return $this->objectType;
+    }
+
+    /**
+     * Set objectID.
+     *
+     * @param int|null $objectID
+     *
+     * @return SequencePackage
+     */
+    public function setObjectID($objectID = null)
+    {
+        $this->objectID = $objectID;
+
+        return $this;
+    }
+
+    /**
+     * Get objectID.
+     *
+     * @return int|null
+     */
+    public function getObjectID()
+    {
+        return $this->objectID;
+    }
+
+    /**
+     * Set action.
+     *
+     * @param string|null $action
+     *
+     * @return SequencePackage
+     */
+    public function setAction($action = null)
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * Get action.
+     *
+     * @return string|null
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * Set movementDate.
+     *
+     * @param \DateTime|null $movementDate
+     *
+     * @return SequencePackage
+     */
+    public function setMovementDate($movementDate = null)
+    {
+        $this->movementDate = $movementDate;
+
+        return $this;
+    }
+
+    /**
+     * Get movementDate.
+     *
+     * @return \DateTime|null
+     */
+    public function getMovementDate()
+    {
+        return $this->movementDate;
+    }
+
+    /**
+     * Set cardID.
+     *
+     * @param int|null $cardID
+     *
+     * @return SequencePackage
+     */
+    public function setCardID($cardID = null)
+    {
+        $this->cardID = $cardID;
+
+        return $this;
+    }
+
+    /**
+     * Get cardID.
+     *
+     * @return int|null
+     */
+    public function getCardID()
+    {
+        return $this->cardID;
+    }
+
+    /**
+     * Set clientID.
+     *
+     * @param int|null $clientID
+     *
+     * @return SequencePackage
+     */
+    public function setClientID($clientID = null)
+    {
+        $this->clientID = $clientID;
+
+        return $this;
+    }
+
+    /**
+     * Get clientID.
+     *
+     * @return int|null
+     */
+    public function getClientID()
+    {
+        return $this->clientID;
+    }
+
+    /**
+     * Set corporationID.
+     *
+     * @param int|null $corporationID
+     *
+     * @return SequencePackage
+     */
+    public function setCorporationID($corporationID = null)
+    {
+        $this->corporationID = $corporationID;
+
+        return $this;
+    }
+
+    /**
+     * Get corporationID.
+     *
+     * @return int|null
+     */
+    public function getCorporationID()
+    {
+        return $this->corporationID;
+    }
+
+    /**
+     * Set passengerID.
+     *
+     * @param int|null $passengerID
+     *
+     * @return SequencePackage
+     */
+    public function setPassengerID($passengerID = null)
+    {
+        $this->passengerID = $passengerID;
+
+        return $this;
+    }
+
+    /**
+     * Get passengerID.
+     *
+     * @return int|null
+     */
+    public function getPassengerID()
+    {
+        return $this->passengerID;
+    }
+
+    /**
+     * Set pAN.
+     *
+     * @param string|null $pAN
+     *
+     * @return SequencePackage
+     */
+    public function setPAN($pAN = null)
+    {
+        $this->PAN = $pAN;
+
+        return $this;
+    }
+
+    /**
+     * Get pAN.
+     *
+     * @return string|null
+     */
+    public function getPAN()
+    {
+        return $this->PAN;
+    }
+
+    /**
+     * Set cardType.
+     *
+     * @param string|null $cardType
+     *
+     * @return SequencePackage
+     */
+    public function setCardType($cardType = null)
+    {
+        $this->cardType = $cardType;
+
+        return $this;
+    }
+
+    /**
+     * Get cardType.
+     *
+     * @return string|null
+     */
+    public function getCardType()
+    {
+        return $this->cardType;
+    }
+
+    /**
+     * Set status.
+     *
+     * @param string|null $status
+     *
+     * @return SequencePackage
+     */
+    public function setStatus($status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status.
+     *
+     * @return string|null
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set dailyUsage.
+     *
+     * @param int|null $dailyUsage
+     *
+     * @return SequencePackage
+     */
+    public function setDailyUsage($dailyUsage = null)
+    {
+        $this->dailyUsage = $dailyUsage;
+
+        return $this;
+    }
+
+    /**
+     * Get dailyUsage.
+     *
+     * @return int|null
+     */
+    public function getDailyUsage()
+    {
+        return $this->dailyUsage;
+    }
+
+    /**
+     * Set workingDays.
+     *
+     * @param string|null $workingDays
+     *
+     * @return SequencePackage
+     */
+    public function setWorkingDays($workingDays = null)
+    {
+        $this->workingDays = $workingDays;
+
+        return $this;
+    }
+
+    /**
+     * Get workingDays.
+     *
+     * @return string|null
+     */
+    public function getWorkingDays()
+    {
+        return $this->workingDays;
+    }
+
+    /**
+     * Set validUntil.
+     *
+     * @param \DateTime|null $validUntil
+     *
+     * @return SequencePackage
+     */
+    public function setValidUntil($validUntil = null)
+    {
+        $this->validUntil = $validUntil;
+
+        return $this;
+    }
+
+    /**
+     * Get validUntil.
+     *
+     * @return \DateTime|null
+     */
+    public function getValidUntil()
+    {
+        return $this->validUntil;
+    }
+
+    /**
+     * Set comment.
+     *
+     * @param string|null $comment
+     *
+     * @return SequencePackage
+     */
+    public function setComment($comment = null)
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Get comment.
+     *
+     * @return string|null
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * Set department.
+     *
+     * @param string|null $department
+     *
+     * @return SequencePackage
+     */
+    public function setDepartment($department = null)
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
+    /**
+     * Get department.
+     *
+     * @return string|null
+     */
+    public function getDepartment()
+    {
+        return $this->department;
+    }
+
+    /**
+     * Set info1.
+     *
+     * @param string|null $info1
+     *
+     * @return SequencePackage
+     */
+    public function setInfo1($info1 = null)
+    {
+        $this->info1 = $info1;
+
+        return $this;
+    }
+
+    /**
+     * Get info1.
+     *
+     * @return string|null
+     */
+    public function getInfo1()
+    {
+        return $this->info1;
+    }
+
+    /**
+     * Set info2.
+     *
+     * @param string|null $info2
+     *
+     * @return SequencePackage
+     */
+    public function setInfo2($info2 = null)
+    {
+        $this->info2 = $info2;
+
+        return $this;
+    }
+
+    /**
+     * Get info2.
+     *
+     * @return string|null
+     */
+    public function getInfo2()
+    {
+        return $this->info2;
+    }
+
+    /**
+     * Set info3.
+     *
+     * @param string|null $info3
+     *
+     * @return SequencePackage
+     */
+    public function setInfo3($info3 = null)
+    {
+        $this->info3 = $info3;
+
+        return $this;
+    }
+
+    /**
+     * Get info3.
+     *
+     * @return string|null
+     */
+    public function getInfo3()
+    {
+        return $this->info3;
+    }
+
+    /**
+     * Set mpk.
+     *
+     * @param string|null $mpk
+     *
+     * @return SequencePackage
+     */
+    public function setMpk($mpk = null)
+    {
+        $this->mpk = $mpk;
+
+        return $this;
+    }
+
+    /**
+     * Get mpk.
+     *
+     * @return string|null
+     */
+    public function getMpk()
+    {
+        return $this->mpk;
+    }
+
+    /**
+     * Set migrationAlias.
+     *
+     * @param string|null $migrationAlias
+     *
+     * @return SequencePackage
+     */
+    public function setMigrationAlias($migrationAlias = null)
+    {
+        $this->migrationAlias = $migrationAlias;
+
+        return $this;
+    }
+
+    /**
+     * Get migrationAlias.
+     *
+     * @return string|null
+     */
+    public function getMigrationAlias()
+    {
+        return $this->migrationAlias;
+    }
+
+    /**
+     * Set migrationValidFrom.
+     *
+     * @param string|null $migrationValidFrom
+     *
+     * @return SequencePackage
+     */
+    public function setMigrationValidFrom($migrationValidFrom = null)
+    {
+        $this->migrationValidFrom = $migrationValidFrom;
+
+        return $this;
+    }
+
+    /**
+     * Get migrationValidFrom.
+     *
+     * @return string|null
+     */
+    public function getMigrationValidFrom()
+    {
+        return $this->migrationValidFrom;
+    }
+
+    /**
+     * Set migrationValidUntil.
+     *
+     * @param string|null $migrationValidUntil
+     *
+     * @return SequencePackage
+     */
+    public function setMigrationValidUntil($migrationValidUntil = null)
+    {
+        $this->migrationValidUntil = $migrationValidUntil;
+
+        return $this;
+    }
+
+    /**
+     * Get migrationValidUntil.
+     *
+     * @return string|null
+     */
+    public function getMigrationValidUntil()
+    {
+        return $this->migrationValidUntil;
+    }
+
+    /**
+     * Set migrationStatus.
+     *
+     * @param string|null $migrationStatus
+     *
+     * @return SequencePackage
+     */
+    public function setMigrationStatus($migrationStatus = null)
+    {
+        $this->migrationStatus = $migrationStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get migrationStatus.
+     *
+     * @return string|null
+     */
+    public function getMigrationStatus()
+    {
+        return $this->migrationStatus;
+    }
+
+    /**
+     * Set dailyLimit.
+     *
+     * @param \AppBundle\Entity\Embedded\MoneyEmbedded $dailyLimit
+     *
+     * @return SequencePackage
+     */
+    public function setDailyLimit(\AppBundle\Entity\Embedded\MoneyEmbedded $dailyLimit)
+    {
+        $this->dailyLimit = $dailyLimit;
+
+        return $this;
+    }
+
+    /**
+     * Get dailyLimit.
+     *
+     * @return \AppBundle\Entity\Embedded\MoneyEmbedded
+     */
+    public function getDailyLimit()
+    {
+        return $this->dailyLimit;
+    }
+
+    /**
+     * Set monthlyLimit.
+     *
+     * @param \AppBundle\Entity\Embedded\MoneyEmbedded $monthlyLimit
+     *
+     * @return SequencePackage
+     */
+    public function setMonthlyLimit(\AppBundle\Entity\Embedded\MoneyEmbedded $monthlyLimit)
+    {
+        $this->monthlyLimit = $monthlyLimit;
+
+        return $this;
+    }
+
+    /**
+     * Get monthlyLimit.
+     *
+     * @return \AppBundle\Entity\Embedded\MoneyEmbedded
+     */
+    public function getMonthlyLimit()
+    {
+        return $this->monthlyLimit;
+    }
+
+    /**
+     * Set availableAmount.
+     *
+     * @param \AppBundle\Entity\Embedded\MoneyEmbedded $availableAmount
+     *
+     * @return SequencePackage
+     */
+    public function setAvailableAmount(\AppBundle\Entity\Embedded\MoneyEmbedded $availableAmount)
+    {
+        $this->availableAmount = $availableAmount;
+
+        return $this;
+    }
+
+    /**
+     * Get availableAmount.
+     *
+     * @return \AppBundle\Entity\Embedded\MoneyEmbedded
+     */
+    public function getAvailableAmount()
+    {
+        return $this->availableAmount;
+    }
+
+    /**
+     * Set sequence.
+     *
+     * @param \AppBundle\Entity\Sequence|null $sequence
+     *
+     * @return SequencePackage
+     */
+    public function setSequence(\AppBundle\Entity\Sequence $sequence = null)
+    {
+        $this->sequence = $sequence;
+
+        return $this;
+    }
+
+    /**
+     * Get sequence.
+     *
+     * @return \AppBundle\Entity\Sequence|null
+     */
+    public function getSequence()
+    {
+        return $this->sequence;
+    }
+}

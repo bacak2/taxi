@@ -1,0 +1,87 @@
+<?php
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="passenger")
+ */
+class Passenger
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $taxi360ID;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $name;
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set taxi360ID.
+     *
+     * @param int|null $taxi360ID
+     *
+     * @return Passenger
+     */
+    public function setTaxi360ID($taxi360ID = null)
+    {
+        $this->taxi360ID = $taxi360ID;
+
+        return $this;
+    }
+
+    /**
+     * Get taxi360ID.
+     *
+     * @return int|null
+     */
+    public function getTaxi360ID()
+    {
+        return $this->taxi360ID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     * @return Passenger
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+}

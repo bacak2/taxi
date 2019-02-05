@@ -1,0 +1,428 @@
+<?php
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="sequence")
+ */
+class Sequence
+{
+    /**
+     * @ORM\Id()
+     * @ORM\Column(type="integer")
+     */
+    private $sequenceId;
+
+    /**
+     * @ORM\Column(type="integer", name="export_data")
+     */
+    private $exportData;
+
+    /**
+     * @ORM\Column(type="integer", name="export_transaction")
+     */
+    private $exportTransaction;
+
+    /**
+     * @ORM\Column(type="integer", name="export_invoice")
+     */
+    private $exportInvoice;
+
+    /**
+     * @ORM\Column(type="integer", name="export_payment")
+     */
+    private $exportPayment;
+
+    /**
+     * @ORM\Column(type="integer", name="export_client_package_id")
+     */
+    private $exportClientPackageId;
+
+    /**
+     * @ORM\Column(type="integer", name="exported_count")
+     */
+    private $exportedCount;
+
+    /**
+     * @ORM\Column(type="integer", name="exported_data_count")
+     */
+    private $exportedDataCount;
+
+    /**
+     * @ORM\Column(type="integer", name="exported_trans_count")
+     */
+    private $exportedTransCount;
+
+    /**
+     * @ORM\Column(type="integer", name="exported_invoice_count")
+     */
+    private $exportedInvoiceCount;
+
+    /**
+     * @ORM\Column(type="integer", name="exported_payment_count")
+     */
+    private $exportedPaymentCount;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $moreDataAvailable = false;
+
+    /**
+     * @ORM\Column(type="datetime", name="create_date")
+     */
+    private $createDate;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $imported = false;
+
+    /**
+     * Sequence constructor.
+     */
+    public function __construct()
+    {
+        $this->createDate = new \DateTime();
+    }
+
+    /**
+     * Set sequenceId.
+     *
+     * @param int $sequenceId
+     *
+     * @return Sequence
+     */
+    public function setSequenceId($sequenceId)
+    {
+        $this->sequenceId = $sequenceId;
+
+        return $this;
+    }
+
+    /**
+     * Get sequenceId.
+     *
+     * @return int
+     */
+    public function getSequenceId()
+    {
+        return $this->sequenceId;
+    }
+
+    /**
+     * Set exportData.
+     *
+     * @param int $exportData
+     *
+     * @return Sequence
+     */
+    public function setExportData($exportData)
+    {
+        $this->exportData = $exportData;
+
+        return $this;
+    }
+
+    /**
+     * Get exportData.
+     *
+     * @return int
+     */
+    public function getExportData()
+    {
+        return $this->exportData;
+    }
+
+    /**
+     * Set exportTransaction.
+     *
+     * @param int $exportTransaction
+     *
+     * @return Sequence
+     */
+    public function setExportTransaction($exportTransaction)
+    {
+        $this->exportTransaction = $exportTransaction;
+
+        return $this;
+    }
+
+    /**
+     * Get exportTransaction.
+     *
+     * @return int
+     */
+    public function getExportTransaction()
+    {
+        return $this->exportTransaction;
+    }
+
+    /**
+     * Set exportInvoice.
+     *
+     * @param int $exportInvoice
+     *
+     * @return Sequence
+     */
+    public function setExportInvoice($exportInvoice)
+    {
+        $this->exportInvoice = $exportInvoice;
+
+        return $this;
+    }
+
+    /**
+     * Get exportInvoice.
+     *
+     * @return int
+     */
+    public function getExportInvoice()
+    {
+        return $this->exportInvoice;
+    }
+
+    /**
+     * Set exportPayment.
+     *
+     * @param int $exportPayment
+     *
+     * @return Sequence
+     */
+    public function setExportPayment($exportPayment)
+    {
+        $this->exportPayment = $exportPayment;
+
+        return $this;
+    }
+
+    /**
+     * Get exportPayment.
+     *
+     * @return int
+     */
+    public function getExportPayment()
+    {
+        return $this->exportPayment;
+    }
+
+    /**
+     * Set exportClientPackageId.
+     *
+     * @param int $exportClientPackageId
+     *
+     * @return Sequence
+     */
+    public function setExportClientPackageId($exportClientPackageId)
+    {
+        $this->exportClientPackageId = $exportClientPackageId;
+
+        return $this;
+    }
+
+    /**
+     * Get exportClientPackageId.
+     *
+     * @return int
+     */
+    public function getExportClientPackageId()
+    {
+        return $this->exportClientPackageId;
+    }
+
+    /**
+     * Set exportedCount.
+     *
+     * @param int $exportedCount
+     *
+     * @return Sequence
+     */
+    public function setExportedCount($exportedCount)
+    {
+        $this->exportedCount = $exportedCount;
+
+        return $this;
+    }
+
+    /**
+     * Get exportedCount.
+     *
+     * @return int
+     */
+    public function getExportedCount()
+    {
+        return $this->exportedCount;
+    }
+
+    /**
+     * Set exportedDataCount.
+     *
+     * @param int $exportedDataCount
+     *
+     * @return Sequence
+     */
+    public function setExportedDataCount($exportedDataCount)
+    {
+        $this->exportedDataCount = $exportedDataCount;
+
+        return $this;
+    }
+
+    /**
+     * Get exportedDataCount.
+     *
+     * @return int
+     */
+    public function getExportedDataCount()
+    {
+        return $this->exportedDataCount;
+    }
+
+    /**
+     * Set exportedTransCount.
+     *
+     * @param int $exportedTransCount
+     *
+     * @return Sequence
+     */
+    public function setExportedTransCount($exportedTransCount)
+    {
+        $this->exportedTransCount = $exportedTransCount;
+
+        return $this;
+    }
+
+    /**
+     * Get exportedTransCount.
+     *
+     * @return int
+     */
+    public function getExportedTransCount()
+    {
+        return $this->exportedTransCount;
+    }
+
+    /**
+     * Set exportedInvoiceCount.
+     *
+     * @param int $exportedInvoiceCount
+     *
+     * @return Sequence
+     */
+    public function setExportedInvoiceCount($exportedInvoiceCount)
+    {
+        $this->exportedInvoiceCount = $exportedInvoiceCount;
+
+        return $this;
+    }
+
+    /**
+     * Get exportedInvoiceCount.
+     *
+     * @return int
+     */
+    public function getExportedInvoiceCount()
+    {
+        return $this->exportedInvoiceCount;
+    }
+
+    /**
+     * Set exportedPaymentCount.
+     *
+     * @param int $exportedPaymentCount
+     *
+     * @return Sequence
+     */
+    public function setExportedPaymentCount($exportedPaymentCount)
+    {
+        $this->exportedPaymentCount = $exportedPaymentCount;
+
+        return $this;
+    }
+
+    /**
+     * Get exportedPaymentCount.
+     *
+     * @return int
+     */
+    public function getExportedPaymentCount()
+    {
+        return $this->exportedPaymentCount;
+    }
+
+    /**
+     * Set moreDataAvailable.
+     *
+     * @param bool $moreDataAvailable
+     *
+     * @return Sequence
+     */
+    public function setMoreDataAvailable($moreDataAvailable)
+    {
+        $this->moreDataAvailable = $moreDataAvailable;
+
+        return $this;
+    }
+
+    /**
+     * Get moreDataAvailable.
+     *
+     * @return bool
+     */
+    public function getMoreDataAvailable()
+    {
+        return $this->moreDataAvailable;
+    }
+
+    /**
+     * Set createDate.
+     *
+     * @param \DateTime $createDate
+     *
+     * @return Sequence
+     */
+    public function setCreateDate($createDate)
+    {
+        $this->createDate = $createDate;
+
+        return $this;
+    }
+
+    /**
+     * Get createDate.
+     *
+     * @return \DateTime
+     */
+    public function getCreateDate()
+    {
+        return $this->createDate;
+    }
+
+    /**
+     * Set imported.
+     *
+     * @param bool $imported
+     *
+     * @return Sequence
+     */
+    public function setImported($imported)
+    {
+        $this->imported = $imported;
+
+        return $this;
+    }
+
+    /**
+     * Get imported.
+     *
+     * @return bool
+     */
+    public function getImported()
+    {
+        return $this->imported;
+    }
+}

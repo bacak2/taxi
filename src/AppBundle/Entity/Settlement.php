@@ -1,0 +1,466 @@
+<?php
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\SettlementRepository")
+ * @ORM\Table(name="settlement")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class Settlement
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\ApiTaxi360\Transaction",
+     *     inversedBy="settlements"
+     * )
+     * @ORM\JoinColumn(
+     *     name="transaction_id",
+     *     referencedColumnName="id",
+     *     onDelete="CASCADE"
+     * )
+     */
+    private $transaction;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\CashRegister\CashRegister"
+     * )
+     * @ORM\JoinColumn(
+     *     name="cash_register_id",
+     *     referencedColumnName="id",
+     *     nullable=true
+     * )
+     */
+    private $cashRegister;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\User"
+     * )
+     * @ORM\JoinColumn(
+     *     name="user_id",
+     *     referencedColumnName="id"
+     * )
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="datetime", name="settlement_date", nullable=true)
+     */
+    private $settlementDate;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="total_amount", nullable=true)
+     */
+    private $totalAmount;
+
+    /**
+     * @ORM\Column(type="decimal", scale=3, nullable=true)
+     */
+    private $percentage;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="settled_amount", nullable=true)
+     */
+    private $settledAmount = 0;
+
+    /**
+     * @ORM\Column(type="decimal", scale=3, nullable=true, name="settled_percentage")
+     */
+    private $settledPercentage = 0;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="amount_with_fee", nullable=true)
+     */
+    private $amountWithFee = 0;
+
+    /**
+     * @ORM\Column(type="decimal", name="reset_total_amount")
+     */
+    private $resetTotalAmount = 0;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="reset_amount", nullable=true)
+     */
+    private $resetSettledAmount = 0;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="reset_amount_with_fee", nullable=true)
+     */
+    private $resetAmountWithFee = 0;
+
+    /**
+     * @ORM\Column(type="datetime", name="update_date")
+     */
+    private $updateDate;
+
+    /**
+     * @ORM\Column(type="boolean", name="is_settled")
+     */
+    private $isSettled = false;
+
+    /**
+     * @ORM\Column(type="boolean", name="is_reseted")
+     */
+    private $isReseted = false;
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateDate()
+    {
+        $this->updateDate = new \DateTime();
+    }
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set settlementDate.
+     *
+     * @param \DateTime|null $settlementDate
+     *
+     * @return Settlement
+     */
+    public function setSettlementDate($settlementDate = null)
+    {
+        $this->settlementDate = $settlementDate;
+
+        return $this;
+    }
+
+    /**
+     * Get settlementDate.
+     *
+     * @return \DateTime|null
+     */
+    public function getSettlementDate()
+    {
+        return $this->settlementDate;
+    }
+
+    /**
+     * Set totalAmount.
+     *
+     * @param string|null $totalAmount
+     *
+     * @return Settlement
+     */
+    public function setTotalAmount($totalAmount = null)
+    {
+        $this->totalAmount = $totalAmount;
+
+        return $this;
+    }
+
+    /**
+     * Get totalAmount.
+     *
+     * @return string|null
+     */
+    public function getTotalAmount()
+    {
+        return $this->totalAmount;
+    }
+
+    /**
+     * Set settledAmount.
+     *
+     * @param string|null $settledAmount
+     *
+     * @return Settlement
+     */
+    public function setSettledAmount($settledAmount = null)
+    {
+        $this->settledAmount = $settledAmount;
+
+        return $this;
+    }
+
+    /**
+     * Get settledAmount.
+     *
+     * @return string|null
+     */
+    public function getSettledAmount()
+    {
+        return $this->settledAmount;
+    }
+
+    /**
+     * Set percentage.
+     *
+     * @param string|null $percentage
+     *
+     * @return Settlement
+     */
+    public function setPercentage($percentage = null)
+    {
+        $this->percentage = $percentage;
+
+        return $this;
+    }
+
+    /**
+     * Get percentage.
+     *
+     * @return string|null
+     */
+    public function getPercentage()
+    {
+        return $this->percentage;
+    }
+
+    /**
+     * Set amountWithFee.
+     *
+     * @param string|null $amountWithFee
+     *
+     * @return Settlement
+     */
+    public function setAmountWithFee($amountWithFee = null)
+    {
+        $this->amountWithFee = $amountWithFee;
+
+        return $this;
+    }
+
+    /**
+     * Get amountWithFee.
+     *
+     * @return string|null
+     */
+    public function getAmountWithFee()
+    {
+        return $this->amountWithFee;
+    }
+
+    /**
+     * Set resetAmountWithFee.
+     *
+     * @param string|null $resetAmountWithFee
+     *
+     * @return Settlement
+     */
+    public function setResetAmountWithFee($resetAmountWithFee = null)
+    {
+        $this->resetAmountWithFee = $resetAmountWithFee;
+
+        return $this;
+    }
+
+    /**
+     * Get resetAmountWithFee.
+     *
+     * @return string|null
+     */
+    public function getResetAmountWithFee()
+    {
+        return $this->resetAmountWithFee;
+    }
+
+    /**
+     * Set updateDate.
+     *
+     * @param \DateTime $updateDate
+     *
+     * @return Settlement
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updateDate.
+     *
+     * @return \DateTime
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * Set transactions.
+     *
+     * @param \AppBundle\Entity\ApiTaxi360\Transaction|null $transactions
+     *
+     * @return Settlement
+     */
+    public function setTransaction(\AppBundle\Entity\ApiTaxi360\Transaction $transaction = null)
+    {
+        $this->transaction = $transaction;
+
+        return $this;
+    }
+
+    /**
+     * Get transactions.
+     *
+     * @return \AppBundle\Entity\ApiTaxi360\Transaction|null
+     */
+    public function getTransaction()
+    {
+        return $this->transaction;
+    }
+
+    /**
+     * Set user.
+     *
+     * @param \AppBundle\Entity\User|null $user
+     *
+     * @return Settlement
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user.
+     *
+     * @return \AppBundle\Entity\User|null
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getisSettled()
+    {
+        return $this->isSettled;
+    }
+
+    /**
+     * @param mixed $isSettled
+     * @return Settlement
+     */
+    public function setIsSettled($isSettled)
+    {
+        $this->isSettled = $isSettled;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSettledPercentage()
+    {
+        return $this->settledPercentage;
+    }
+
+    /**
+     * @param mixed $settledPercentage
+     * @return Settlement
+     */
+    public function setSettledPercentage($settledPercentage)
+    {
+        $this->settledPercentage = $settledPercentage;
+        return $this;
+    }
+
+    /**
+     * Set cashRegister.
+     *
+     * @param \AppBundle\Entity\CashRegister\CashRegister|null $cashRegister
+     *
+     * @return Settlement
+     */
+    public function setCashRegister(\AppBundle\Entity\CashRegister\CashRegister $cashRegister = null)
+    {
+        $this->cashRegister = $cashRegister;
+
+        return $this;
+    }
+
+    /**
+     * Get cashRegister.
+     *
+     * @return \AppBundle\Entity\CashRegister\CashRegister|null
+     */
+    public function getCashRegister()
+    {
+        return $this->cashRegister;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsReseted()
+    {
+        return $this->isReseted;
+    }
+
+    /**
+     * @param mixed $isReseted
+     * @return Settlement
+     */
+    public function setIsReseted($isReseted)
+    {
+        $this->isReseted = $isReseted;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResetTotalAmount()
+    {
+        return $this->resetTotalAmount;
+    }
+
+    /**
+     * @param mixed $resetTotalAmount
+     * @return Settlement
+     */
+    public function setResetTotalAmount($resetTotalAmount)
+    {
+        $this->resetTotalAmount = $resetTotalAmount;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResetSettledAmount()
+    {
+        return $this->resetSettledAmount;
+    }
+
+    /**
+     * @param mixed $resetSettledAmount
+     * @return Settlement
+     */
+    public function setResetSettledAmount($resetSettledAmount)
+    {
+        $this->resetSettledAmount = $resetSettledAmount;
+        return $this;
+    }
+}

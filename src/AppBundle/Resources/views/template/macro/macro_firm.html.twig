@@ -1,0 +1,164 @@
+{% macro addCart(card, cardId, cardHash) %}
+<div class="item">
+    <div class="title" style="border-top: 1px solid black; margin-top: 10px;">
+        <i class="icon dropdown"></i>
+        {{ card.vars.value.pan|default('Nowa karta') }}
+        {% if cardId is defined and cardId is not null %}
+            <div id="{{ cardId }}"
+                 data-hash="{{ cardHash }}"
+                 class="ui right floated tiny red button btnDeleteCard">Usuń</div>
+        {% else %}
+            <div class="ui right floated tiny red button btnDeleteCard">Usuń</div>
+        {% endif %}
+    </div>
+    <div class="content field">
+        <div class="ui four fields">
+            <div class="field">
+                <label>Numer karty</label>
+                {{ form_widget(card.pan) }}
+            </div>
+            <div class="field">
+                <label>Typ</label>
+                {{ form_widget(card.cardType,{'attr':{'class': 'ui search dropdown'}}) }}
+            </div>
+            <div class="field">
+                <label>Firma</label>
+                {{ form_widget(card.firm,{'attr':{'class': 'ui search dropdown'}}) }}
+            </div>
+            <div class="field">
+                <label>Pasażer</label>
+                {{ form_widget(card.passenger) }}
+            </div>
+        </div>
+
+        <div class="ui two fields">
+            <div class="field">
+                <label>Dział</label>
+                {{ form_widget(card.department) }}
+            </div>
+            <div class="field">
+                <label>Zniżka</label>
+                {{ form_widget(card.discount) }}
+            </div>
+            <div class="field">
+                <label>Taxi360</label>
+                {{ form_widget(card.taxi360ID) }}
+            </div>
+            <div class="field" style="padding-top: 20px;">
+                {{ form_widget(card.isActive) }}
+            </div>
+        </div>
+
+        <div class="ui two fields">
+            <div class="field">
+                <label>Ważna do:</label>
+                <div class="ui calendar datepicker" >
+                    <div class="ui input left icon">
+                        <i class="calendar icon"></i>
+                        {{ form_widget(card.validUntil) }}
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Aktywan w weekend</label>
+                {{ form_widget(card.workingDays) }}
+            </div>
+            <div class="field">
+                <label>Limit Karty</label>
+                {{ form_widget(card.dailyLimit) }}
+            </div>
+            <div class="field">
+                <label>Wartość PREPAID</label>
+                {{ form_widget(card.availableAmount) }}
+            </div>
+        </div>
+
+        <div class="ui two fields">
+            <div class="field">
+                <label>Limit miesięczny</label>
+                {{ form_widget(card.monthlyLimit) }}
+            </div>
+            <div class="field">
+                <label>Dzienne użycie</label>
+                {{ form_widget(card.dailyUsage) }}
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Uwagi</label>
+            {{ form_widget(card.comment) }}
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro addAgreement(item) %}
+    <div class="item" style="border-bottom: 1px solid black">
+        <div class="content">
+
+            {#NUMER UMOWY i DAT#}
+            <div class="two fields">
+                <div class="field">
+                    <label>Numer Umowy</label>
+                    <div class="ui left icon small input">
+                        {{ form_widget(item.number, {'attr': {'placeholder': 'Numer umowy'}}) }}
+                        <i class="newspaper alternative icon"></i>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Data końca umowy</label>
+                    <div class="ui calendar endDate" >
+                        <div class="ui input left icon">
+                            <i class="calendar icon"></i>
+                            {{ form_widget(item.endDate, {'attr': {'placeholder': 'Data końca umowy'}}) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {#ILOSC DNI i ZNIZKA#}
+            <div class="two fields">
+                <div class="field">
+                    <label>Ilość dni do zapłaty</label>
+                    <div class="ui input">
+                        {{ form_widget(item.paymentDays, {'attr': {'placeholder': 'Ilość dni do zapłaty'}}) }}
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Zniżka dla firmy</label>
+                    <div class="ui right labeled input">
+                        {{ form_widget(item.discount, {'attr': {'placeholder': 'Zniżka dla firmy'}}) }}
+                    </div>
+                </div>
+            </div>
+
+            {#ZNIZKI#}
+            <div class="three fields">
+                <div class="field">
+                    <label>Karty</label>
+                    <div class="ui right labeled input">
+                        {{ form_widget(item.cardProvision, {'attr': {'placeholder': 'Karty'}}) }}
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Voucher</label>
+                    <div class="ui right labeled input">
+                        {{ form_widget(item.voucherProvision, {'attr': {'placeholder': 'Voucher'}}) }}
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>eVoucher</label>
+                    <div class="ui right labeled input">
+                        {{ form_widget(item.eVoucherProvision, {'attr': {'placeholder': 'eVoucher'}}) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="right floated content" style="padding-bottom: 15px">
+                {{ form_widget(item.deleteBtn) }}
+            </div>
+        </div>
+    </div>
+{% endmacro %}

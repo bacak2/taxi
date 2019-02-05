@@ -1,0 +1,54 @@
+<?php
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="driver_transfer_blockade")
+ */
+class DriverTransferBlockade
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $reason;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $driver;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $bankCards;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $ownCards;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $addDate;
+
+    /**
+     * DriverTransferBlockade constructor.
+     * @param $addDate
+     */
+    public function __construct()
+    {
+        $this->addDate = new \DateTime();
+    }
+}

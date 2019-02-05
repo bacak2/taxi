@@ -1,0 +1,1551 @@
+<?php
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="api_driver")
+ */
+class ApiDriver
+{
+    /**
+     * @ORM\Id()
+     * @ORM\Column(type="integer")
+     */
+    private $objectId;
+
+    /**
+     * @ORM\Column(type="integer", name="sequence_id")
+     */
+    private $sequenceId;
+
+    /**
+     * @ORM\Column(type="string", name="object_type")
+     */
+    private $objectType;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $action;
+
+    /**
+     * @ORM\Column(type="datetime", name="movement_date")
+     */
+    private $movementDate;
+
+    /**
+     * @ORM\Column(type="integer", name="driver_id")
+     */
+    private $driverId;
+
+    /**
+     * @ORM\Column(type="integer", name="corporation_id", nullable=true)
+     */
+    private $corporationId;
+
+    /**
+     * @ORM\Column(type="string", name="license_number", nullable=true)
+     */
+    private $licenseNumber;
+
+    /**
+     * @ORM\Column(type="string", name="first_name", nullable=true)
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $surname;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="integer", name="mobile_id", nullable=true)
+     */
+    private $mobileId;
+
+    /**
+     * @ORM\Column(type="string", name="mobile_number", nullable=true)
+     */
+    private $mobileNumber;
+
+    /**
+     * @ORM\Column(type="integer", name="phone_id", nullable=true)
+     */
+    private $phoneId;
+
+    /**
+     * @ORM\Column(type="string", name="phone_number", nullable=true)
+     */
+    private $phoneNumber;
+
+    /**
+     * @ORM\Column(type="integer", name="address_id", nullable=true)
+     */
+    private $addressId;
+
+    /**
+     * @ORM\Column(type="string", name="address_street", nullable=true)
+     */
+    private $addressStreet;
+
+    /**
+     * @ORM\Column(type="string", name="address_postal_code", nullable=true)
+     */
+    private $addressPostalCode;
+
+    /**
+     * @ORM\Column(type="string", name="address_town", nullable=true)
+     */
+    private $addressTown;
+
+    /**
+     * @ORM\Column(type="string", name="address_country", nullable=true)
+     */
+    private $addressCountry;
+
+    /**
+     * @ORM\Column(type="integer", name="mailing_address_id", nullable=true)
+     */
+    private $mailingAddressId;
+
+    /**
+     * @ORM\Column(type="string", name="mailing_address_street", nullable=true)
+     */
+    private $mailingAddressStreet;
+
+    /**
+     * @ORM\Column(type="string", name="mailing_address_postal_code", nullable=true)
+     */
+    private $mailingAddressPostalCode;
+
+    /**
+     * @ORM\Column(type="string", name="mailing_address_town", nullable=true)
+     */
+    private $mailingAddressTown;
+
+    /**
+     * @ORM\Column(type="string", name="mailing_address_country", nullable=true)
+     */
+    private $mailingAddressCountry;
+
+    /**
+     * @ORM\Column(type="string", name="account_number", nullable=true)
+     */
+    private $accountNumber;
+
+    /**
+     * @ORM\Column(type="string", name="account_owner", nullable=true)
+     */
+    private $accountOwner;
+
+    /**
+     * @ORM\Column(type="integer", name="account_address_id", nullable=true)
+     */
+    private $accountAddressId;
+
+    /**
+     * @ORM\Column(type="string", name="account_address_street", nullable=true)
+     */
+    private $accountAddressStreet;
+
+    /**
+     * @ORM\Column(type="string", name="account_address_postal_code", nullable=true)
+     */
+    private $accountAddressPostalCode;
+
+    /**
+     * @ORM\Column(type="string", name="account_address_town", nullable=true)
+     */
+    private $accountAddressTown;
+
+    /**
+     * @ORM\Column(type="string", name="account_address_country", nullable=true)
+     */
+    private $accountAddressCountry;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $prepaid;
+
+    /**
+     * @ORM\Column(type="integer", name="cab_id", nullable=true)
+     */
+    private $cabId;
+
+    /**
+     * @ORM\Column(type="string", name="cab_side_number", nullable=true)
+     */
+    private $cabSideNumber;
+
+    /**
+     * @ORM\Column(type="string",name="cab_registration_number", nullable=true)
+     */
+    private $cabRegistrationNumber;
+
+    /**
+     * @ORM\Column(type="integer", name="terminal_id", nullable=true)
+     */
+    private $terminalId;
+
+    /**
+     * @ORM\Column(type="string", name="terminal_tid", nullable=true)
+     */
+    private $terminalTid;
+
+    /**
+     * @ORM\Column(type="string", name="terminal_model", nullable=true)
+     */
+    private $terminalModel;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="string", name="is_employee", nullable=true)
+     */
+    private $isEmployee;
+
+    /**
+     * @ORM\Column(type="string", name="invoice_type", nullable=true)
+     */
+    private $invoiceType;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $nip;
+
+    /**
+     * @ORM\Column(type="string", name="bank_tid", nullable=true)
+     */
+    private $bankTid;
+
+    /**
+     * @ORM\Column(type="string", name="allow_external_invoice", nullable=true)
+     */
+    private $allowExternalInvoice;
+
+    /**
+     * @ORM\Column(type="integer", name="invoice_goods_reference_id", nullable=true)
+     */
+    private $invoiceGoodsReferenceId;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="invoice_goods_reference_vat", nullable=true)
+     */
+    private $invoiceGoodsReferenceVat;
+
+    /**
+     * @ORM\Column(type="string", name="invoice_goods_reference_description", nullable=true)
+     */
+    private $invoiceGoodsReferenceDescription;
+
+    /**
+     * @ORM\Column(type="integer", name="driver_group_id", nullable=true)
+     */
+    private $driverGroupId;
+
+    /**
+     * @ORM\Column(type="string", name="driver_group_name", nullable=true)
+     */
+    private $driverGroupName;
+
+    /**
+     * @ORM\Column(type="string", name="driver_group_nip", nullable=true)
+     */
+    private $driverGroupNip;
+
+    /**
+     * @ORM\Column(type="integer", name="driver_group_invoice_goods_reference_id", nullable=true)
+     */
+    private $driverGroupInvoiceGoodsReferenceId;
+
+    /**
+     * Set objectId.
+     *
+     * @param int $objectId
+     *
+     * @return ApiDriver
+     */
+    public function setObjectId($objectId)
+    {
+        $this->objectId = $objectId;
+
+        return $this;
+    }
+
+    /**
+     * Get objectId.
+     *
+     * @return int
+     */
+    public function getObjectId()
+    {
+        return $this->objectId;
+    }
+
+    /**
+     * Set sequenceId.
+     *
+     * @param int $sequenceId
+     *
+     * @return ApiDriver
+     */
+    public function setSequenceId($sequenceId)
+    {
+        $this->sequenceId = $sequenceId;
+
+        return $this;
+    }
+
+    /**
+     * Get sequenceId.
+     *
+     * @return int
+     */
+    public function getSequenceId()
+    {
+        return $this->sequenceId;
+    }
+
+    /**
+     * Set objectType.
+     *
+     * @param string $objectType
+     *
+     * @return ApiDriver
+     */
+    public function setObjectType($objectType)
+    {
+        $this->objectType = $objectType;
+
+        return $this;
+    }
+
+    /**
+     * Get objectType.
+     *
+     * @return string
+     */
+    public function getObjectType()
+    {
+        return $this->objectType;
+    }
+
+    /**
+     * Set action.
+     *
+     * @param string $action
+     *
+     * @return ApiDriver
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * Get action.
+     *
+     * @return string
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * Set movementDate.
+     *
+     * @param \DateTime $movementDate
+     *
+     * @return ApiDriver
+     */
+    public function setMovementDate($movementDate)
+    {
+        $this->movementDate = $movementDate;
+
+        return $this;
+    }
+
+    /**
+     * Get movementDate.
+     *
+     * @return \DateTime
+     */
+    public function getMovementDate()
+    {
+        return $this->movementDate;
+    }
+
+    /**
+     * Set driverId.
+     *
+     * @param int $driverId
+     *
+     * @return ApiDriver
+     */
+    public function setDriverId($driverId)
+    {
+        $this->driverId = $driverId;
+
+        return $this;
+    }
+
+    /**
+     * Get driverId.
+     *
+     * @return int
+     */
+    public function getDriverId()
+    {
+        return $this->driverId;
+    }
+
+    /**
+     * Set corporationId.
+     *
+     * @param int|null $corporationId
+     *
+     * @return ApiDriver
+     */
+    public function setCorporationId($corporationId = null)
+    {
+        $this->corporationId = $corporationId;
+
+        return $this;
+    }
+
+    /**
+     * Get corporationId.
+     *
+     * @return int|null
+     */
+    public function getCorporationId()
+    {
+        return $this->corporationId;
+    }
+
+    /**
+     * Set licenseNumber.
+     *
+     * @param string|null $licenseNumber
+     *
+     * @return ApiDriver
+     */
+    public function setLicenseNumber($licenseNumber = null)
+    {
+        $this->licenseNumber = $licenseNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get licenseNumber.
+     *
+     * @return string|null
+     */
+    public function getLicenseNumber()
+    {
+        return $this->licenseNumber;
+    }
+
+    /**
+     * Set firstName.
+     *
+     * @param string|null $firstName
+     *
+     * @return ApiDriver
+     */
+    public function setFirstName($firstName = null)
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * Get firstName.
+     *
+     * @return string|null
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Set surname.
+     *
+     * @param string|null $surname
+     *
+     * @return ApiDriver
+     */
+    public function setSurname($surname = null)
+    {
+        $this->surname = $surname;
+
+        return $this;
+    }
+
+    /**
+     * Get surname.
+     *
+     * @return string|null
+     */
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    /**
+     * Set email.
+     *
+     * @param string|null $email
+     *
+     * @return ApiDriver
+     */
+    public function setEmail($email = null)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email.
+     *
+     * @return string|null
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set mobileId.
+     *
+     * @param int|null $mobileId
+     *
+     * @return ApiDriver
+     */
+    public function setMobileId($mobileId = null)
+    {
+        $this->mobileId = $mobileId;
+
+        return $this;
+    }
+
+    /**
+     * Get mobileId.
+     *
+     * @return int|null
+     */
+    public function getMobileId()
+    {
+        return $this->mobileId;
+    }
+
+    /**
+     * Set mobileNumber.
+     *
+     * @param string|null $mobileNumber
+     *
+     * @return ApiDriver
+     */
+    public function setMobileNumber($mobileNumber = null)
+    {
+        $this->mobileNumber = $mobileNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get mobileNumber.
+     *
+     * @return string|null
+     */
+    public function getMobileNumber()
+    {
+        return $this->mobileNumber;
+    }
+
+    /**
+     * Set phoneId.
+     *
+     * @param int|null $phoneId
+     *
+     * @return ApiDriver
+     */
+    public function setPhoneId($phoneId = null)
+    {
+        $this->phoneId = $phoneId;
+
+        return $this;
+    }
+
+    /**
+     * Get phoneId.
+     *
+     * @return int|null
+     */
+    public function getPhoneId()
+    {
+        return $this->phoneId;
+    }
+
+    /**
+     * Set phoneNumber.
+     *
+     * @param string|null $phoneNumber
+     *
+     * @return ApiDriver
+     */
+    public function setPhoneNumber($phoneNumber = null)
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get phoneNumber.
+     *
+     * @return string|null
+     */
+    public function getPhoneNumber()
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * Set addressId.
+     *
+     * @param int|null $addressId
+     *
+     * @return ApiDriver
+     */
+    public function setAddressId($addressId = null)
+    {
+        $this->addressId = $addressId;
+
+        return $this;
+    }
+
+    /**
+     * Get addressId.
+     *
+     * @return int|null
+     */
+    public function getAddressId()
+    {
+        return $this->addressId;
+    }
+
+    /**
+     * Set addressStreet.
+     *
+     * @param string|null $addressStreet
+     *
+     * @return ApiDriver
+     */
+    public function setAddressStreet($addressStreet = null)
+    {
+        $this->addressStreet = $addressStreet;
+
+        return $this;
+    }
+
+    /**
+     * Get addressStreet.
+     *
+     * @return string|null
+     */
+    public function getAddressStreet()
+    {
+        return $this->addressStreet;
+    }
+
+    /**
+     * Set addressPostalCode.
+     *
+     * @param string|null $addressPostalCode
+     *
+     * @return ApiDriver
+     */
+    public function setAddressPostalCode($addressPostalCode = null)
+    {
+        $this->addressPostalCode = $addressPostalCode;
+
+        return $this;
+    }
+
+    /**
+     * Get addressPostalCode.
+     *
+     * @return string|null
+     */
+    public function getAddressPostalCode()
+    {
+        return $this->addressPostalCode;
+    }
+
+    /**
+     * Set addressTown.
+     *
+     * @param string|null $addressTown
+     *
+     * @return ApiDriver
+     */
+    public function setAddressTown($addressTown = null)
+    {
+        $this->addressTown = $addressTown;
+
+        return $this;
+    }
+
+    /**
+     * Get addressTown.
+     *
+     * @return string|null
+     */
+    public function getAddressTown()
+    {
+        return $this->addressTown;
+    }
+
+    /**
+     * Set addressCountry.
+     *
+     * @param string|null $addressCountry
+     *
+     * @return ApiDriver
+     */
+    public function setAddressCountry($addressCountry = null)
+    {
+        $this->addressCountry = $addressCountry;
+
+        return $this;
+    }
+
+    /**
+     * Get addressCountry.
+     *
+     * @return string|null
+     */
+    public function getAddressCountry()
+    {
+        return $this->addressCountry;
+    }
+
+    /**
+     * Set mailingAddressId.
+     *
+     * @param int|null $mailingAddressId
+     *
+     * @return ApiDriver
+     */
+    public function setMailingAddressId($mailingAddressId = null)
+    {
+        $this->mailingAddressId = $mailingAddressId;
+
+        return $this;
+    }
+
+    /**
+     * Get mailingAddressId.
+     *
+     * @return int|null
+     */
+    public function getMailingAddressId()
+    {
+        return $this->mailingAddressId;
+    }
+
+    /**
+     * Set mailingAddressStreet.
+     *
+     * @param string|null $mailingAddressStreet
+     *
+     * @return ApiDriver
+     */
+    public function setMailingAddressStreet($mailingAddressStreet = null)
+    {
+        $this->mailingAddressStreet = $mailingAddressStreet;
+
+        return $this;
+    }
+
+    /**
+     * Get mailingAddressStreet.
+     *
+     * @return string|null
+     */
+    public function getMailingAddressStreet()
+    {
+        return $this->mailingAddressStreet;
+    }
+
+    /**
+     * Set mailingAddressPostalCode.
+     *
+     * @param string|null $mailingAddressPostalCode
+     *
+     * @return ApiDriver
+     */
+    public function setMailingAddressPostalCode($mailingAddressPostalCode = null)
+    {
+        $this->mailingAddressPostalCode = $mailingAddressPostalCode;
+
+        return $this;
+    }
+
+    /**
+     * Get mailingAddressPostalCode.
+     *
+     * @return string|null
+     */
+    public function getMailingAddressPostalCode()
+    {
+        return $this->mailingAddressPostalCode;
+    }
+
+    /**
+     * Set mailingAddressTown.
+     *
+     * @param string|null $mailingAddressTown
+     *
+     * @return ApiDriver
+     */
+    public function setMailingAddressTown($mailingAddressTown = null)
+    {
+        $this->mailingAddressTown = $mailingAddressTown;
+
+        return $this;
+    }
+
+    /**
+     * Get mailingAddressTown.
+     *
+     * @return string|null
+     */
+    public function getMailingAddressTown()
+    {
+        return $this->mailingAddressTown;
+    }
+
+    /**
+     * Set mailingAddressCountry.
+     *
+     * @param string|null $mailingAddressCountry
+     *
+     * @return ApiDriver
+     */
+    public function setMailingAddressCountry($mailingAddressCountry = null)
+    {
+        $this->mailingAddressCountry = $mailingAddressCountry;
+
+        return $this;
+    }
+
+    /**
+     * Get mailingAddressCountry.
+     *
+     * @return string|null
+     */
+    public function getMailingAddressCountry()
+    {
+        return $this->mailingAddressCountry;
+    }
+
+    /**
+     * Set accountNumber.
+     *
+     * @param string|null $accountNumber
+     *
+     * @return ApiDriver
+     */
+    public function setAccountNumber($accountNumber = null)
+    {
+        $this->accountNumber = $accountNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get accountNumber.
+     *
+     * @return string|null
+     */
+    public function getAccountNumber()
+    {
+        return $this->accountNumber;
+    }
+
+    /**
+     * Set accountOwner.
+     *
+     * @param string|null $accountOwner
+     *
+     * @return ApiDriver
+     */
+    public function setAccountOwner($accountOwner = null)
+    {
+        $this->accountOwner = $accountOwner;
+
+        return $this;
+    }
+
+    /**
+     * Get accountOwner.
+     *
+     * @return string|null
+     */
+    public function getAccountOwner()
+    {
+        return $this->accountOwner;
+    }
+
+    /**
+     * Set accountAddressId.
+     *
+     * @param int|null $accountAddressId
+     *
+     * @return ApiDriver
+     */
+    public function setAccountAddressId($accountAddressId = null)
+    {
+        $this->accountAddressId = $accountAddressId;
+
+        return $this;
+    }
+
+    /**
+     * Get accountAddressId.
+     *
+     * @return int|null
+     */
+    public function getAccountAddressId()
+    {
+        return $this->accountAddressId;
+    }
+
+    /**
+     * Set accountAddressStreet.
+     *
+     * @param string|null $accountAddressStreet
+     *
+     * @return ApiDriver
+     */
+    public function setAccountAddressStreet($accountAddressStreet = null)
+    {
+        $this->accountAddressStreet = $accountAddressStreet;
+
+        return $this;
+    }
+
+    /**
+     * Get accountAddressStreet.
+     *
+     * @return string|null
+     */
+    public function getAccountAddressStreet()
+    {
+        return $this->accountAddressStreet;
+    }
+
+    /**
+     * Set accountAddressPostalCode.
+     *
+     * @param string|null $accountAddressPostalCode
+     *
+     * @return ApiDriver
+     */
+    public function setAccountAddressPostalCode($accountAddressPostalCode = null)
+    {
+        $this->accountAddressPostalCode = $accountAddressPostalCode;
+
+        return $this;
+    }
+
+    /**
+     * Get accountAddressPostalCode.
+     *
+     * @return string|null
+     */
+    public function getAccountAddressPostalCode()
+    {
+        return $this->accountAddressPostalCode;
+    }
+
+    /**
+     * Set accountAddressTown.
+     *
+     * @param string|null $accountAddressTown
+     *
+     * @return ApiDriver
+     */
+    public function setAccountAddressTown($accountAddressTown = null)
+    {
+        $this->accountAddressTown = $accountAddressTown;
+
+        return $this;
+    }
+
+    /**
+     * Get accountAddressTown.
+     *
+     * @return string|null
+     */
+    public function getAccountAddressTown()
+    {
+        return $this->accountAddressTown;
+    }
+
+    /**
+     * Set accountAddressCountry.
+     *
+     * @param string|null $accountAddressCountry
+     *
+     * @return ApiDriver
+     */
+    public function setAccountAddressCountry($accountAddressCountry = null)
+    {
+        $this->accountAddressCountry = $accountAddressCountry;
+
+        return $this;
+    }
+
+    /**
+     * Get accountAddressCountry.
+     *
+     * @return string|null
+     */
+    public function getAccountAddressCountry()
+    {
+        return $this->accountAddressCountry;
+    }
+
+    /**
+     * Set prepaid.
+     *
+     * @param string|null $prepaid
+     *
+     * @return ApiDriver
+     */
+    public function setPrepaid($prepaid = null)
+    {
+        $this->prepaid = $prepaid;
+
+        return $this;
+    }
+
+    /**
+     * Get prepaid.
+     *
+     * @return string|null
+     */
+    public function getPrepaid()
+    {
+        return $this->prepaid;
+    }
+
+    /**
+     * Set cabId.
+     *
+     * @param int|null $cabId
+     *
+     * @return ApiDriver
+     */
+    public function setCabId($cabId = null)
+    {
+        $this->cabId = $cabId;
+
+        return $this;
+    }
+
+    /**
+     * Get cabId.
+     *
+     * @return int|null
+     */
+    public function getCabId()
+    {
+        return $this->cabId;
+    }
+
+    /**
+     * Set cabSideNumber.
+     *
+     * @param string|null $cabSideNumber
+     *
+     * @return ApiDriver
+     */
+    public function setCabSideNumber($cabSideNumber = null)
+    {
+        $this->cabSideNumber = $cabSideNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get cabSideNumber.
+     *
+     * @return string|null
+     */
+    public function getCabSideNumber()
+    {
+        return $this->cabSideNumber;
+    }
+
+    /**
+     * Set cabRegistrationNumber.
+     *
+     * @param string|null $cabRegistrationNumber
+     *
+     * @return ApiDriver
+     */
+    public function setCabRegistrationNumber($cabRegistrationNumber = null)
+    {
+        $this->cabRegistrationNumber = $cabRegistrationNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get cabRegistrationNumber.
+     *
+     * @return string|null
+     */
+    public function getCabRegistrationNumber()
+    {
+        return $this->cabRegistrationNumber;
+    }
+
+    /**
+     * Set terminalId.
+     *
+     * @param int|null $terminalId
+     *
+     * @return ApiDriver
+     */
+    public function setTerminalId($terminalId = null)
+    {
+        $this->terminalId = $terminalId;
+
+        return $this;
+    }
+
+    /**
+     * Get terminalId.
+     *
+     * @return int|null
+     */
+    public function getTerminalId()
+    {
+        return $this->terminalId;
+    }
+
+    /**
+     * Set terminalTid.
+     *
+     * @param string|null $terminalTid
+     *
+     * @return ApiDriver
+     */
+    public function setTerminalTid($terminalTid = null)
+    {
+        $this->terminalTid = $terminalTid;
+
+        return $this;
+    }
+
+    /**
+     * Get terminalTid.
+     *
+     * @return string|null
+     */
+    public function getTerminalTid()
+    {
+        return $this->terminalTid;
+    }
+
+    /**
+     * Set terminalModel.
+     *
+     * @param string|null $terminalModel
+     *
+     * @return ApiDriver
+     */
+    public function setTerminalModel($terminalModel = null)
+    {
+        $this->terminalModel = $terminalModel;
+
+        return $this;
+    }
+
+    /**
+     * Get terminalModel.
+     *
+     * @return string|null
+     */
+    public function getTerminalModel()
+    {
+        return $this->terminalModel;
+    }
+
+    /**
+     * Set status.
+     *
+     * @param string|null $status
+     *
+     * @return ApiDriver
+     */
+    public function setStatus($status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status.
+     *
+     * @return string|null
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set isEmployee.
+     *
+     * @param string|null $isEmployee
+     *
+     * @return ApiDriver
+     */
+    public function setIsEmployee($isEmployee = null)
+    {
+        $this->isEmployee = $isEmployee;
+
+        return $this;
+    }
+
+    /**
+     * Get isEmployee.
+     *
+     * @return string|null
+     */
+    public function getIsEmployee()
+    {
+        return $this->isEmployee;
+    }
+
+    /**
+     * Set invoiceType.
+     *
+     * @param string|null $invoiceType
+     *
+     * @return ApiDriver
+     */
+    public function setInvoiceType($invoiceType = null)
+    {
+        $this->invoiceType = $invoiceType;
+
+        return $this;
+    }
+
+    /**
+     * Get invoiceType.
+     *
+     * @return string|null
+     */
+    public function getInvoiceType()
+    {
+        return $this->invoiceType;
+    }
+
+    /**
+     * Set name.
+     *
+     * @param string|null $name
+     *
+     * @return ApiDriver
+     */
+    public function setName($name = null)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set nip.
+     *
+     * @param string|null $nip
+     *
+     * @return ApiDriver
+     */
+    public function setNip($nip = null)
+    {
+        $this->nip = $nip;
+
+        return $this;
+    }
+
+    /**
+     * Get nip.
+     *
+     * @return string|null
+     */
+    public function getNip()
+    {
+        return $this->nip;
+    }
+
+    /**
+     * Set bankTid.
+     *
+     * @param string|null $bankTid
+     *
+     * @return ApiDriver
+     */
+    public function setBankTid($bankTid = null)
+    {
+        $this->bankTid = $bankTid;
+
+        return $this;
+    }
+
+    /**
+     * Get bankTid.
+     *
+     * @return string|null
+     */
+    public function getBankTid()
+    {
+        return $this->bankTid;
+    }
+
+    /**
+     * Set allowExternalInvoice.
+     *
+     * @param string|null $allowExternalInvoice
+     *
+     * @return ApiDriver
+     */
+    public function setAllowExternalInvoice($allowExternalInvoice = null)
+    {
+        $this->allowExternalInvoice = $allowExternalInvoice;
+
+        return $this;
+    }
+
+    /**
+     * Get allowExternalInvoice.
+     *
+     * @return string|null
+     */
+    public function getAllowExternalInvoice()
+    {
+        return $this->allowExternalInvoice;
+    }
+
+    /**
+     * Set invoiceGoodsReferenceId.
+     *
+     * @param int|null $invoiceGoodsReferenceId
+     *
+     * @return ApiDriver
+     */
+    public function setInvoiceGoodsReferenceId($invoiceGoodsReferenceId = null)
+    {
+        $this->invoiceGoodsReferenceId = $invoiceGoodsReferenceId;
+
+        return $this;
+    }
+
+    /**
+     * Get invoiceGoodsReferenceId.
+     *
+     * @return int|null
+     */
+    public function getInvoiceGoodsReferenceId()
+    {
+        return $this->invoiceGoodsReferenceId;
+    }
+
+    /**
+     * Set invoiceGoodsReferenceVat.
+     *
+     * @param string|null $invoiceGoodsReferenceVat
+     *
+     * @return ApiDriver
+     */
+    public function setInvoiceGoodsReferenceVat($invoiceGoodsReferenceVat = null)
+    {
+        $this->invoiceGoodsReferenceVat = $invoiceGoodsReferenceVat;
+
+        return $this;
+    }
+
+    /**
+     * Get invoiceGoodsReferenceVat.
+     *
+     * @return string|null
+     */
+    public function getInvoiceGoodsReferenceVat()
+    {
+        return $this->invoiceGoodsReferenceVat;
+    }
+
+    /**
+     * Set invoiceGoodsReferenceDescription.
+     *
+     * @param string|null $invoiceGoodsReferenceDescription
+     *
+     * @return ApiDriver
+     */
+    public function setInvoiceGoodsReferenceDescription($invoiceGoodsReferenceDescription = null)
+    {
+        $this->invoiceGoodsReferenceDescription = $invoiceGoodsReferenceDescription;
+
+        return $this;
+    }
+
+    /**
+     * Get invoiceGoodsReferenceDescription.
+     *
+     * @return string|null
+     */
+    public function getInvoiceGoodsReferenceDescription()
+    {
+        return $this->invoiceGoodsReferenceDescription;
+    }
+
+    /**
+     * Set driverGroupId.
+     *
+     * @param int|null $driverGroupId
+     *
+     * @return ApiDriver
+     */
+    public function setDriverGroupId($driverGroupId = null)
+    {
+        $this->driverGroupId = $driverGroupId;
+
+        return $this;
+    }
+
+    /**
+     * Get driverGroupId.
+     *
+     * @return int|null
+     */
+    public function getDriverGroupId()
+    {
+        return $this->driverGroupId;
+    }
+
+    /**
+     * Set driverGroupName.
+     *
+     * @param string|null $driverGroupName
+     *
+     * @return ApiDriver
+     */
+    public function setDriverGroupName($driverGroupName = null)
+    {
+        $this->driverGroupName = $driverGroupName;
+
+        return $this;
+    }
+
+    /**
+     * Get driverGroupName.
+     *
+     * @return string|null
+     */
+    public function getDriverGroupName()
+    {
+        return $this->driverGroupName;
+    }
+
+    /**
+     * Set driverGroupNip.
+     *
+     * @param string|null $driverGroupNip
+     *
+     * @return ApiDriver
+     */
+    public function setDriverGroupNip($driverGroupNip = null)
+    {
+        $this->driverGroupNip = $driverGroupNip;
+
+        return $this;
+    }
+
+    /**
+     * Get driverGroupNip.
+     *
+     * @return string|null
+     */
+    public function getDriverGroupNip()
+    {
+        return $this->driverGroupNip;
+    }
+
+    /**
+     * Set driverGroupInvoiceGoodsReferenceId.
+     *
+     * @param int|null $driverGroupInvoiceGoodsReferenceId
+     *
+     * @return ApiDriver
+     */
+    public function setDriverGroupInvoiceGoodsReferenceId($driverGroupInvoiceGoodsReferenceId = null)
+    {
+        $this->driverGroupInvoiceGoodsReferenceId = $driverGroupInvoiceGoodsReferenceId;
+
+        return $this;
+    }
+
+    /**
+     * Get driverGroupInvoiceGoodsReferenceId.
+     *
+     * @return int|null
+     */
+    public function getDriverGroupInvoiceGoodsReferenceId()
+    {
+        return $this->driverGroupInvoiceGoodsReferenceId;
+    }
+}

@@ -1,0 +1,70 @@
+{% extends "@App/base.html.twig" %}
+
+{% block body %}
+    <div class="ui segment">
+        <div class="ui grid">
+            <div class="ui ten wide column">
+                <div class="ui clearing segment">
+                    <div id="tableContainer">
+                    <table class="ui striped table celled">
+                        <thead>
+                            <tr>
+                                <th>Kategoria</th>
+                                <th>Nazwa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in all %}
+                            <tr>
+                                <td>{{ item.category.name}}</td>
+                                <td>{{ item.name }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="2">Brak danych</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+            <div class="ui six wide column">
+                <div class="ui segment" >
+                    <h3>Dodawanie</h3>
+                    <div>
+                        <div class="ui form">
+                        {{ form_start(form) }}
+                            <div class="field">
+                                <label>Typ</label>
+                                {{ form_widget(form.category) }}
+                            </div>
+                            <div class="field">
+                                <label>Wartość</label>
+                                {{ form_widget(form.name) }}
+                            </div>
+                            <div class="field">
+                                <input type="submit" value="Zapisz" class="ui fluid green button">
+                            </div>
+                        {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/jquery.slimscroll.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.ui.dropdown').dropdown();
+            $('#tableContainer').slimScroll({
+                height: '300px'
+            })
+        })
+    </script>
+{% endblock %}
+

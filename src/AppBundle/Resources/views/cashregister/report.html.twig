@@ -1,0 +1,144 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/calendar.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/app.css') }}">
+    <style>
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="ui sixteen column row" id="mainContent">
+        {{ form_start(form, {'attr': {'class': 'ui form', 'id':'crr_form'}}) }}
+        <div class="ui clearing segments">
+            <div class="ui clearing segment">
+                    <div class="five fields">
+                        <div class="field">
+                            <label>Data raportu</label>
+                            <div class="ui calendar datepicker">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    {{ form_widget(form.reportForDate) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Rodzaj Raportu</label>
+                            {{ form_widget(form.reportType) }}
+                        </div>
+                        <div class="field">
+                            <label>Ilość KP</label>
+                            {{ form_widget(form.kpCount) }}
+                        </div>
+                        <div class="field">
+                            <label>Ilość KW</label>
+                            {{ form_widget(form.kwCount) }}
+                        </div>
+
+                        <div class="field">
+                            <label>Poprzedni stan</label>
+                            {{ form_widget(form.prevAmount) }}
+                        </div>
+                    </div>
+                    <div class="five fields">
+                        <div class="field">
+                            <label>Kwota KP</label>
+                            {{ form_widget(form.kpAmount) }}
+                        </div>
+                        <div class="field">
+                            <label>Kwota KW</label>
+                            {{ form_widget(form.kwAmount) }}
+                        </div>
+                        <div class="field">
+                            <label>Stan Kasy</label>
+                            {{ form_widget(form.amount) }}
+                        </div>
+                        <div class="field">
+                            <label>Zmiana w Kasie</label>
+                            {{ form_widget(form.changeAmount) }}
+                        </div>
+                        <div class="field">
+                            <button style="margin-top: 25px;"
+                                    id="btnSearch"
+                                    class="ui primary fluid button">Szukaj</button>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="ui green segment" >
+                <table id="kpTable" class="display cell-border" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Kasa</th>
+                        <th>Numer</th>
+                        <th>Kwota</th>
+                        <th>Data</th>
+                        <th>Kto</th>
+                        <th>Rodzaj</th>
+                        <th>Co</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="ui red segment" >
+                <table id="kwTable" class="display cell-border" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Kasa</th>
+                        <th>Numer</th>
+                        <th>Kwota</th>
+                        <th>Data</th>
+                        <th>Kto</th>
+                        <th>Rodzaj</th>
+                        <th>Co</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="ui segment">
+                <div class="fields">
+                    <div class="ten wide field"></div>
+                    <div class="three wide field">
+                        <input type="button" value="Drukuj"
+                               id="btnPrint"
+                               style="display: none;"
+                               class="ui fluid button">
+                    </div>
+                    <div class="three wide field">
+                        <input type="submit" value="Zapisz"
+                               id="btnSave"
+                               style="display: none"
+                               class="ui fluid green button">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendarSettings.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendar.min.js') }}"></script>
+    <script>
+        var apiGetKwKpList = '{{ path('route_api_getKwKpList') }}';
+        var printCashReport = '{{ path('print_cash_register_report', {'id': '__id__'}) }}';
+
+        {% set printId = app.flashes('print') %}
+        {% if printId is defined and printId|length > 0 %}
+            var url = '{{ path('print_cash_register_report', {'id': printId[printId|length-1]}) }}';
+            var win = window.open(url, '_blank');
+            win.focus();
+        {% endif %}
+    </script>
+    <script src="{{ asset('bundles/app/js/cash/cashRegister_report.js') }}"></script>
+{% endblock %}
+

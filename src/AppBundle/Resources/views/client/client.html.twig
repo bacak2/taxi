@@ -1,0 +1,259 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/calendar.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/sweetalert2.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/app.css') }}">
+    <style>
+        .activeBorder{
+            border-color: green!important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    {% import '@App/template/macro/macro_firm.html.twig' as macro %}
+    <div class="ui column main-content"
+         data-cards="{{ path('route_card_api_get_by_client', {'clientId': '__clientId__'}) }}"
+         data-clientId="{% if clientId is defined and clientId is not null %} {{ clientId }} {% endif %}"
+    >
+        <div class="ui pointing secondary menu">
+            <a class="item item-tab active" data-tab="t1">Dane firmy</a>
+            <a class="item item-tab" data-tab="t2">Umowy, prowizje i inne</a>
+            <a class="item item-tab" data-tab="t3">Karty</a>
+            <a class="item item-tab" data-tab="t4">Notaki</a>
+            <div class="right menu">
+                <a class="ui item" id="save">
+                    <div class="ui green button">ZAPISZ</div>
+                </a>
+            </div>
+
+        </div>
+        <div class="ui form">
+            {{ form_start(form) }}
+            <div class="ui active tab" data-tab="t1">
+                <div class="ui segment">
+
+                    {#NAZWA | #}
+                    <div class="fields">
+                        <div class="twelve wide field">
+                            {{ form_label(form.name) }}
+                            {{ form_widget(form.name) }}
+                        </div>
+                        <div class="four wide field">
+                            <label>Status</label>
+                            {{ form_widget(form.status, {'attr':
+                                {'class': form.status.vars.value == 'ACTIVE' ? 'activeBorder' : '' }} ) }}
+                        </div>
+                    </div>
+
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Numer umowy</label>
+                            {{ form_widget(form.agreementNumber) }}
+                        </div>
+                        <div class="field">
+                            <label>Data końca</label>
+                            <div class="ui calendar" id="datepicker">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    {{ form_widget(form.agreementUntil) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="three fields">
+                        <div class="field">
+                            {{ form_label(form.nip) }}
+                            {{ form_widget(form.nip) }}
+                        </div>
+                        <div class="field">
+                            <label>Email</label>
+                            {{ form_widget(form.email) }}
+                        </div>
+                        <div class="field">
+                            <label>Telefon</label>
+                            {{ form_widget(form.phoneNumber) }}
+                        </div>
+                    </div>
+
+                    {#ADRES#}
+                    <div class="four fields">
+                        <div class="field">
+                            <label>Ulica i numer</label>
+                            {{ form_widget(form.addressStreet) }}
+                        </div>
+                        <div class="field">
+                            <label>Kod pocztowy</label>
+                            {{ form_widget(form.addressPostalCode) }}
+                        </div>
+                        <div class="field">
+                            <label>Miasto</label>
+                            {{ form_widget(form.addressTown) }}
+                        </div>
+                        <div class="field">
+                            <label>Kraj</label>
+                            {{ form_widget(form.addressCountry) }}
+                        </div>
+                    </div>
+                    {#ADRES KORESPONDENCJI#}
+                    <div class="field">
+                        <div class="ui segment">
+                            <h4>Adres do korespondencji <small>(jeżeli inny niż firmy)</small></h4>
+                            <div class="four fields">
+                                <div class="field">
+                                    {{ form_widget(form.mailingAddressStreet) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_widget(form.mailingAddressPostalCode) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_widget(form.mailingAddressTown) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_widget(form.mailingAddressCountry) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {#Umowy,prowizje i inne#}
+            <div class="ui tab" data-tab="t2">
+               <div class="ui segment">
+                   <div class="fields">
+                       <div class="four wide field">
+                            {{ form_widget(form.ownProvision) }}
+                       </div>
+                       <div class="twelve wide field">
+                            <div class="three fields">
+                                <div class="field">
+                                    {{ form_widget(form.cardProvision) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_widget(form.eVoucherProvision) }}
+                                </div>
+                                <div class="field">
+                                    {{ form_widget(form.voucherProvision) }}
+                                </div>
+                            </div>
+                       </div>
+                   </div>
+                   <div class="field">
+                       <hr>
+                   </div>
+                   <div class="four fields">
+
+                       <div class="field">
+                           <label>Rabat</label>
+                           {{ form_widget(form.discount) }}
+                       </div>
+                       <div class="field">
+                            <label>Termin płatności</label>
+                           <div class="ui right labeled input">
+                               {{ form_widget(form.paymentDays) }}
+                               <div class="ui label">DNI</div>
+                           </div>
+
+                       </div>
+                   </div>
+                   <div class="two fields">
+                       <div class="field">
+                           {{ form_widget(form.skipInvoice) }}
+                       </div>
+                   </div>
+                   {#FAKTURY#}
+                   <div class="field">
+                       <div class="ui segment">
+                           <h4>Faktura</h4>
+                           <div class="two fields">
+                               <div class="field">
+                                   {{ form_label(form.invoiceName) }}
+                                   {{ form_widget(form.invoiceName) }}
+                               </div>
+                               <div class="field">
+                                   {{ form_label(form.invoiceSign) }}
+                                   {{ form_widget(form.invoiceSign) }}
+                               </div>
+                           </div>
+                           <div class="two fields">
+                               <div class="field">
+                                   {{ form_label(form.invoiceEmail) }}
+                                   {{ form_widget(form.invoiceEmail) }}
+                               </div>
+                               <div class="field">
+                                   {{ form_label(form.envelopeSign) }}
+                                   {{ form_widget(form.envelopeSign) }}
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                </div>
+            </div>
+
+            {#Karty#}
+            <div class="ui  tab" data-tab="t3">
+                <div class="ui segment">
+                    <div class="three fields">
+                        <div class="field">
+                            <label>Miesięczny limit</label>
+                            {{ form_widget(form.cardMonthlyLimit) }}
+                        </div>
+                        <div class="field">
+                            <label>Dzienny limit</label>
+                            {{ form_widget(form.cardDailyLimit) }}
+                        </div>
+                        <div class="field">
+                            <label>Dni pracy karty(tylko dni robocze)</label>
+                            {{ form_widget(form.cardWorkingDays) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui segment">
+                    <table id="clientCardsTable" class="display" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Numer karty</th>
+                                <th>Typ</th>
+                                <th>Dział</th>
+                                <th>Rabat</th>
+                                <th>Limit - dzień</th>
+                                <th>Limit - miesiąc</th>
+                                <th>Data ważności</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            {#Karty - koniec#}
+
+            <div class="ui tab" data-tab="t4">
+                <div class="ui segment">
+                    <div class="field">
+                        <label>Notatki</label>
+                        {{ form_widget(form.comment) }}
+                    </div>
+                </div>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendarSettings.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendar.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/sweetalert2.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/client/client_add.js') }}"></script>
+{% endblock %}
+

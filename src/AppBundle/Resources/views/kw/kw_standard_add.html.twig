@@ -1,0 +1,84 @@
+{% extends "@App/base.html.twig" %}
+
+{% block body %}
+    <div class="ui clearing segment">
+        <div class="ui container">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    {% if label == "warning" %}
+                        <div class="ui negative message">
+                            <i class="close icon"></i>
+                            <div class="header">
+                                Błąd dodawania!
+                            </div>
+                            <p>{{ message }}</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            <div class="ui red segment">
+                <h3>KW</h3>
+            </div>
+            <div class="ui form">
+                {{ form_start(form) }}
+                <div class="field">
+                    {{ form_label(form.transactionDate) }}
+                    {{ form_widget(form.transactionDate) }}
+                </div>
+                <div class="field">
+                    {{ form_label(form.recipient) }}
+                    {{ form_widget(form.recipient) }}
+                </div>
+                <div class="field">
+                    {{ form_label(form.title) }}
+                    {{ form_widget(form.title) }}
+                </div>
+                <div class="field">
+                    {{ form_label(form.amount) }}
+                    {{ form_widget(form.amount) }}
+                </div>
+                <div class="field">
+                    {{ form_label(form.param) }}
+                    {{ form_widget(form.param) }}
+                </div>
+                <div class="field">
+                    <input type="submit"
+                           class="ui green right floated button"
+                           value="Zapisz i drukuj potwierdzenie">
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/jquery.inputmask.bundle.min.js') }}"></script>
+    <script>
+        {% set printId = app.flashes('print') %}
+        {% if printId is defined and printId|length > 0 %}
+            var url = '{{ path('print_standard_kw', {'id': printId[printId|length-1]}) }}';
+            var win = window.open(url, '_blank');
+            win.focus();
+        {% endif %}
+
+        $(document).ready(function(){
+            $('.message .close')
+                .on('click', function() {
+                    $(this)
+                        .closest('.message')
+                        .transition('fade')
+                    ;
+                })
+            ;
+            $('.ui .dropdown').dropdown({
+                fullTextSearch: true,
+                minCharacters: 2,
+                placeholder: false
+            });
+            $('#kwform_amount').inputmask("currency", {prefix: '', groupSeparator: '', rightAlign: false});
+        });
+    </script>
+{% endblock %}
+

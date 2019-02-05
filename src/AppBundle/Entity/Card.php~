@@ -1,0 +1,119 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="card")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class Card
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $firm;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $passenger;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\CardType"
+     * )
+     * @ORM\JoinColumn(
+     *     name="card_type_id",
+     *     referencedColumnName="id",
+     *     onDelete="SET NULL",
+     *     nullable=true
+     * )
+     */
+    private $type;
+
+    /****************************************************************/
+
+    /**
+     * @ORM\Column(type="integer", name="taxi360id", nullable=true)
+     */
+    private $taxi360ID;
+
+    /**
+     * @ORM\Column(type="datetime", name="movement_date", nullable=true)
+     */
+    private $movementDate;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $pan;
+
+    /**
+     * @ORM\Column(type="boolean", name="is_active")
+     */
+    private $isActive = true;
+
+    /**
+     * @ORM\Column(type="datetime", name="valid_until")
+     */
+    private $validUntil;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="daily_limit", nullable=true)
+     */
+    private $dailyLimit;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="available_amount", nullable=true)
+     */
+    private $availableAmount;
+
+    /**
+     * @ORM\Column(type="string", name="working_days", length=20, nullable=true,
+     *     options={"comment":"Czy karta ważna w weekend"})
+     */
+    private $workingDays;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="monthly_limit", nullable=true)
+     */
+    private $monthlyLimit;
+
+    /**
+     * @ORM\Column(type="integer", name="daily_usage", nullable=true )
+     */
+    private $dailyUsage;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $comment;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $department;
+
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $hash;
+
+    /**
+     * @ORM\Column(type="datetime", name="update_date")
+     */
+    private $updateDate;
+
+
+}

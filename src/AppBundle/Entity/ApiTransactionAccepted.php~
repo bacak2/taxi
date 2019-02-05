@@ -1,0 +1,1174 @@
+<?php
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="api_transaction_accepted")
+ */
+class ApiTransactionAccepted
+{
+    /**
+     * @ORM\Id()
+     * @ORM\Column(type="integer")
+     */
+    private $objectId;
+
+    /**
+     * @ORM\Column(type="integer", name="sequence_id")
+     */
+    private $sequenceId;
+
+    /**
+     * @ORM\Column(type="string", name="object_type")
+     */
+    private $objectType;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $action;
+
+    /**
+     * @ORM\Column(type="datetime", name="movement_date")
+     */
+    private $movementDate;
+
+    /**
+     * @ORM\Column(type="string", name="auth_code", nullable=true)
+     */
+    private $authCode;
+
+    /**
+     * @ORM\Column(type="datetime", name="auth_date", nullable=true)
+     */
+    private $authDate;
+
+    /**
+     * @ORM\Column(type="integer", name="transaction_id", nullable=true)
+     */
+    private $transactionId;
+
+    /**
+     * @ORM\Column(type="datetime", name="transaction_date", nullable=true)
+     */
+    private $transactionDate;
+
+    /**
+     * @ORM\Column(type="string", name="transaction_status", nullable=true)
+     */
+    private $transactionStatus;
+
+    /**
+     * @ORM\Column(type="string", name="transaction_status_code", nullable=true)
+     */
+    private $transactionStatusCode;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="total_amount", nullable=true)
+     */
+    private $totalAmount;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="driver_amount", nullable=true)
+     */
+    private $driverAmount;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, nullable=true)
+     */
+    private $vat;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $manual;
+
+    /**
+     * @ORM\Column(type="integer", name="corporation_id", nullable=true)
+     */
+    private $corporationId;
+
+    /**
+     * @ORM\Column(type="integer", name="driver_id", nullable=true)
+     */
+    private $driverId;
+
+    /**
+     * @ORM\Column(type="integer", name="terminal_id", nullable=true)
+     */
+    private $terminalId;
+
+    /**
+     * @ORM\Column(type="integer", name="cab_id", nullable=true)
+     */
+    private $cabId;
+
+    /**
+     * @ORM\Column(type="integer", name="client_id", nullable=true)
+     */
+    private $clientId;
+
+    /**
+     * @ORM\Column(type="integer", name="passenger_id", nullable=true)
+     */
+    private $passengerId;
+
+    /**
+     * @ORM\Column(type="integer", name="card_id", nullable=true)
+     */
+    private $cardId;
+
+    /**
+     * @ORM\Column(type="string", name="card_alias_used", nullable=true)
+     */
+    private $cardAliasUsed;
+
+    /**
+     * @ORM\Column(type="integer", name="card_alias_id", nullable=true)
+     */
+    private $cardAliasId;
+
+    /**
+     * @ORM\Column(type="string", name="corpo_alias_used", nullable=true)
+     */
+    private $corpoAliasUsed;
+
+    /**
+     * @ORM\Column(type="integer", name="corpo_alias_id", nullable=true)
+     */
+    private $corpoAliasId;
+
+    /**
+     * @ORM\Column(type="datetime", name="start_time", nullable=true)
+     */
+    private $startTime;
+
+    /**
+     * @ORM\Column(type="datetime", name="stop_time", nullable=true)
+     */
+    private $stopTime;
+
+    /**
+     * @ORM\Column(type="string", name="start_lng", nullable=true)
+     */
+    private $startLng;
+
+    /**
+     * @ORM\Column(type="string", name="start_lat", nullable=true)
+     */
+    private $startLat;
+
+    /**
+     * @ORM\Column(type="string", name="stop_lng", nullable=true)
+     */
+    private $stopLng;
+
+    /**
+     * @ORM\Column(type="string", name="stop_lat", nullable=true)
+     */
+    private $stopLat;
+
+    /**
+     * @ORM\Column(type="string", name="start_place", nullable=true)
+     */
+    private $startPlace;
+
+    /**
+     * @ORM\Column(type="string", name="stop_place", nullable=true)
+     */
+    private $stopPlace;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, nullable=true)
+     */
+    private $price;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, nullable=true)
+     */
+    private $tip;
+
+    /**
+     * @ORM\Column(type="string", name="original_pan", nullable=true)
+     */
+    private $originalPan;
+
+    /**
+     * @ORM\Column(type="string", name="original_tid", nullable=true)
+     */
+    private $originalTid;
+
+    /**
+     * @ORM\Column(type="string", name="original_license_number", nullable=true)
+     */
+    private $originalLicenseNumber;
+
+    /**
+     * @ORM\Column(type="string", name="card_type", nullable=true)
+     */
+    private $cardType;
+
+    /**
+     * Set objectId.
+     *
+     * @param int $objectId
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setObjectId($objectId)
+    {
+        $this->objectId = $objectId;
+
+        return $this;
+    }
+
+    /**
+     * Get objectId.
+     *
+     * @return int
+     */
+    public function getObjectId()
+    {
+        return $this->objectId;
+    }
+
+    /**
+     * Set sequenceId.
+     *
+     * @param int $sequenceId
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setSequenceId($sequenceId)
+    {
+        $this->sequenceId = $sequenceId;
+
+        return $this;
+    }
+
+    /**
+     * Get sequenceId.
+     *
+     * @return int
+     */
+    public function getSequenceId()
+    {
+        return $this->sequenceId;
+    }
+
+    /**
+     * Set objectType.
+     *
+     * @param string $objectType
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setObjectType($objectType)
+    {
+        $this->objectType = $objectType;
+
+        return $this;
+    }
+
+    /**
+     * Get objectType.
+     *
+     * @return string
+     */
+    public function getObjectType()
+    {
+        return $this->objectType;
+    }
+
+    /**
+     * Set action.
+     *
+     * @param string $action
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * Get action.
+     *
+     * @return string
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * Set movementDate.
+     *
+     * @param \DateTime $movementDate
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setMovementDate($movementDate)
+    {
+        $this->movementDate = $movementDate;
+
+        return $this;
+    }
+
+    /**
+     * Get movementDate.
+     *
+     * @return \DateTime
+     */
+    public function getMovementDate()
+    {
+        return $this->movementDate;
+    }
+
+    /**
+     * Set authCode.
+     *
+     * @param string|null $authCode
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setAuthCode($authCode = null)
+    {
+        $this->authCode = $authCode;
+
+        return $this;
+    }
+
+    /**
+     * Get authCode.
+     *
+     * @return string|null
+     */
+    public function getAuthCode()
+    {
+        return $this->authCode;
+    }
+
+    /**
+     * Set authDate.
+     *
+     * @param \DateTime|null $authDate
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setAuthDate($authDate = null)
+    {
+        $this->authDate = $authDate;
+
+        return $this;
+    }
+
+    /**
+     * Get authDate.
+     *
+     * @return \DateTime|null
+     */
+    public function getAuthDate()
+    {
+        return $this->authDate;
+    }
+
+    /**
+     * Set transactionId.
+     *
+     * @param int|null $transactionId
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setTransactionId($transactionId = null)
+    {
+        $this->transactionId = $transactionId;
+
+        return $this;
+    }
+
+    /**
+     * Get transactionId.
+     *
+     * @return int|null
+     */
+    public function getTransactionId()
+    {
+        return $this->transactionId;
+    }
+
+    /**
+     * Set transactionDate.
+     *
+     * @param \DateTime|null $transactionDate
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setTransactionDate($transactionDate = null)
+    {
+        $this->transactionDate = $transactionDate;
+
+        return $this;
+    }
+
+    /**
+     * Get transactionDate.
+     *
+     * @return \DateTime|null
+     */
+    public function getTransactionDate()
+    {
+        return $this->transactionDate;
+    }
+
+    /**
+     * Set transactionStatus.
+     *
+     * @param string|null $transactionStatus
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setTransactionStatus($transactionStatus = null)
+    {
+        $this->transactionStatus = $transactionStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get transactionStatus.
+     *
+     * @return string|null
+     */
+    public function getTransactionStatus()
+    {
+        return $this->transactionStatus;
+    }
+
+    /**
+     * Set transactionStatusCode.
+     *
+     * @param string|null $transactionStatusCode
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setTransactionStatusCode($transactionStatusCode = null)
+    {
+        $this->transactionStatusCode = $transactionStatusCode;
+
+        return $this;
+    }
+
+    /**
+     * Get transactionStatusCode.
+     *
+     * @return string|null
+     */
+    public function getTransactionStatusCode()
+    {
+        return $this->transactionStatusCode;
+    }
+
+    /**
+     * Set totalAmount.
+     *
+     * @param string|null $totalAmount
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setTotalAmount($totalAmount = null)
+    {
+        $this->totalAmount = $totalAmount;
+
+        return $this;
+    }
+
+    /**
+     * Get totalAmount.
+     *
+     * @return string|null
+     */
+    public function getTotalAmount()
+    {
+        return $this->totalAmount;
+    }
+
+    /**
+     * Set driverAmount.
+     *
+     * @param string|null $driverAmount
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setDriverAmount($driverAmount = null)
+    {
+        $this->driverAmount = $driverAmount;
+
+        return $this;
+    }
+
+    /**
+     * Get driverAmount.
+     *
+     * @return string|null
+     */
+    public function getDriverAmount()
+    {
+        return $this->driverAmount;
+    }
+
+    /**
+     * Set vat.
+     *
+     * @param string|null $vat
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setVat($vat = null)
+    {
+        $this->vat = $vat;
+
+        return $this;
+    }
+
+    /**
+     * Get vat.
+     *
+     * @return string|null
+     */
+    public function getVat()
+    {
+        return $this->vat;
+    }
+
+    /**
+     * Set manual.
+     *
+     * @param string|null $manual
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setManual($manual = null)
+    {
+        $this->manual = $manual;
+
+        return $this;
+    }
+
+    /**
+     * Get manual.
+     *
+     * @return string|null
+     */
+    public function getManual()
+    {
+        return $this->manual;
+    }
+
+    /**
+     * Set corporationId.
+     *
+     * @param int|null $corporationId
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setCorporationId($corporationId = null)
+    {
+        $this->corporationId = $corporationId;
+
+        return $this;
+    }
+
+    /**
+     * Get corporationId.
+     *
+     * @return int|null
+     */
+    public function getCorporationId()
+    {
+        return $this->corporationId;
+    }
+
+    /**
+     * Set driverId.
+     *
+     * @param int|null $driverId
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setDriverId($driverId = null)
+    {
+        $this->driverId = $driverId;
+
+        return $this;
+    }
+
+    /**
+     * Get driverId.
+     *
+     * @return int|null
+     */
+    public function getDriverId()
+    {
+        return $this->driverId;
+    }
+
+    /**
+     * Set terminalId.
+     *
+     * @param int|null $terminalId
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setTerminalId($terminalId = null)
+    {
+        $this->terminalId = $terminalId;
+
+        return $this;
+    }
+
+    /**
+     * Get terminalId.
+     *
+     * @return int|null
+     */
+    public function getTerminalId()
+    {
+        return $this->terminalId;
+    }
+
+    /**
+     * Set cabId.
+     *
+     * @param int|null $cabId
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setCabId($cabId = null)
+    {
+        $this->cabId = $cabId;
+
+        return $this;
+    }
+
+    /**
+     * Get cabId.
+     *
+     * @return int|null
+     */
+    public function getCabId()
+    {
+        return $this->cabId;
+    }
+
+    /**
+     * Set clientId.
+     *
+     * @param int|null $clientId
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setClientId($clientId = null)
+    {
+        $this->clientId = $clientId;
+
+        return $this;
+    }
+
+    /**
+     * Get clientId.
+     *
+     * @return int|null
+     */
+    public function getClientId()
+    {
+        return $this->clientId;
+    }
+
+    /**
+     * Set passengerId.
+     *
+     * @param int|null $passengerId
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setPassengerId($passengerId = null)
+    {
+        $this->passengerId = $passengerId;
+
+        return $this;
+    }
+
+    /**
+     * Get passengerId.
+     *
+     * @return int|null
+     */
+    public function getPassengerId()
+    {
+        return $this->passengerId;
+    }
+
+    /**
+     * Set cardId.
+     *
+     * @param int|null $cardId
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setCardId($cardId = null)
+    {
+        $this->cardId = $cardId;
+
+        return $this;
+    }
+
+    /**
+     * Get cardId.
+     *
+     * @return int|null
+     */
+    public function getCardId()
+    {
+        return $this->cardId;
+    }
+
+    /**
+     * Set cardAliasUsed.
+     *
+     * @param string|null $cardAliasUsed
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setCardAliasUsed($cardAliasUsed = null)
+    {
+        $this->cardAliasUsed = $cardAliasUsed;
+
+        return $this;
+    }
+
+    /**
+     * Get cardAliasUsed.
+     *
+     * @return string|null
+     */
+    public function getCardAliasUsed()
+    {
+        return $this->cardAliasUsed;
+    }
+
+    /**
+     * Set cardAliasId.
+     *
+     * @param int|null $cardAliasId
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setCardAliasId($cardAliasId = null)
+    {
+        $this->cardAliasId = $cardAliasId;
+
+        return $this;
+    }
+
+    /**
+     * Get cardAliasId.
+     *
+     * @return int|null
+     */
+    public function getCardAliasId()
+    {
+        return $this->cardAliasId;
+    }
+
+    /**
+     * Set corpoAliasUsed.
+     *
+     * @param string|null $corpoAliasUsed
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setCorpoAliasUsed($corpoAliasUsed = null)
+    {
+        $this->corpoAliasUsed = $corpoAliasUsed;
+
+        return $this;
+    }
+
+    /**
+     * Get corpoAliasUsed.
+     *
+     * @return string|null
+     */
+    public function getCorpoAliasUsed()
+    {
+        return $this->corpoAliasUsed;
+    }
+
+    /**
+     * Set corpoAliasId.
+     *
+     * @param int|null $corpoAliasId
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setCorpoAliasId($corpoAliasId = null)
+    {
+        $this->corpoAliasId = $corpoAliasId;
+
+        return $this;
+    }
+
+    /**
+     * Get corpoAliasId.
+     *
+     * @return int|null
+     */
+    public function getCorpoAliasId()
+    {
+        return $this->corpoAliasId;
+    }
+
+    /**
+     * Set startTime.
+     *
+     * @param \DateTime|null $startTime
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setStartTime($startTime = null)
+    {
+        $this->startTime = $startTime;
+
+        return $this;
+    }
+
+    /**
+     * Get startTime.
+     *
+     * @return \DateTime|null
+     */
+    public function getStartTime()
+    {
+        return $this->startTime;
+    }
+
+    /**
+     * Set stopTime.
+     *
+     * @param \DateTime|null $stopTime
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setStopTime($stopTime = null)
+    {
+        $this->stopTime = $stopTime;
+
+        return $this;
+    }
+
+    /**
+     * Get stopTime.
+     *
+     * @return \DateTime|null
+     */
+    public function getStopTime()
+    {
+        return $this->stopTime;
+    }
+
+    /**
+     * Set startLng.
+     *
+     * @param string|null $startLng
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setStartLng($startLng = null)
+    {
+        $this->startLng = $startLng;
+
+        return $this;
+    }
+
+    /**
+     * Get startLng.
+     *
+     * @return string|null
+     */
+    public function getStartLng()
+    {
+        return $this->startLng;
+    }
+
+    /**
+     * Set startLat.
+     *
+     * @param string|null $startLat
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setStartLat($startLat = null)
+    {
+        $this->startLat = $startLat;
+
+        return $this;
+    }
+
+    /**
+     * Get startLat.
+     *
+     * @return string|null
+     */
+    public function getStartLat()
+    {
+        return $this->startLat;
+    }
+
+    /**
+     * Set stopLng.
+     *
+     * @param string|null $stopLng
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setStopLng($stopLng = null)
+    {
+        $this->stopLng = $stopLng;
+
+        return $this;
+    }
+
+    /**
+     * Get stopLng.
+     *
+     * @return string|null
+     */
+    public function getStopLng()
+    {
+        return $this->stopLng;
+    }
+
+    /**
+     * Set stopLat.
+     *
+     * @param string|null $stopLat
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setStopLat($stopLat = null)
+    {
+        $this->stopLat = $stopLat;
+
+        return $this;
+    }
+
+    /**
+     * Get stopLat.
+     *
+     * @return string|null
+     */
+    public function getStopLat()
+    {
+        return $this->stopLat;
+    }
+
+    /**
+     * Set startPlace.
+     *
+     * @param string|null $startPlace
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setStartPlace($startPlace = null)
+    {
+        $this->startPlace = $startPlace;
+
+        return $this;
+    }
+
+    /**
+     * Get startPlace.
+     *
+     * @return string|null
+     */
+    public function getStartPlace()
+    {
+        return $this->startPlace;
+    }
+
+    /**
+     * Set stopPlace.
+     *
+     * @param string|null $stopPlace
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setStopPlace($stopPlace = null)
+    {
+        $this->stopPlace = $stopPlace;
+
+        return $this;
+    }
+
+    /**
+     * Get stopPlace.
+     *
+     * @return string|null
+     */
+    public function getStopPlace()
+    {
+        return $this->stopPlace;
+    }
+
+    /**
+     * Set price.
+     *
+     * @param string|null $price
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setPrice($price = null)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price.
+     *
+     * @return string|null
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set tip.
+     *
+     * @param string|null $tip
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setTip($tip = null)
+    {
+        $this->tip = $tip;
+
+        return $this;
+    }
+
+    /**
+     * Get tip.
+     *
+     * @return string|null
+     */
+    public function getTip()
+    {
+        return $this->tip;
+    }
+
+    /**
+     * Set originalPan.
+     *
+     * @param string|null $originalPan
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setOriginalPan($originalPan = null)
+    {
+        $this->originalPan = $originalPan;
+
+        return $this;
+    }
+
+    /**
+     * Get originalPan.
+     *
+     * @return string|null
+     */
+    public function getOriginalPan()
+    {
+        return $this->originalPan;
+    }
+
+    /**
+     * Set originalTid.
+     *
+     * @param string|null $originalTid
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setOriginalTid($originalTid = null)
+    {
+        $this->originalTid = $originalTid;
+
+        return $this;
+    }
+
+    /**
+     * Get originalTid.
+     *
+     * @return string|null
+     */
+    public function getOriginalTid()
+    {
+        return $this->originalTid;
+    }
+
+    /**
+     * Set originalLicenseNumber.
+     *
+     * @param string|null $originalLicenseNumber
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setOriginalLicenseNumber($originalLicenseNumber = null)
+    {
+        $this->originalLicenseNumber = $originalLicenseNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get originalLicenseNumber.
+     *
+     * @return string|null
+     */
+    public function getOriginalLicenseNumber()
+    {
+        return $this->originalLicenseNumber;
+    }
+
+    /**
+     * Set cardType.
+     *
+     * @param string|null $cardType
+     *
+     * @return ApiTransactionAccepted
+     */
+    public function setCardType($cardType = null)
+    {
+        $this->cardType = $cardType;
+
+        return $this;
+    }
+
+    /**
+     * Get cardType.
+     *
+     * @return string|null
+     */
+    public function getCardType()
+    {
+        return $this->cardType;
+    }
+}

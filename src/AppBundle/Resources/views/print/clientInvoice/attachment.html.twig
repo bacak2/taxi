@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        td{
+            border: 1px solid black;
+        }
+        table, table td{
+            border-collapse: collapse;
+            text-align: center;
+            font-size: 11px;
+            padding: 5px;
+        }
+        .color{ background-color: #eeeeee; }
+        .left{ text-align: left; }
+        .right{ text-align: right; }
+        .center{ text-align: center; }
+        #mainTable thead td{
+            font-weight: bold;
+        }
+        #firstRow td{
+            padding: 10px;
+            padding-bottom: 20px;
+        }
+        #secondRow td{
+            padding: 5px;
+            font-weight: bold;
+            background-color: #eeeeee;
+            text-align: center;
+        }
+        .border-lr-none{
+            border-left: none;
+            border-right: none;
+        }
+        .border-l-none{
+            border-left: none;
+        }
+        .border-r-none{
+            border-right: none;
+        }
+    </style>
+</head>
+<body>
+    <table width="100%" id="mainTable">
+        <thead>
+            <tr id="firstRow">
+                <td colspan="5" class="border-r-none" style="text-align: left">
+                    <span style="font-size: 24px">Załącznik</span><br>
+                    <span style="font-size: 12px;">Zestawienie zbiorcze do faktury nr 193/12/2017</span>
+                </td>
+                <td colspan="2" class="border-l-none" style="text-align: right;">
+                    <img src="{{ logo }}" alt="" width="160" height="50">
+                </td>
+            </tr>
+            <tr id="secondRow">
+                <td class="border-r-none">LP.</td>
+                <td class="border-lr-none">Data transakcji</td>
+                <td class="border-lr-none">Taxi</td>
+                <td class="border-lr-none">Nr karty/vouchera</td>
+                <td class="border-lr-none">Posiadacz</td>
+                <td>Kwota netto</td>
+                <td class="border-l-none">Uwagi</td>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% for index, transaction in document['items'] %}
+            <tr>
+                <td class="border-r-none" style="width: 30px;">{{ index+1 }}.</td>
+                <td class="border-lr-none" style="width: 80px;">{{ transaction['transactionDate'] }}</td>
+                <td class="border-lr-none" style="width: 60px;">{{ transaction['licenseNumber'] }}</td>
+                <td class="border-lr-none" style="width: 120px;">{{ transaction['originalPan'] }}</td>
+                <td class="border-lr-none" style="width: 180px;">{{ transaction['passangerName'] }}</td>
+                <td class="color" style="width: 100px; text-align: right;">{{ transaction['totalAmount'] }} zł</td>
+                <td class="border-l-none"><{{ transaction['comment'] }}/td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

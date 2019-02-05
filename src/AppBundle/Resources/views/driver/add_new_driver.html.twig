@@ -1,0 +1,252 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/calendar.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/sweetalert2.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/app.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="ui column" id="main-content">
+        <div class="ui pointing secondary menu">
+            <a class="item driver-item-tab active" data-tab="driver-tab1">Dane kierowcy</a>
+            <a class="item driver-item-tab" data-tab="driver-tab6">Firma</a>
+            <a class="item driver-item-tab" data-tab="driver-tab2">Płatności</a>
+            {#<a class="item driver-item-tab" data-tab="driver-tab3">Terminal</a>#}
+            <a class="item driver-item-tab" data-tab="driver-tab4">Blokada
+                {#<i class="ui red hand point left outline icon"></i>#}
+            </a>
+            <a class="item driver-item-tab" data-tab="driver-tab5">Notatki</a>
+            <div class="right menu">
+                <a class="ui item" id="save-driver">
+                    <div class="ui green button">ZAPISZ</div>
+                </a>
+            </div>
+
+        </div>
+        <div class="ui form">
+            {% import '@App/template/macro/macro_driver.html.twig' as macro %}
+            {{ form_start(form, {'attr': {'novalidate':'novalidate'}}) }}
+            {#DANE KIEROWCY#}
+            <div class="ui active tab driver-tab" data-tab="driver-tab1">
+                <div class="ui segment">
+                    {# Numer kierowcy | Numer licencji#}
+                    <div class="four fields">
+                        <div class="field">
+                            <label>Numer Boczny</label>
+                            {{ form_widget(form.cabSideNumber) }}
+                        </div>
+                        <div class="field">
+                            <label>Imię</label>
+                            {{ form_widget(form.firstName) }}
+                        </div>
+                        <div class="field">
+                            <label>Nazwisko</label>
+                            {{ form_widget(form.surname) }}
+                        </div>
+                        <div class="field">
+                            <label>Status Taxi360</label>
+                            {{ form_widget(form.status) }}
+                        </div>
+                    </div>
+
+                    <div class="four fields">
+                        <div class="field">
+                            <label>Email</label>
+                            {{ form_widget(form.email) }}
+                        </div>
+                        <div class="field">
+                            <label>Telefon</label>
+                            {{ form_widget(form.mobileNumber) }}
+                        </div>
+                        <div class="field">
+                            <label>POS numer MID</label>
+                            {{ form_widget(form.posNumberMid) }}
+                        </div>
+                        <div class="field">
+                            <label>Hasło do Taxi</label>
+                            {{ form_widget(form.internetPassword) }}
+                        </div>
+                    </div>
+                    {#Adres#}
+                    <div class="three fields">
+                        <div class="field">
+                            <label>Adres</label>
+                            {{ form_widget(form.addressStreet) }}
+                        </div>
+                        <div class="field">
+                            <label>Kod pocztowy</label>
+                            {{ form_widget(form.addressPostalCode) }}
+                        </div>
+                        <div class="field">
+                            <label>Miasto</label>
+                            {{ form_widget(form.addressTown) }}
+                        </div>
+                    </div>
+                    {#Adres do korespondencji#}
+                    <div class="ui segment">
+                        <h3>Adres do korespondecji<small>(jeżeli inny)</small></h3>
+                        <div class="three fields">
+                            <div class="field">
+                                <label>Adres</label>
+                                {{ form_widget(form.mailingAddressStreet) }}
+                            </div>
+                            <div class="field">
+                                <label>Kod pocztowy</label>
+                                {{ form_widget(form.mailingAddressPostalCode) }}
+                            </div>
+                            <div class="field">
+                                <label>Miasto</label>
+                                {{ form_widget(form.mailingAddressTown) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {#FIRMA#}
+            <div class="ui tab driver-tab" data-tab="driver-tab6">
+                <div class="ui segment">
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Nazwa firmy</label>
+                            {{ form_widget(form.firmName) }}
+                        </div>
+                        <div class="field">
+                            <label>NIP</label>
+                            {{ form_widget(form.nip) }}
+                        </div>
+                    </div>
+
+                    <div class="four fields">
+                        <div class="green field">
+                            <label>Płatnik VAT</label>
+                            {{ form_widget(form.vatPayer, {'attr':{'class':'ui green dropdown'}}) }}
+                        </div>
+                        <div class="field disabled">
+                            <label>VAT</label>
+                            {{ form_widget(form.vat) }}
+                        </div>
+                        <div class="field">
+                            <label>Przejazdy bagażowe</label>
+                            {{ form_widget(form.isBaggage) }}
+                        </div>
+                        <div class="field">
+                            <label>Faktura za prowizje i kursy</label>
+                            {{ form_widget(form.invoiceForProvision) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {#PRZELEWY#}
+            <div class="ui tab driver-tab" data-tab="driver-tab2">
+                <div class="ui segment">
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Numer konta</label>
+                            {{ form_widget(form.accountNumber) }}
+                        </div>
+                        <div class="field">
+                            <label>Właściciel konta</label>
+                            {{ form_widget(form.accountOwner) }}
+                        </div>
+                    </div>
+                    <div class="three fields">
+                        <div class="field">
+                            <label>Darmowe przelewy</label>
+                            {{ form_widget(form.freeMoneyTransfer) }}
+                        </div>
+                        <div class="field">
+                            <label>Okresowe przelewy</label>
+                            {{ form_widget(form.periodicTransfer) }}
+                        </div>
+
+                    </div>
+                </div>
+                <div class="ui segment">
+                    <div class="four fields">
+                        <div class="field">
+                            <label>Terminal S/N</label>
+                            {{ form_widget(form.terminalTid) }}
+                        </div>
+                        <div class="field">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {#TERMINAL#}
+            {#<div class="ui tab driver-tab" data-tab="driver-tab3">#}
+                {#<div class="ui segment">#}
+                    {#<div class="four fields">#}
+                        {#<div class="field">#}
+                            {#<label>Terminal S/N</label>#}
+                            {#{{ form_widget(form.terminalTid) }}#}
+                        {#</div>#}
+                        {#<div class="field">#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+
+            {#BLOKADA#}
+            <div class="ui tab driver-tab" data-tab="driver-tab4">
+                <div class="ui segment">
+                    <div class="field">
+
+                    </div>
+                    <div class="field">
+                        <table class="ui table">
+                            <thead>
+                            <tr>
+                                <th colspan="2">Blokady</th>
+                                <th>
+                                    <button id="btnAddBlockade"
+                                            class="ui small green right floated button">Dodaj blokade</button>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody id="blockadeList"
+                                   data-delete="{{ path('route_blockade_delete', {'id':'__bid__'}) }}"
+                                   data-index="{{ form.blockade|length }}"
+                                   data-prototype="{{ macro.addBlockade(form.blockade.vars.prototype)|e('html_attr') }}">
+                            {% for b in form.blockade %}
+                                {{ macro.addBlockade(b, b.vars.value.id) }}
+                            {% else %}
+                                <tr>
+                                    <td id="no-data-info-b">Brak przypisanych blokad</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            {#NOTATKI#}
+            <div class="ui tab driver-tab" data-tab="driver-tab5">
+                <div class="ui segment">
+                    <div class="field">
+                        <label>Notatki</label>
+                        {{ form_widget(form.comment) }}
+                    </div>
+                </div>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/calendarSettings.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendar.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/sweetalert2.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/jquery.inputmask.bundle.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/driver/add_new_driver.js') }}"></script>
+    <script>
+    </script>
+{% endblock %}

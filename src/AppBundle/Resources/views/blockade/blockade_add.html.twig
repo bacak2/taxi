@@ -1,0 +1,78 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+    <style>
+        .text-center{
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+
+{% block body %}
+    <div class="ui form">
+        {{ form_start(form) }}
+        <div class="ui clearing segment"
+            data-href="{{ path('route_blockade_api_get_transaction') }}">
+            <div class="two fields">
+                <div class="field">
+                    <div class="field">
+                        <label>Kierowca</label>
+                        {{ form_widget(form.driver) }}
+                    </div>
+                    <div class="two fields">
+                        <div class="field disabled">
+                            <label>Data</label>
+                            {{ form_widget(form.blockadeDate) }}
+                        </div>
+                        <div class="field">
+                            <label>Typ transakcji</label>
+                            {{ form_widget(form.blockadeType) }}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="field">
+                    <label>Komnetarz</label>
+                    {{ form_widget(form.comment) }}
+                </div>
+            </div>
+            <div class="ui loader" id="loader"></div>
+            <table id="blockadeTransactionTable" class="cell-border display" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Data transakcji</th>
+                    <th>Kwota transakcji</th>
+                    <th>Typ transakcji</th>
+                    <th>Do wypłaty</th>
+                    <th>Wypłacone</th>
+                </tr>
+                </thead>
+            </table>
+            <div class="four fields" style="padding-top: 10px;">
+                <div class="field">
+                    <h4>SUMA TRANSAKCJI: <span id="totalAmount"></span> zł</h4>
+                </div>
+                <div class="field">
+                    <h4>DO WYPŁATY: <span id="amountToPay"></span> zł</h4>
+                </div>
+                <div class="field"></div>
+                <div class="right floated field">
+                    <button class="ui green right floated button">Zablokuj</button>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/blockade/blockade_add.js') }}"></script>
+
+{% endblock %}
+

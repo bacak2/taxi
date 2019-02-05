@@ -1,0 +1,15 @@
+.app-red{
+    background-color: #fccbcb;
+}
+.app-green{
+    background-color: #ddf8dd;
+}
+.text-center{
+    text-align: center;
+}
+.require-input {
+    border-left-color: red!important;
+}
+.pointer{
+    cursor: pointer;
+}

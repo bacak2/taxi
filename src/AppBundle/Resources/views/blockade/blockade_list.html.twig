@@ -1,0 +1,49 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+    <style>
+        .text-center{
+            text-align: center;
+        }
+        .icon{
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
+
+
+{% block body %}
+    <div class="ui segment"
+         data-href="{{ path('route_blockade_api_get') }}"
+         data-deleteblockade="{{ path('route_blockade_delete') }}"
+    >
+        <div class="ui loader" id="loader"></div>
+        <table id="blockadeListTable" class="cell-border display" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Licencja</th>
+                <th>Status</th>
+                <th>Typ</th>
+                <th>Data blokady</th>
+                <th>Suma transakcji</th>
+                <th>Opis</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/sweetalert2.all.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/blockade/blockade_list.js') }}"></script>
+
+{% endblock %}
+

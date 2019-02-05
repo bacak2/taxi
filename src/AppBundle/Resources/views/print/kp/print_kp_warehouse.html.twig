@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ document.cashRegisterNumber }}</title>
+    <style>
+        table, table td{
+            border-collapse: collapse;
+            padding: 4px;
+            font-size: 12px;
+        }
+        .item{
+            text-align: center;
+            width: 90px;
+        }
+        #detaliTable td{
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <table width="100%" class="ui table" id="mainTable">
+        <tr>
+            <td style="font-weight: bold; font-size: 14px; border-bottom: 1px solid black;">
+                {{ document['cashRegisterNumber'] }}
+            </td>
+            <td style="text-align: right;border-bottom: 1px solid black;">
+                Dowód wpłaty - pokwitowanie
+            </td>
+            <td rowspan="2" style="text-align: right">
+                <img src="{{ logo }}" alt="" width="120" height="55">
+            </td>
+        </tr>
+        <tr>
+            <td style="border-bottom: 1px solid black;">Data: {{ document['transactionDate']}}</td>
+            <td style="text-align: right; border-bottom: 1px solid black;">
+                oryginał / kopia
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="padding-top: 40px"></td>
+        </tr>
+        <tr>
+            <td colspan="3" style="padding-top: 20px;">
+                <table width="100%" id="detaliTable">
+                    <tr>
+                        <td style="width: 140px; border-bottom: 1px solid black;">
+                            Przyjmujący:
+                        </td>
+                        <td style="border-bottom: 1px solid black;" id="secondColumn">RadioTaxi919 Sp. z o.o. Kraków, ul. Prof. Stefana Myczkowskiego 1/4</td>
+                    </tr>
+                    <tr>
+                        <td style="border-bottom: 1px solid black;">Wpłacający:</td>
+                        <td style="border-bottom: 1px solid black;">
+                            {{ document['licenseNumber'] ~ ' ' ~ document['driver']  }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-bottom: 1px solid black;">Za co:</td>
+                        <td style="border-bottom: 1px solid black;">{{ document['title'] }}</td>
+                    </tr>
+                    <tr >
+                        <td style="padding-top: 20px; border-bottom: 2px solid black;">Kwota do wpłaty</td>
+                        <td style="padding-top: 20px;font-size: 14px; font-weight: bold;border-bottom: 2px solid black;">
+                            {{ document['brutto']|number_format(2) }} zł
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="padding: 40px">
+                <table style="width: 100%">
+                    <tr>
+                        <td colspan="2" style="padding-top: 30px;"></td>
+                    </tr>
+                    <tr>
+                        <td>Przyjmujący: _________________________________</td>
+                        <td>Wpłacający: _________________________________</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 8px; text-align: center;">{{ document['user'] }}</td>
+                        <td style="font-size: 8px;text-align: center;">
+                            {{ document['licenseNumber'] ~ ' ' ~ document['driver'] }} </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="width: 100%">
+                <table style="width: 100%" border="1">
+                    <tr>
+                        <td colspan="5" style="border: none;">Wykaz elementów składających się na wpłatę:</td>
+                    </tr>
+                    <tr style="background-color: lightgray;">
+                        <td>Towar</td>
+                        <td style="width: 100px; text-align: center;">Netto</td>
+                        <td style="width: 100px; text-align: center;">Vat</td>
+                        <td style="width: 100px; text-align: center;">Brutto</td>
+                        <td style="width: 100px; text-align: center;">Ilość</td>
+                    </tr>
+                    {% for detail in document['details'] %}
+                        <tr>
+                            <td>{{ detail['itemName'] }}</td>
+                            <td class="item">{{ detail['netto'] ~ ' zł' }}</td>
+                            <td class="item">{{ detail['vat'] ~ '%' }} </td>
+                            <td class="item">{{ detail['brutto'] ~ ' zł' }}</td>
+                            <td class="item">{{ detail['quantity'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

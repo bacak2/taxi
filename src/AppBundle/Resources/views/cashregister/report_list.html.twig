@@ -1,0 +1,100 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/calendar.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/app.css') }}">
+    <style>
+        .gray{
+            color: lightcoral;
+        }
+        #btnSearch{
+            margin-top: 25px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="ui sixteen column row"
+         id="mainContent"
+         data-changepercentage="{{ path('route_transaction_api_change_percentage') }}"
+         data-resettransaction="{{ path('route_transaction_api_reset_trans') }}"
+    >
+        <div class="ui segments">
+            <div class="ui segment">
+                <form class="ui form" target="_blank" method="post" action="/wydruk/lista-raportow"> <!--path('route_cash_register_print')-->
+                    <div class="six fields">
+                        <div class="field">
+                            <label>Data od</label>
+                            <div class="ui calendar datepicker">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text"
+                                           placeholder="Data od"
+                                           class="require-input"
+                                           value="{{ "now"|date("Y-m-d") }}"
+                                           id="dateFrom" name="dateFrom">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Data do</label>
+                            <div class="ui calendar datepicker">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text" placeholder="Data od" class="require-input" value="{{ "now"|date("Y-m-d") }}"
+                                           id="dateTo" name="dateTo">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <button class="ui fluid primary button" id="btnSearch">Pokaż dokumenty</button>
+                        </div>
+                    </div>
+            </div>
+            <div class="ui segment" >
+                <table id="reportListTable" class="display cell-border" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Data sporządzenia</th>
+                        <th>Numer</th>
+                        <th>Ile KP</th>
+                        <th>Ile KW</th>
+                        <th>Stan kasy</th>
+                        <th>Poprzedni stan</th>
+                        <th>Zmiana w kasie</th>
+                        <th>Kwota KP</th>
+                        <th>Kwota KW</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="ui segment">
+                    <input style="margin-top: 10px;" value="Drukuj dokument" class="ui green button" type="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/sweetalert2.all.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendarSettings.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendar.min.js') }}"></script>
+    <script>
+        {% set printId = app.flashes('print') %}
+        {% if printId is defined and printId|length > 0 %}
+            var url = '{{ path('print_cash_register_report_list', {'id': printId[printId|length-1]}) }}';
+            var win = window.open(url, '_blank');
+            win.focus();
+        {% endif %}
+        var routeGetRaports = '{{ path('route_cash_register_api_get') }}';
+    </script>
+    <script src="{{ asset('bundles/app/js/report/report_list.js') }}"></script>
+{% endblock %}
+

@@ -1,0 +1,536 @@
+<?php
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="api_terminal")
+ */
+class ApiTerminal
+{
+    /**
+     * @ORM\Id()
+     * @ORM\Column(type="integer", name="object_id")
+     */
+    private $objectId;
+
+    /**
+     * @ORM\Column(type="integer", name="sequence_id")
+     */
+    private $sequenceId;
+
+    /**
+     * @ORM\Column(type="string", name="object_type")
+     */
+    private $objectType;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $action;
+
+    /**
+     * @ORM\Column(type="datetime", name="movement_date")
+     */
+    private $movementDate;
+
+    /**
+     * @ORM\Column(type="integer", name="terminal_id")
+     */
+    private $terminalId;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $tid;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $model;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="integer", name="driver_id", nullable=true)
+     */
+    private $driverId;
+
+    /**
+     * @ORM\Column(type="integer", name="interface_id", nullable=true)
+     */
+    private $interfaceId;
+
+    /**
+     * @ORM\Column(type="string", name="interface_model", nullable=true)
+     */
+    private $interfaceModel;
+
+    /**
+     * @ORM\Column(type="string", name="interface_serial_number", nullable=true)
+     */
+    private $interfaceSerialNumber;
+
+    /**
+     * @ORM\Column(type="integer", name="sim_card_id", nullable=true)
+     */
+    private $simCardId;
+
+    /**
+     * @ORM\Column(type="string", name="sim_card_service_provider", nullable=true)
+     */
+    private $simCardServiceProvider;
+
+    /**
+     * @ORM\Column(type="string",name="sim_card_serial_number", nullable=true)
+     */
+    private $simCardSerialNumber;
+
+    /**
+     * @ORM\Column(type="string", name="sim_card_phone_number", nullable=true)
+     */
+    private $simCardPhoneNumber;
+
+    /**
+     * @ORM\Column(type="string", name="sim_card_ipaddress", nullable=true)
+     */
+    private $simCardIPAddress;
+
+    /**
+     * Set objectId.
+     *
+     * @param int $objectId
+     *
+     * @return ApiTerminal
+     */
+    public function setObjectId($objectId)
+    {
+        $this->objectId = $objectId;
+
+        return $this;
+    }
+
+    /**
+     * Get objectId.
+     *
+     * @return int
+     */
+    public function getObjectId()
+    {
+        return $this->objectId;
+    }
+
+    /**
+     * Set sequenceId.
+     *
+     * @param int $sequenceId
+     *
+     * @return ApiTerminal
+     */
+    public function setSequenceId($sequenceId)
+    {
+        $this->sequenceId = $sequenceId;
+
+        return $this;
+    }
+
+    /**
+     * Get sequenceId.
+     *
+     * @return int
+     */
+    public function getSequenceId()
+    {
+        return $this->sequenceId;
+    }
+
+    /**
+     * Set objectType.
+     *
+     * @param string $objectType
+     *
+     * @return ApiTerminal
+     */
+    public function setObjectType($objectType)
+    {
+        $this->objectType = $objectType;
+
+        return $this;
+    }
+
+    /**
+     * Get objectType.
+     *
+     * @return string
+     */
+    public function getObjectType()
+    {
+        return $this->objectType;
+    }
+
+    /**
+     * Set action.
+     *
+     * @param string $action
+     *
+     * @return ApiTerminal
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * Get action.
+     *
+     * @return string
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * Set movementDate.
+     *
+     * @param \DateTime $movementDate
+     *
+     * @return ApiTerminal
+     */
+    public function setMovementDate($movementDate)
+    {
+        $this->movementDate = $movementDate;
+
+        return $this;
+    }
+
+    /**
+     * Get movementDate.
+     *
+     * @return \DateTime
+     */
+    public function getMovementDate()
+    {
+        return $this->movementDate;
+    }
+
+    /**
+     * Set terminalId.
+     *
+     * @param int $terminalId
+     *
+     * @return ApiTerminal
+     */
+    public function setTerminalId($terminalId)
+    {
+        $this->terminalId = $terminalId;
+
+        return $this;
+    }
+
+    /**
+     * Get terminalId.
+     *
+     * @return int
+     */
+    public function getTerminalId()
+    {
+        return $this->terminalId;
+    }
+
+    /**
+     * Set tid.
+     *
+     * @param string|null $tid
+     *
+     * @return ApiTerminal
+     */
+    public function setTid($tid = null)
+    {
+        $this->tid = $tid;
+
+        return $this;
+    }
+
+    /**
+     * Get tid.
+     *
+     * @return string|null
+     */
+    public function getTid()
+    {
+        return $this->tid;
+    }
+
+    /**
+     * Set model.
+     *
+     * @param string|null $model
+     *
+     * @return ApiTerminal
+     */
+    public function setModel($model = null)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    /**
+     * Get model.
+     *
+     * @return string|null
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * Set status.
+     *
+     * @param string|null $status
+     *
+     * @return ApiTerminal
+     */
+    public function setStatus($status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status.
+     *
+     * @return string|null
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set driverId.
+     *
+     * @param int|null $driverId
+     *
+     * @return ApiTerminal
+     */
+    public function setDriverId($driverId = null)
+    {
+        $this->driverId = $driverId;
+
+        return $this;
+    }
+
+    /**
+     * Get driverId.
+     *
+     * @return int|null
+     */
+    public function getDriverId()
+    {
+        return $this->driverId;
+    }
+
+    /**
+     * Set interfaceId.
+     *
+     * @param int|null $interfaceId
+     *
+     * @return ApiTerminal
+     */
+    public function setInterfaceId($interfaceId = null)
+    {
+        $this->interfaceId = $interfaceId;
+
+        return $this;
+    }
+
+    /**
+     * Get interfaceId.
+     *
+     * @return int|null
+     */
+    public function getInterfaceId()
+    {
+        return $this->interfaceId;
+    }
+
+    /**
+     * Set interfaceModel.
+     *
+     * @param string|null $interfaceModel
+     *
+     * @return ApiTerminal
+     */
+    public function setInterfaceModel($interfaceModel = null)
+    {
+        $this->interfaceModel = $interfaceModel;
+
+        return $this;
+    }
+
+    /**
+     * Get interfaceModel.
+     *
+     * @return string|null
+     */
+    public function getInterfaceModel()
+    {
+        return $this->interfaceModel;
+    }
+
+    /**
+     * Set interfaceSerialNumber.
+     *
+     * @param string|null $interfaceSerialNumber
+     *
+     * @return ApiTerminal
+     */
+    public function setInterfaceSerialNumber($interfaceSerialNumber = null)
+    {
+        $this->interfaceSerialNumber = $interfaceSerialNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get interfaceSerialNumber.
+     *
+     * @return string|null
+     */
+    public function getInterfaceSerialNumber()
+    {
+        return $this->interfaceSerialNumber;
+    }
+
+    /**
+     * Set simCardId.
+     *
+     * @param int|null $simCardId
+     *
+     * @return ApiTerminal
+     */
+    public function setSimCardId($simCardId = null)
+    {
+        $this->simCardId = $simCardId;
+
+        return $this;
+    }
+
+    /**
+     * Get simCardId.
+     *
+     * @return int|null
+     */
+    public function getSimCardId()
+    {
+        return $this->simCardId;
+    }
+
+    /**
+     * Set simCardServiceProvider.
+     *
+     * @param string|null $simCardServiceProvider
+     *
+     * @return ApiTerminal
+     */
+    public function setSimCardServiceProvider($simCardServiceProvider = null)
+    {
+        $this->simCardServiceProvider = $simCardServiceProvider;
+
+        return $this;
+    }
+
+    /**
+     * Get simCardServiceProvider.
+     *
+     * @return string|null
+     */
+    public function getSimCardServiceProvider()
+    {
+        return $this->simCardServiceProvider;
+    }
+
+    /**
+     * Set simCardSerialNumber.
+     *
+     * @param string|null $simCardSerialNumber
+     *
+     * @return ApiTerminal
+     */
+    public function setSimCardSerialNumber($simCardSerialNumber = null)
+    {
+        $this->simCardSerialNumber = $simCardSerialNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get simCardSerialNumber.
+     *
+     * @return string|null
+     */
+    public function getSimCardSerialNumber()
+    {
+        return $this->simCardSerialNumber;
+    }
+
+    /**
+     * Set simCardPhoneNumber.
+     *
+     * @param string|null $simCardPhoneNumber
+     *
+     * @return ApiTerminal
+     */
+    public function setSimCardPhoneNumber($simCardPhoneNumber = null)
+    {
+        $this->simCardPhoneNumber = $simCardPhoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get simCardPhoneNumber.
+     *
+     * @return string|null
+     */
+    public function getSimCardPhoneNumber()
+    {
+        return $this->simCardPhoneNumber;
+    }
+
+    /**
+     * Set simCardIPAddress.
+     *
+     * @param string|null $simCardIPAddress
+     *
+     * @return ApiTerminal
+     */
+    public function setSimCardIPAddress($simCardIPAddress = null)
+    {
+        $this->simCardIPAddress = $simCardIPAddress;
+
+        return $this;
+    }
+
+    /**
+     * Get simCardIPAddress.
+     *
+     * @return string|null
+     */
+    public function getSimCardIPAddress()
+    {
+        return $this->simCardIPAddress;
+    }
+}

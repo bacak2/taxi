@@ -1,0 +1,39 @@
+<?php
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="sequence_detail")
+ */
+class SequenceDetail
+{
+    /**
+     * @ORM\Id()
+     * @ORM\Column(type="integer")
+     */
+    private $objectId;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $objectType;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $action;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $movementDate;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $payload;
+}

@@ -1,0 +1,110 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/calendar.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/app.css') }}">
+    <style>
+        .gray{
+            color: lightcoral;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="ui sixteen column row"
+         id="mainContent"
+         data-changepercentage="{{ path('route_transaction_api_change_percentage') }}"
+         data-resettransaction="{{ path('route_transaction_api_reset_trans') }}"
+    >
+        <div class="ui segments">
+            <div class="ui segment">
+                <form class="ui form" method="post" action="{{ path('route_transaction_export_csv') }}">
+                    <div class="six fields">
+                        <div class="field">
+                            <label>Data od</label>
+                            <div class="ui calendar datepicker">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text"
+                                           placeholder="Data od"
+                                           class="require-input"
+                                           value="{{ "now"|date("Y-m-d") }}"
+                                           id="dateFrom" name="dateFrom">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Data do</label>
+                            <div class="ui calendar datepicker">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text" placeholder="Data od" class="require-input" value="{{ "now"|date("Y-m-d") }}"
+                                           id="dateTo" name="dateTo">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Nr boczny</label>
+                            <input type="text" placeholder="Nr boczny" id="licenseNumber" name="licenseNumber">
+                        </div>
+                        <div class="field">
+                            <label>Nr firmy</label>
+                            <input type="text" placeholder="Nr firmy" id="clientNumber" name="clientNumber">
+                        </div>
+                        <div class="field">
+                            <label>Nr karty</label>
+                            <input type="text" placeholder="Nr karty" id="cardNumber" name="cardNumber">
+                        </div>
+                        <div class="field">
+                            <button class="ui fluid primary button" id="btnSearch">Szukaj</button>
+                            <input type="submit"
+                                   style="margin-top: 10px;"
+                                   value="Export CSV"
+                                   class="ui fluid green button">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="ui segment" >
+                <table id="transactionTable" class="display cell-border" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>.</th>
+                        <th>Data transakcji</th>
+                        <th>Kwota</th>
+                        <th>Kwota rozliczona</th>
+                        <th>Po potrącenia</th>
+                        <th>Typ transakcji</th>
+                        <th>Nr boczny</th>
+                        <th>Kierowca</th>
+                        <th>Nr karty/Vouchera</th>
+                        <th>Typ Karty</th>
+                        <th>Rozliczona</th>
+                        <th>Prowizja %</th>
+                        <th>Nr firmy</th>
+                        <th>Nazwa</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/sweetalert2.all.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendarSettings.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendar.min.js') }}"></script>
+    <script>
+        var routeGetTransactions = '{{ path('route_transaction_api_get') }}';
+        var routeTransactionExportCSV = '{{ path('route_transaction_export_csv') }}';
+    </script>
+    <script src="{{ asset('bundles/app/js/transaction/transaction.js') }}"></script>
+{% endblock %}
+

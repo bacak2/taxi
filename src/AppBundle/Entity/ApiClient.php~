@@ -1,0 +1,1232 @@
+<?php
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="api_client")
+ */
+class ApiClient
+{
+    /**
+     * @ORM\Id()
+     * @ORM\Column(type="integer", name="object_id")
+     */
+    private $objectId;
+
+    /**
+     * @ORM\Column(type="integer", name="sequence_id")
+     */
+    private $sequenceId;
+
+    /**
+     * @ORM\Column(type="string", name="object_type")
+     */
+    private $objectType;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $action;
+
+    /**
+     * @ORM\Column(type="datetime", name="movement_date")
+     */
+    private $movementDate;
+
+    /**
+     * @ORM\Column(type="integer", name="client_id")
+     */
+    private $clientId;
+
+    /**
+     * @ORM\Column(type="integer", name="corporation_id", nullable=true)
+     */
+    private $corporationId;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $nip;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $regon;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $krs;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", name="agreement_number", nullable=true)
+     */
+    private $agreementNumber;
+
+    /**
+     * @ORM\Column(type="date", name="agreement_until", nullable=true)
+     */
+    private $agreementUntil;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="monthly_limit", nullable=true)
+     */
+    private $monthlyLimit;
+
+    /**
+     * @ORM\Column(type="string", name="accounting_mode", nullable=true)
+     */
+    private $accountingMode;
+
+    /**
+     * @ORM\Column(type="string", name="allow_external_invoice", nullable=true)
+     */
+    private $allowExternalInvoice;
+
+    /**
+     * @ORM\Column(type="string", name="allow_voucher", nullable=true)
+     */
+    private $allowVoucher;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="card_monthly_limit", nullable=true)
+     */
+    private $cardMonthlyLimit;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="card_daily_limit", nullable=true)
+     */
+    private $cardDailyLimit;
+
+    /**
+     * @ORM\Column(type="integer", name="card_daily_usage", nullable=true)
+     */
+    private $cardDailyUsage;
+
+    /**
+     * @ORM\Column(type="string", name="card_working_days", nullable=true)
+     */
+    private $cardWorkingDays;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="voucher_monthly_limit", nullable=true)
+     */
+    private $voucherMonthlyLimit;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="voucher_limit", nullable=true)
+     */
+    private $voucherLimit;
+
+    /**
+     * @ORM\Column(type="integer", name="voucher_max_count", nullable=true)
+     */
+    private $voucherMaxCount;
+
+    /**
+     * @ORM\Column(type="integer", name="address_id", nullable=true)
+     */
+    private $addressId;
+
+    /**
+     * @ORM\Column(type="string", name="address_street", nullable=true)
+     */
+    private $addressStreet;
+
+    /**
+     * @ORM\Column(type="string", name="address_postal_code", nullable=true)
+     */
+    private $addressPostalCode;
+
+    /**
+     * @ORM\Column(type="string", name="address_town", nullable=true)
+     */
+    private $addressTown;
+
+    /**
+     * @ORM\Column(type="string", name="address_country", nullable=true)
+     */
+    private $addressCountry;
+
+    /**
+     * @ORM\Column(type="integer", name="mailing_address_id", nullable=true)
+     */
+    private $mailingAddressId;
+
+    /**
+     * @ORM\Column(type="string", name="mailing_address_street", nullable=true)
+     */
+    private $mailingAddressStreet;
+
+    /**
+     * @ORM\Column(type="string", name="mailing_address_postal_code", nullable=true)
+     */
+    private $mailingAddressPostalCode;
+
+    /**
+     * @ORM\Column(type="string", name="mailing_address_town", nullable=true)
+     */
+    private $mailingAddressTown;
+
+    /**
+     * @ORM\Column(type="string", name="mailing_address_country", nullable=true)
+     */
+    private $mailingAddressCountry;
+
+    /**
+     * @ORM\Column(type="integer", name="phone_id", nullable=true)
+     */
+    private $phoneId;
+
+    /**
+     * @ORM\Column(type="string", name="phone_number", nullable=true)
+     */
+    private $phoneNumber;
+
+    /**
+     * @ORM\Column(type="integer", name="alt_phone_id", nullable=true)
+     */
+    private $altPhoneId;
+
+    /**
+     * @ORM\Column(type="string", name="alt_phone_number", nullable=true)
+     */
+    private $altPhoneNumber;
+
+    /**
+     * @ORM\Column(type="integer", name="fax_id", nullable=true)
+     */
+    private $faxId;
+
+    /**
+     * @ORM\Column(type="string", name="fax_number", nullable=true)
+     */
+    private $faxNumber;
+
+    /**
+     * Set objectId.
+     *
+     * @param int $objectId
+     *
+     * @return ApiClient
+     */
+    public function setObjectId($objectId)
+    {
+        $this->objectId = $objectId;
+
+        return $this;
+    }
+
+    /**
+     * Get objectId.
+     *
+     * @return int
+     */
+    public function getObjectId()
+    {
+        return $this->objectId;
+    }
+
+    /**
+     * Set sequenceId.
+     *
+     * @param int $sequenceId
+     *
+     * @return ApiClient
+     */
+    public function setSequenceId($sequenceId)
+    {
+        $this->sequenceId = $sequenceId;
+
+        return $this;
+    }
+
+    /**
+     * Get sequenceId.
+     *
+     * @return int
+     */
+    public function getSequenceId()
+    {
+        return $this->sequenceId;
+    }
+
+    /**
+     * Set objectType.
+     *
+     * @param string $objectType
+     *
+     * @return ApiClient
+     */
+    public function setObjectType($objectType)
+    {
+        $this->objectType = $objectType;
+
+        return $this;
+    }
+
+    /**
+     * Get objectType.
+     *
+     * @return string
+     */
+    public function getObjectType()
+    {
+        return $this->objectType;
+    }
+
+    /**
+     * Set action.
+     *
+     * @param string $action
+     *
+     * @return ApiClient
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * Get action.
+     *
+     * @return string
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * Set movementDate.
+     *
+     * @param \DateTime $movementDate
+     *
+     * @return ApiClient
+     */
+    public function setMovementDate($movementDate)
+    {
+        $this->movementDate = $movementDate;
+
+        return $this;
+    }
+
+    /**
+     * Get movementDate.
+     *
+     * @return \DateTime
+     */
+    public function getMovementDate()
+    {
+        return $this->movementDate;
+    }
+
+    /**
+     * Set clientId.
+     *
+     * @param int $clientId
+     *
+     * @return ApiClient
+     */
+    public function setClientId($clientId)
+    {
+        $this->clientId = $clientId;
+
+        return $this;
+    }
+
+    /**
+     * Get clientId.
+     *
+     * @return int
+     */
+    public function getClientId()
+    {
+        return $this->clientId;
+    }
+
+    /**
+     * Set corporationId.
+     *
+     * @param int|null $corporationId
+     *
+     * @return ApiClient
+     */
+    public function setCorporationId($corporationId = null)
+    {
+        $this->corporationId = $corporationId;
+
+        return $this;
+    }
+
+    /**
+     * Get corporationId.
+     *
+     * @return int|null
+     */
+    public function getCorporationId()
+    {
+        return $this->corporationId;
+    }
+
+    /**
+     * Set name.
+     *
+     * @param string|null $name
+     *
+     * @return ApiClient
+     */
+    public function setName($name = null)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set nip.
+     *
+     * @param string|null $nip
+     *
+     * @return ApiClient
+     */
+    public function setNip($nip = null)
+    {
+        $this->nip = $nip;
+
+        return $this;
+    }
+
+    /**
+     * Get nip.
+     *
+     * @return string|null
+     */
+    public function getNip()
+    {
+        return $this->nip;
+    }
+
+    /**
+     * Set regon.
+     *
+     * @param string|null $regon
+     *
+     * @return ApiClient
+     */
+    public function setRegon($regon = null)
+    {
+        $this->regon = $regon;
+
+        return $this;
+    }
+
+    /**
+     * Get regon.
+     *
+     * @return string|null
+     */
+    public function getRegon()
+    {
+        return $this->regon;
+    }
+
+    /**
+     * Set krs.
+     *
+     * @param string|null $krs
+     *
+     * @return ApiClient
+     */
+    public function setKrs($krs = null)
+    {
+        $this->krs = $krs;
+
+        return $this;
+    }
+
+    /**
+     * Get krs.
+     *
+     * @return string|null
+     */
+    public function getKrs()
+    {
+        return $this->krs;
+    }
+
+    /**
+     * Set email.
+     *
+     * @param string|null $email
+     *
+     * @return ApiClient
+     */
+    public function setEmail($email = null)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email.
+     *
+     * @return string|null
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set agreementNumber.
+     *
+     * @param string|null $agreementNumber
+     *
+     * @return ApiClient
+     */
+    public function setAgreementNumber($agreementNumber = null)
+    {
+        $this->agreementNumber = $agreementNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get agreementNumber.
+     *
+     * @return string|null
+     */
+    public function getAgreementNumber()
+    {
+        return $this->agreementNumber;
+    }
+
+    /**
+     * Set agreementUntil.
+     *
+     * @param \DateTime|null $agreementUntil
+     *
+     * @return ApiClient
+     */
+    public function setAgreementUntil($agreementUntil = null)
+    {
+        $this->agreementUntil = $agreementUntil;
+
+        return $this;
+    }
+
+    /**
+     * Get agreementUntil.
+     *
+     * @return \DateTime|null
+     */
+    public function getAgreementUntil()
+    {
+        return $this->agreementUntil;
+    }
+
+    /**
+     * Set monthlyLimit.
+     *
+     * @param string|null $monthlyLimit
+     *
+     * @return ApiClient
+     */
+    public function setMonthlyLimit($monthlyLimit = null)
+    {
+        $this->monthlyLimit = $monthlyLimit;
+
+        return $this;
+    }
+
+    /**
+     * Get monthlyLimit.
+     *
+     * @return string|null
+     */
+    public function getMonthlyLimit()
+    {
+        return $this->monthlyLimit;
+    }
+
+    /**
+     * Set accountingMode.
+     *
+     * @param string|null $accountingMode
+     *
+     * @return ApiClient
+     */
+    public function setAccountingMode($accountingMode = null)
+    {
+        $this->accountingMode = $accountingMode;
+
+        return $this;
+    }
+
+    /**
+     * Get accountingMode.
+     *
+     * @return string|null
+     */
+    public function getAccountingMode()
+    {
+        return $this->accountingMode;
+    }
+
+    /**
+     * Set allowExternalInvoice.
+     *
+     * @param string|null $allowExternalInvoice
+     *
+     * @return ApiClient
+     */
+    public function setAllowExternalInvoice($allowExternalInvoice = null)
+    {
+        $this->allowExternalInvoice = $allowExternalInvoice;
+
+        return $this;
+    }
+
+    /**
+     * Get allowExternalInvoice.
+     *
+     * @return string|null
+     */
+    public function getAllowExternalInvoice()
+    {
+        return $this->allowExternalInvoice;
+    }
+
+    /**
+     * Set allowVoucher.
+     *
+     * @param string|null $allowVoucher
+     *
+     * @return ApiClient
+     */
+    public function setAllowVoucher($allowVoucher = null)
+    {
+        $this->allowVoucher = $allowVoucher;
+
+        return $this;
+    }
+
+    /**
+     * Get allowVoucher.
+     *
+     * @return string|null
+     */
+    public function getAllowVoucher()
+    {
+        return $this->allowVoucher;
+    }
+
+    /**
+     * Set status.
+     *
+     * @param string|null $status
+     *
+     * @return ApiClient
+     */
+    public function setStatus($status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status.
+     *
+     * @return string|null
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set cardMonthlyLimit.
+     *
+     * @param string|null $cardMonthlyLimit
+     *
+     * @return ApiClient
+     */
+    public function setCardMonthlyLimit($cardMonthlyLimit = null)
+    {
+        $this->cardMonthlyLimit = $cardMonthlyLimit;
+
+        return $this;
+    }
+
+    /**
+     * Get cardMonthlyLimit.
+     *
+     * @return string|null
+     */
+    public function getCardMonthlyLimit()
+    {
+        return $this->cardMonthlyLimit;
+    }
+
+    /**
+     * Set cardDailyLimit.
+     *
+     * @param string|null $cardDailyLimit
+     *
+     * @return ApiClient
+     */
+    public function setCardDailyLimit($cardDailyLimit = null)
+    {
+        $this->cardDailyLimit = $cardDailyLimit;
+
+        return $this;
+    }
+
+    /**
+     * Get cardDailyLimit.
+     *
+     * @return string|null
+     */
+    public function getCardDailyLimit()
+    {
+        return $this->cardDailyLimit;
+    }
+
+    /**
+     * Set cardDailyUsage.
+     *
+     * @param int|null $cardDailyUsage
+     *
+     * @return ApiClient
+     */
+    public function setCardDailyUsage($cardDailyUsage = null)
+    {
+        $this->cardDailyUsage = $cardDailyUsage;
+
+        return $this;
+    }
+
+    /**
+     * Get cardDailyUsage.
+     *
+     * @return int|null
+     */
+    public function getCardDailyUsage()
+    {
+        return $this->cardDailyUsage;
+    }
+
+    /**
+     * Set cardWorkingDays.
+     *
+     * @param string|null $cardWorkingDays
+     *
+     * @return ApiClient
+     */
+    public function setCardWorkingDays($cardWorkingDays = null)
+    {
+        $this->cardWorkingDays = $cardWorkingDays;
+
+        return $this;
+    }
+
+    /**
+     * Get cardWorkingDays.
+     *
+     * @return string|null
+     */
+    public function getCardWorkingDays()
+    {
+        return $this->cardWorkingDays;
+    }
+
+    /**
+     * Set voucherMonthlyLimit.
+     *
+     * @param string|null $voucherMonthlyLimit
+     *
+     * @return ApiClient
+     */
+    public function setVoucherMonthlyLimit($voucherMonthlyLimit = null)
+    {
+        $this->voucherMonthlyLimit = $voucherMonthlyLimit;
+
+        return $this;
+    }
+
+    /**
+     * Get voucherMonthlyLimit.
+     *
+     * @return string|null
+     */
+    public function getVoucherMonthlyLimit()
+    {
+        return $this->voucherMonthlyLimit;
+    }
+
+    /**
+     * Set voucherLimit.
+     *
+     * @param string|null $voucherLimit
+     *
+     * @return ApiClient
+     */
+    public function setVoucherLimit($voucherLimit = null)
+    {
+        $this->voucherLimit = $voucherLimit;
+
+        return $this;
+    }
+
+    /**
+     * Get voucherLimit.
+     *
+     * @return string|null
+     */
+    public function getVoucherLimit()
+    {
+        return $this->voucherLimit;
+    }
+
+    /**
+     * Set voucherMaxCount.
+     *
+     * @param int|null $voucherMaxCount
+     *
+     * @return ApiClient
+     */
+    public function setVoucherMaxCount($voucherMaxCount = null)
+    {
+        $this->voucherMaxCount = $voucherMaxCount;
+
+        return $this;
+    }
+
+    /**
+     * Get voucherMaxCount.
+     *
+     * @return int|null
+     */
+    public function getVoucherMaxCount()
+    {
+        return $this->voucherMaxCount;
+    }
+
+    /**
+     * Set addressId.
+     *
+     * @param int|null $addressId
+     *
+     * @return ApiClient
+     */
+    public function setAddressId($addressId = null)
+    {
+        $this->addressId = $addressId;
+
+        return $this;
+    }
+
+    /**
+     * Get addressId.
+     *
+     * @return int|null
+     */
+    public function getAddressId()
+    {
+        return $this->addressId;
+    }
+
+    /**
+     * Set addressStreet.
+     *
+     * @param string|null $addressStreet
+     *
+     * @return ApiClient
+     */
+    public function setAddressStreet($addressStreet = null)
+    {
+        $this->addressStreet = $addressStreet;
+
+        return $this;
+    }
+
+    /**
+     * Get addressStreet.
+     *
+     * @return string|null
+     */
+    public function getAddressStreet()
+    {
+        return $this->addressStreet;
+    }
+
+    /**
+     * Set addressPostalCode.
+     *
+     * @param string|null $addressPostalCode
+     *
+     * @return ApiClient
+     */
+    public function setAddressPostalCode($addressPostalCode = null)
+    {
+        $this->addressPostalCode = $addressPostalCode;
+
+        return $this;
+    }
+
+    /**
+     * Get addressPostalCode.
+     *
+     * @return string|null
+     */
+    public function getAddressPostalCode()
+    {
+        return $this->addressPostalCode;
+    }
+
+    /**
+     * Set addressTown.
+     *
+     * @param string|null $addressTown
+     *
+     * @return ApiClient
+     */
+    public function setAddressTown($addressTown = null)
+    {
+        $this->addressTown = $addressTown;
+
+        return $this;
+    }
+
+    /**
+     * Get addressTown.
+     *
+     * @return string|null
+     */
+    public function getAddressTown()
+    {
+        return $this->addressTown;
+    }
+
+    /**
+     * Set addressCountry.
+     *
+     * @param string|null $addressCountry
+     *
+     * @return ApiClient
+     */
+    public function setAddressCountry($addressCountry = null)
+    {
+        $this->addressCountry = $addressCountry;
+
+        return $this;
+    }
+
+    /**
+     * Get addressCountry.
+     *
+     * @return string|null
+     */
+    public function getAddressCountry()
+    {
+        return $this->addressCountry;
+    }
+
+    /**
+     * Set mailingAddressId.
+     *
+     * @param int|null $mailingAddressId
+     *
+     * @return ApiClient
+     */
+    public function setMailingAddressId($mailingAddressId = null)
+    {
+        $this->mailingAddressId = $mailingAddressId;
+
+        return $this;
+    }
+
+    /**
+     * Get mailingAddressId.
+     *
+     * @return int|null
+     */
+    public function getMailingAddressId()
+    {
+        return $this->mailingAddressId;
+    }
+
+    /**
+     * Set mailingAddressStreet.
+     *
+     * @param string|null $mailingAddressStreet
+     *
+     * @return ApiClient
+     */
+    public function setMailingAddressStreet($mailingAddressStreet = null)
+    {
+        $this->mailingAddressStreet = $mailingAddressStreet;
+
+        return $this;
+    }
+
+    /**
+     * Get mailingAddressStreet.
+     *
+     * @return string|null
+     */
+    public function getMailingAddressStreet()
+    {
+        return $this->mailingAddressStreet;
+    }
+
+    /**
+     * Set mailingAddressPostalCode.
+     *
+     * @param string|null $mailingAddressPostalCode
+     *
+     * @return ApiClient
+     */
+    public function setMailingAddressPostalCode($mailingAddressPostalCode = null)
+    {
+        $this->mailingAddressPostalCode = $mailingAddressPostalCode;
+
+        return $this;
+    }
+
+    /**
+     * Get mailingAddressPostalCode.
+     *
+     * @return string|null
+     */
+    public function getMailingAddressPostalCode()
+    {
+        return $this->mailingAddressPostalCode;
+    }
+
+    /**
+     * Set mailingAddressTown.
+     *
+     * @param string|null $mailingAddressTown
+     *
+     * @return ApiClient
+     */
+    public function setMailingAddressTown($mailingAddressTown = null)
+    {
+        $this->mailingAddressTown = $mailingAddressTown;
+
+        return $this;
+    }
+
+    /**
+     * Get mailingAddressTown.
+     *
+     * @return string|null
+     */
+    public function getMailingAddressTown()
+    {
+        return $this->mailingAddressTown;
+    }
+
+    /**
+     * Set mailingAddressCountry.
+     *
+     * @param string|null $mailingAddressCountry
+     *
+     * @return ApiClient
+     */
+    public function setMailingAddressCountry($mailingAddressCountry = null)
+    {
+        $this->mailingAddressCountry = $mailingAddressCountry;
+
+        return $this;
+    }
+
+    /**
+     * Get mailingAddressCountry.
+     *
+     * @return string|null
+     */
+    public function getMailingAddressCountry()
+    {
+        return $this->mailingAddressCountry;
+    }
+
+    /**
+     * Set phoneId.
+     *
+     * @param int|null $phoneId
+     *
+     * @return ApiClient
+     */
+    public function setPhoneId($phoneId = null)
+    {
+        $this->phoneId = $phoneId;
+
+        return $this;
+    }
+
+    /**
+     * Get phoneId.
+     *
+     * @return int|null
+     */
+    public function getPhoneId()
+    {
+        return $this->phoneId;
+    }
+
+    /**
+     * Set phoneNumber.
+     *
+     * @param string|null $phoneNumber
+     *
+     * @return ApiClient
+     */
+    public function setPhoneNumber($phoneNumber = null)
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get phoneNumber.
+     *
+     * @return string|null
+     */
+    public function getPhoneNumber()
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * Set altPhoneId.
+     *
+     * @param int|null $altPhoneId
+     *
+     * @return ApiClient
+     */
+    public function setAltPhoneId($altPhoneId = null)
+    {
+        $this->altPhoneId = $altPhoneId;
+
+        return $this;
+    }
+
+    /**
+     * Get altPhoneId.
+     *
+     * @return int|null
+     */
+    public function getAltPhoneId()
+    {
+        return $this->altPhoneId;
+    }
+
+    /**
+     * Set altPhoneNumber.
+     *
+     * @param string|null $altPhoneNumber
+     *
+     * @return ApiClient
+     */
+    public function setAltPhoneNumber($altPhoneNumber = null)
+    {
+        $this->altPhoneNumber = $altPhoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get altPhoneNumber.
+     *
+     * @return string|null
+     */
+    public function getAltPhoneNumber()
+    {
+        return $this->altPhoneNumber;
+    }
+
+    /**
+     * Set faxId.
+     *
+     * @param int|null $faxId
+     *
+     * @return ApiClient
+     */
+    public function setFaxId($faxId = null)
+    {
+        $this->faxId = $faxId;
+
+        return $this;
+    }
+
+    /**
+     * Get faxId.
+     *
+     * @return int|null
+     */
+    public function getFaxId()
+    {
+        return $this->faxId;
+    }
+
+    /**
+     * Set faxNumber.
+     *
+     * @param string|null $faxNumber
+     *
+     * @return ApiClient
+     */
+    public function setFaxNumber($faxNumber = null)
+    {
+        $this->faxNumber = $faxNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get faxNumber.
+     *
+     * @return string|null
+     */
+    public function getFaxNumber()
+    {
+        return $this->faxNumber;
+    }
+}

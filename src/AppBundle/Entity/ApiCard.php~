@@ -1,0 +1,826 @@
+<?php
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="api_card")
+ */
+class ApiCard
+{
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $objectType;
+
+    /**
+     * @ORM\Column(type="integer", name="sequence_id")
+     */
+    private $sequenceId;
+
+    /**
+     * @ORM\Id()
+     * @ORM\Column(type="integer")
+     */
+    private $objectId;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $action;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $movementDate;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $cardId;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $clientId;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $corporationId;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $passengerId;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $pan;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $cardType;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $dailyLimit;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $monthlyLimit;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $dailyUsage;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $workingDays;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $validUntil;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $availableAmount;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $comment;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $department;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $info1;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $info2;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $info3;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $mpk;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $migrationAlias;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $migrationValidFrom;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $migrationValidUntil;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $migrationStatus;
+
+    /**
+     * Set objectType.
+     *
+     * @param string $objectType
+     *
+     * @return ApiCard
+     */
+    public function setObjectType($objectType)
+    {
+        $this->objectType = $objectType;
+
+        return $this;
+    }
+
+    /**
+     * Get objectType.
+     *
+     * @return string
+     */
+    public function getObjectType()
+    {
+        return $this->objectType;
+    }
+
+    /**
+     * Set sequenceId.
+     *
+     * @param int $sequenceId
+     *
+     * @return ApiCard
+     */
+    public function setSequenceId($sequenceId)
+    {
+        $this->sequenceId = $sequenceId;
+
+        return $this;
+    }
+
+    /**
+     * Get sequenceId.
+     *
+     * @return int
+     */
+    public function getSequenceId()
+    {
+        return $this->sequenceId;
+    }
+
+    /**
+     * Set objectId.
+     *
+     * @param int $objectId
+     *
+     * @return ApiCard
+     */
+    public function setObjectId($objectId)
+    {
+        $this->objectId = $objectId;
+
+        return $this;
+    }
+
+    /**
+     * Get objectId.
+     *
+     * @return int
+     */
+    public function getObjectId()
+    {
+        return $this->objectId;
+    }
+
+    /**
+     * Set action.
+     *
+     * @param string $action
+     *
+     * @return ApiCard
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * Get action.
+     *
+     * @return string
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * Set movementDate.
+     *
+     * @param string $movementDate
+     *
+     * @return ApiCard
+     */
+    public function setMovementDate($movementDate)
+    {
+        $this->movementDate = $movementDate;
+
+        return $this;
+    }
+
+    /**
+     * Get movementDate.
+     *
+     * @return string
+     */
+    public function getMovementDate()
+    {
+        return $this->movementDate;
+    }
+
+    /**
+     * Set cardId.
+     *
+     * @param int $cardId
+     *
+     * @return ApiCard
+     */
+    public function setCardId($cardId)
+    {
+        $this->cardId = $cardId;
+
+        return $this;
+    }
+
+    /**
+     * Get cardId.
+     *
+     * @return int
+     */
+    public function getCardId()
+    {
+        return $this->cardId;
+    }
+
+    /**
+     * Set clientId.
+     *
+     * @param int $clientId
+     *
+     * @return ApiCard
+     */
+    public function setClientId($clientId)
+    {
+        $this->clientId = $clientId;
+
+        return $this;
+    }
+
+    /**
+     * Get clientId.
+     *
+     * @return int
+     */
+    public function getClientId()
+    {
+        return $this->clientId;
+    }
+
+    /**
+     * Set corporationId.
+     *
+     * @param int $corporationId
+     *
+     * @return ApiCard
+     */
+    public function setCorporationId($corporationId)
+    {
+        $this->corporationId = $corporationId;
+
+        return $this;
+    }
+
+    /**
+     * Get corporationId.
+     *
+     * @return int
+     */
+    public function getCorporationId()
+    {
+        return $this->corporationId;
+    }
+
+    /**
+     * Set passengerId.
+     *
+     * @param int $passengerId
+     *
+     * @return ApiCard
+     */
+    public function setPassengerId($passengerId)
+    {
+        $this->passengerId = $passengerId;
+
+        return $this;
+    }
+
+    /**
+     * Get passengerId.
+     *
+     * @return int
+     */
+    public function getPassengerId()
+    {
+        return $this->passengerId;
+    }
+
+    /**
+     * Set pan.
+     *
+     * @param string $pan
+     *
+     * @return ApiCard
+     */
+    public function setPan($pan)
+    {
+        $this->pan = $pan;
+
+        return $this;
+    }
+
+    /**
+     * Get pan.
+     *
+     * @return string
+     */
+    public function getPan()
+    {
+        return $this->pan;
+    }
+
+    /**
+     * Set cardType.
+     *
+     * @param string $cardType
+     *
+     * @return ApiCard
+     */
+    public function setCardType($cardType)
+    {
+        $this->cardType = $cardType;
+
+        return $this;
+    }
+
+    /**
+     * Get cardType.
+     *
+     * @return string
+     */
+    public function getCardType()
+    {
+        return $this->cardType;
+    }
+
+    /**
+     * Set status.
+     *
+     * @param string $status
+     *
+     * @return ApiCard
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status.
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set dailyLimit.
+     *
+     * @param string $dailyLimit
+     *
+     * @return ApiCard
+     */
+    public function setDailyLimit($dailyLimit)
+    {
+        $this->dailyLimit = $dailyLimit;
+
+        return $this;
+    }
+
+    /**
+     * Get dailyLimit.
+     *
+     * @return string
+     */
+    public function getDailyLimit()
+    {
+        return $this->dailyLimit;
+    }
+
+    /**
+     * Set monthlyLimit.
+     *
+     * @param string $monthlyLimit
+     *
+     * @return ApiCard
+     */
+    public function setMonthlyLimit($monthlyLimit)
+    {
+        $this->monthlyLimit = $monthlyLimit;
+
+        return $this;
+    }
+
+    /**
+     * Get monthlyLimit.
+     *
+     * @return string
+     */
+    public function getMonthlyLimit()
+    {
+        return $this->monthlyLimit;
+    }
+
+    /**
+     * Set dailyUsage.
+     *
+     * @param string $dailyUsage
+     *
+     * @return ApiCard
+     */
+    public function setDailyUsage($dailyUsage)
+    {
+        $this->dailyUsage = $dailyUsage;
+
+        return $this;
+    }
+
+    /**
+     * Get dailyUsage.
+     *
+     * @return string
+     */
+    public function getDailyUsage()
+    {
+        return $this->dailyUsage;
+    }
+
+    /**
+     * Set workingDays.
+     *
+     * @param string $workingDays
+     *
+     * @return ApiCard
+     */
+    public function setWorkingDays($workingDays)
+    {
+        $this->workingDays = $workingDays;
+
+        return $this;
+    }
+
+    /**
+     * Get workingDays.
+     *
+     * @return string
+     */
+    public function getWorkingDays()
+    {
+        return $this->workingDays;
+    }
+
+    /**
+     * Set validUntil.
+     *
+     * @param string $validUntil
+     *
+     * @return ApiCard
+     */
+    public function setValidUntil($validUntil)
+    {
+        $this->validUntil = $validUntil;
+
+        return $this;
+    }
+
+    /**
+     * Get validUntil.
+     *
+     * @return string
+     */
+    public function getValidUntil()
+    {
+        return $this->validUntil;
+    }
+
+    /**
+     * Set availableAmount.
+     *
+     * @param string $availableAmount
+     *
+     * @return ApiCard
+     */
+    public function setAvailableAmount($availableAmount)
+    {
+        $this->availableAmount = $availableAmount;
+
+        return $this;
+    }
+
+    /**
+     * Get availableAmount.
+     *
+     * @return string
+     */
+    public function getAvailableAmount()
+    {
+        return $this->availableAmount;
+    }
+
+    /**
+     * Set comment.
+     *
+     * @param string $comment
+     *
+     * @return ApiCard
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Get comment.
+     *
+     * @return string
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * Set department.
+     *
+     * @param string $department
+     *
+     * @return ApiCard
+     */
+    public function setDepartment($department)
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
+    /**
+     * Get department.
+     *
+     * @return string
+     */
+    public function getDepartment()
+    {
+        return $this->department;
+    }
+
+    /**
+     * Set info1.
+     *
+     * @param string $info1
+     *
+     * @return ApiCard
+     */
+    public function setInfo1($info1)
+    {
+        $this->info1 = $info1;
+
+        return $this;
+    }
+
+    /**
+     * Get info1.
+     *
+     * @return string
+     */
+    public function getInfo1()
+    {
+        return $this->info1;
+    }
+
+    /**
+     * Set info2.
+     *
+     * @param string $info2
+     *
+     * @return ApiCard
+     */
+    public function setInfo2($info2)
+    {
+        $this->info2 = $info2;
+
+        return $this;
+    }
+
+    /**
+     * Get info2.
+     *
+     * @return string
+     */
+    public function getInfo2()
+    {
+        return $this->info2;
+    }
+
+    /**
+     * Set info3.
+     *
+     * @param string $info3
+     *
+     * @return ApiCard
+     */
+    public function setInfo3($info3)
+    {
+        $this->info3 = $info3;
+
+        return $this;
+    }
+
+    /**
+     * Get info3.
+     *
+     * @return string
+     */
+    public function getInfo3()
+    {
+        return $this->info3;
+    }
+
+    /**
+     * Set mpk.
+     *
+     * @param string $mpk
+     *
+     * @return ApiCard
+     */
+    public function setMpk($mpk)
+    {
+        $this->mpk = $mpk;
+
+        return $this;
+    }
+
+    /**
+     * Get mpk.
+     *
+     * @return string
+     */
+    public function getMpk()
+    {
+        return $this->mpk;
+    }
+
+    /**
+     * Set migrationAlias.
+     *
+     * @param string $migrationAlias
+     *
+     * @return ApiCard
+     */
+    public function setMigrationAlias($migrationAlias)
+    {
+        $this->migrationAlias = $migrationAlias;
+
+        return $this;
+    }
+
+    /**
+     * Get migrationAlias.
+     *
+     * @return string
+     */
+    public function getMigrationAlias()
+    {
+        return $this->migrationAlias;
+    }
+
+    /**
+     * Set migrationValidFrom.
+     *
+     * @param string $migrationValidFrom
+     *
+     * @return ApiCard
+     */
+    public function setMigrationValidFrom($migrationValidFrom)
+    {
+        $this->migrationValidFrom = $migrationValidFrom;
+
+        return $this;
+    }
+
+    /**
+     * Get migrationValidFrom.
+     *
+     * @return string
+     */
+    public function getMigrationValidFrom()
+    {
+        return $this->migrationValidFrom;
+    }
+
+    /**
+     * Set migrationValidUntil.
+     *
+     * @param string $migrationValidUntil
+     *
+     * @return ApiCard
+     */
+    public function setMigrationValidUntil($migrationValidUntil)
+    {
+        $this->migrationValidUntil = $migrationValidUntil;
+
+        return $this;
+    }
+
+    /**
+     * Get migrationValidUntil.
+     *
+     * @return string
+     */
+    public function getMigrationValidUntil()
+    {
+        return $this->migrationValidUntil;
+    }
+
+    /**
+     * Set migrationStatus.
+     *
+     * @param string $migrationStatus
+     *
+     * @return ApiCard
+     */
+    public function setMigrationStatus($migrationStatus)
+    {
+        $this->migrationStatus = $migrationStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get migrationStatus.
+     *
+     * @return string
+     */
+    public function getMigrationStatus()
+    {
+        return $this->migrationStatus;
+    }
+}

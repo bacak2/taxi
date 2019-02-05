@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="/favicon2.ico" type="image/ico"/>
+    <title>RadioTaxi919</title>
+    {% block stylesheets %}
+
+        <link rel="stylesheet" href="{{ asset('semantic/dist/semantic.min.css') }}">
+        <style>
+            .main-manu{
+                height: 50px;
+            }
+            .main-item{
+                color: #FDD302!important;
+                font-weight: bolder!important;
+                font-size: 14px!important;
+            }
+            .dropdown-list{
+                background: #ededed !important;
+            }
+        </style>
+    {% endblock %}
+</head>
+<body>
+    <div class="ui fixed inverted menu main-manu">
+        <div class="ui simple dropdown item main-item">
+            Rozliczenie KURSÓW<i class="dropdown icon"></i>
+            <div class="menu dropdown-list">
+                <a href="{{ path('route_transactions') }}" class="item">Lista Transakcji</a>
+                <a href="{{ path('route_transaction_settlement') }}" class="item">Rozliczenie Transakcji z KW</a>
+                <a href="{{ path('route_voucher_list') }}" class="item">Voucher</a>
+                <a href="{{ path('route_transaction_unassigned') }}" class="item">Nieprzypisane transakcje</a>
+                <a href="{{ path('route_transaction_import_csv') }}" class="item">Import CSV</a>
+            </div>
+        </div>
+
+        {#KASA#}
+        <div class="ui simple dropdown item main-item">
+            Kasa<i class="dropdown icon"></i>
+            <div class="menu dropdown-list">
+                <div class="header" style="font-size: 16px">KP</div>
+                <a href="{{ path('route_kp_standard_add') }}" class="item">Wystaw</a>
+                <a href="{{ path('route_kp_warehouse') }}" class="item">Magazyn</a>
+                <a href="{{ path('route_kp_list') }}" class="item">Lista</a>
+                <div class="divider"></div>
+                <div class="header" style="font-size: 16px">KW</div>
+                <a href="{{ path('route_kw_standard_add') }}" class="item">Normalne</a>
+                <a href="{{ path('route_transaction_settlement') }}" class="item">Bezgotówka</a>
+                <a href="{{ path('route_kw_list') }}" class="item">Lista</a>
+                <div class="divider"></div>
+                <div class="header" style="font-size: 16px">RAPORT</div>
+                <a href="{{ path('route_cash_register_report') }}" class="item">Raport kasowy</a>
+                <a href="{{ path('route_cash_register_list') }}" class="item">Lista raportów</a>
+            </div>
+        </div>
+
+        {#BANK#}
+        <div class="ui simple dropdown item main-item">
+            Bank<i class="dropdown icon"></i>
+            <div class="menu dropdown-list">
+                <a href="{{ path('route_bank') }}" class="item">Przelewy</a>
+                <a href="{{ path('route_blockade_list') }}" class="item">Blokady</a>
+                <a href="{{ path('route_blockade_add') }}" class="item">Dodaj blokade</a>
+            </div>
+        </div>
+
+        {#FAKTURY#}
+        <div class="ui simple dropdown item main-item">
+            Faktury<i class="dropdown icon"></i>
+            <div class="menu dropdown-list">
+                <a href="{{ path('route_invoice_driver') }}" class="item">Faktury dla KIEROWCÓW</a>
+                <a href="{{ path('route_invoice_client') }}" class="item">Faktury dla FIRM</a>
+                <a href="{{ path('route_charge_invoice') }}" class="item">Faktury za SKŁADKI/OPŁATY</a>
+            </div>
+        </div>
+
+        {#FIRMY#}
+        <div class="ui simple dropdown item main-item">
+            Firmy<i class="dropdown icon"></i>
+            <div class="menu dropdown-list">
+                <a href="{{ path('route_firms') }}" class="item">Lista firm</a>
+                <a href="{{ path('route_firm_add') }}" class="item">Dodaj firmę</a>
+            </div>
+        </div>
+
+        {#KIEROWCY#}
+        <div class="ui simple dropdown item main-item">
+           Kierowcy<i class="dropdown icon"></i>
+            <div class="menu dropdown-list">
+                <a href="{{ path('route_drivers') }}" class="item">Lista Kierowców</a>
+                <a href="{{ path('route_driver_add') }}" class="item">Dodaj kierowcę</a>
+            </div>
+        </div>
+
+        {#VOUCHER#}
+        {#<div class="ui simple dropdown item main-item">#}
+            {#Vouchery<i class="dropdown icon"></i>#}
+            {#<div class="menu dropdown-list">#}
+                {#<a href="{{ path('route_voucher_list') }}" class="item">Voucher - lista</a>#}
+                {#<a href="{{ path('route_voucher_add') }}" class="item">Dodaj voucher</a>#}
+            {#</div>#}
+        {#</div>#}
+
+        {#KARTY#}
+        <div class="ui simple dropdown item main-item">
+            Karty<i class="dropdown icon"></i>
+            <div class="menu dropdown-list">
+                <a href="{{ path('route_cards') }}" class="item">List kart</a>
+                <a href="{{ path('route_card_add') }}" class="item">Dodaj kartę</a>
+            </div>
+        </div>
+
+        {#USTAWIENIA#}
+        <div class="ui simple dropdown item main-item">
+            Ustawienia<i class="dropdown icon"></i>
+            <div class="menu dropdown-list">
+                <a href="{{ path('route_taxi_settings') }}" class="item">Ustawienia</a>
+                <a href="{{ path('route_taxi_settings') }}" class="item">Ustaw date</a>
+                {#<a href="{{ path('route_settings_dictionary') }}" class="item">Słowinik</a>#}
+            </div>
+        </div>
+
+        <div class="ui right aligned icon item main-item" title="Wyloguj z systemu">
+            <a href="{{ path('logout') }}" style="color: #FDD302;">
+                <i class="sign out icon"></i>
+                Wyloguj
+            </a>
+        </div>
+    </div>
+
+    <div class="ui icon message" style="margin-top: 50px;padding: 5px; font-weight: bold;">
+        <i class="payment icon" style="font-size: 16px"></i>
+        <div class="content">
+            Stan kasy: {{ cashRegisterStatus() }}
+        </div>
+    </div>
+
+
+    <div class="ui fluid container" style="padding: 20px;">
+     {% block body %}{% endblock %}
+    </div>
+
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/app/js/assets/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('semantic/dist/semantic.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/tippy.all.min.js') }}"></script>
+{% endblock %}
+
+</body>
+</html>

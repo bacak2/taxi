@@ -1,0 +1,16 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 78.47.225.226
+    database_port: 3306
+    database_name: taxi_crm2
+    database_user: taxi_usr2
+    database_password: 5Lz7mk~7
+    mailer_transport: smtp
+    mailer_host: kasa.radiotaxi919.pl
+    mailer_user: fv@kasa.radiotaxi919.pl
+    mailer_password: 16Tgla$8
+    taxi_360_cert_path: '%kernel.root_dir%/Resources/cert/rt191_dev.pem'
+    taxi_360_cert_passpharase: artplusaccess
+    taxi_360_channel_name: RADIO_TAXI_919
+    taxi_360_channel_password: exPOr
+    secret: 59b09f3706e4e02dedf779da2dc071ec342d1d9f

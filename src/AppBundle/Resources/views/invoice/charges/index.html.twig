@@ -1,0 +1,160 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/calendar.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/sweetalert2.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/app.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="ui form">
+        {{ form_start(form) }}
+        <div class="ui segments" id="mainContent" data-createinvoice="{{ path('route_charge_invoice_print') }}">
+
+            <div class="ui clearing segment">
+                <div class="fields">
+                    <div class="three wide field">
+                        <label>Data</label>
+                        <div class="ui calendar datepicker">
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                <input type="text" value="{{ "now"|date("m-Y") }}"
+                                       id="txtDate" name="txtDate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nine wide field">
+                        <label>Kierowca</label>
+                        {{ form_widget(form.driver) }}
+
+                    </div>
+                    <div class="one wide field">
+                        <button id="btnClearDriver" class="ui button">Wyczyść</button>
+                    </div>
+                    <div class="three wide field">
+                        {{ form_widget(form.addInvoice) }}
+                    </div>
+                </div>
+            </div>
+            <div class="ui segment">
+                <div class="field">
+                    <table id="tableInvoices" class="display cell-border" width="100%" cellspacing="0"
+                           data-url="{{ path('route_charge_invoice_getDriverInvoice') }}">
+                        <thead>
+                        <tr>
+                            <th>.</th>
+                            <th>Rok</th>
+                            <th>Miesiąć</th>
+                            <th>Nr faktury</th>
+                            <th>Typ dokumentu</th>
+                            <th>Rodzaj faktury</th>
+                            <th>Do zapłaty</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+            <div class="ui clearing segment">
+                <div class="field">
+                    <div class="fields">
+                        <div class="ten wide field">
+                            <table class="display cell-border" width="100%" cellspacing="0" id="tableDetails">
+                                <thead>
+                                    <tr>
+                                        <th>Towar usługa</th>
+                                        <th style="width: 40px;">VAT</th>
+                                        <th style="width: 80px">Brutto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {#<tr>#}
+                                        {#<td>Opłata za telefon</td>#}
+                                        {#<td>23%</td>#}
+                                        {#<td>50.00zł</td>#}
+                                    {#</tr>#}
+                                    {#<tr>#}
+                                        {#<td>Opłata za telefon</td>#}
+                                        {#<td>23%</td>#}
+                                        {#<td>50.00zł</td>#}
+                                    {#</tr>#}
+                                    {#<tr>#}
+                                        {#<td>Opłata za telefon</td>#}
+                                        {#<td>23%</td>#}
+                                        {#<td>50.00zł</td>#}
+                                    {#</tr>#}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="six wide field">
+                            <div class="field">
+                                <label>Nalicz opłatę</label>
+                                {{ form_widget(form.chargeType) }}
+                            </div>
+                            <div class="two fields">
+                                <div class="field">
+                                    <label>Kwota</label>
+                                    {{ form_widget(form.amount) }}
+                                </div>
+                                <div class="field">
+                                    <label>VAT(%)</label>
+                                    {{ form_widget(form.vat) }}
+                                </div>
+                            </div>
+                            <div class="field">
+                                {{ form_widget(form.btnCalculate) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui clearing segment">
+                <div class="four fields">
+                    <div class="field">
+                        <label>Data wystawienia</label>
+                        <div class="ui calendar datepicker-full-date">
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                {{ form_widget(form.createDate) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Data płatności</label>
+                        <div class="ui calendar datepicker-full-date">
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                {{ form_widget(form.paymentDate) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label></label>
+                        {{ form_widget(form.createPrintKp) }}
+                    </div>
+                    <div class="field">
+                        {{ form_widget(form.btnCreatePrintInvoice) }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendarSettings.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendar.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/sweetalert2.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/invoice/charges.js') }}"></script>
+{% endblock %}
+

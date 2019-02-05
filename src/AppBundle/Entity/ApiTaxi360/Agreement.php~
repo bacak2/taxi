@@ -1,0 +1,98 @@
+<?php
+
+namespace AppBundle\Entity\ApiTaxi360;
+
+
+use AppBundle\Service\HelperService;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Console\Helper\Helper;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="agreement")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class Agreement
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\ApiTaxi360\Client",
+     *     inversedBy="agreements"
+     * )
+     * @ORM\JoinColumn(
+     *     name="client_id",
+     *     referencedColumnName="id",
+     *     onDelete="CASCADE"
+     * )
+     */
+    private $client;
+
+    /**
+     * @ORM\Column(type="string", name="agreement_number", nullable=true)
+     */
+    private $agreementNumber;
+
+    /**
+     * @ORM\Column(type="date", name="agreement_until", nullable=true)
+     */
+    private $agreementUntil;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true, name="payment_days")
+     */
+    private $paymentDays = 14;
+
+    /**
+     * @ORM\Column(type="decimal", precision=4, scale=2, nullable=true)
+     */
+    private $discount = 0;
+
+    /**
+     * @ORM\Column(type="decimal", scale=3)
+     */
+    private $cardProvision;
+
+    /**
+     * @ORM\Column(type="decimal", scale=3)
+     */
+    private $eVoucherProvision;
+
+    /**
+     * @ORM\Column(type="decimal", scale=3)
+     */
+    private $voucherProvision;
+
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $hash;
+
+    /**
+     * @ORM\Column(type="datetime", name="create_date")
+     */
+    private $updateDate;
+
+    /**
+     * Agreement constructor.
+     */
+    public function __construct()
+    {
+        $this->hash = HelperService::generateHash($this->id);
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateDate()
+    {
+        $this->updateDate = new \DateTime();
+    }
+}

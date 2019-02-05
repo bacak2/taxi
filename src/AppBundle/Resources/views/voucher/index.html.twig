@@ -1,0 +1,88 @@
+{% extends "@App/base.html.twig" %}
+
+{% block body %}
+    <div class="ui column">
+        <div class="ui pointing secondary menu">
+            <a class="item item-tab active" data-tab="v-tab1">Dodaj Voucher</a>
+            <a class="item item-tab" data-tab="v-tab2">Lista voucherów</a>
+        </div>
+        <div class="ui form">
+            <div class="ui active tab" data-tab="v-tab1">
+                <div class="ui segment">
+                    <div class="ui form">
+                        <div class="field">
+                            <label>Kierowca</label>
+                            <input type="text" placeholder="Kierowca">
+                        </div>
+                        <div class="divided field">
+                            <table class="table celled">
+                                <thead>
+                                    <th>Rodzaj</th>
+                                    <th>Nazwa</th>
+                                    <th>Nr Boczny</th>
+                                    <th>Nr wewnętrzny</th>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Voucher NR</label>
+                                <input type="text" placeholder="Voucher NR">
+                            </div>
+                            <div class="field">
+                                <label>Data transakcji</label>
+                                <input type="text" placeholder="Data">
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Karta\Kod</label>
+                                <input type="text" placeholder="Karta\Kod">
+                            </div>
+                            <div class="field">
+                                <label>Kwota</label>
+                                <input type="text" placeholder="Kwota">
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Firma</label>
+                                <input type="text" placeholder="Firma">
+                            </div>
+                            <div class="field">
+                                <label>Potrącenie</label>
+                                <input type="text" placeholder="Potrącenie">
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Firma zewn.</label>
+                                <input type="text" placeholder="Firma zewnętrzna">
+                            </div>
+                            <div class="inline middle floated field">
+                                <button class="ui green button">Zapisz</button>
+                                <button class="ui red button">Anuluj</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui tab" data-tab="v-tab2">
+                <div class="ui segment">
+                    List voucherów
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/settings/calendarSettings.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendar.min.js') }}"></script>
+    <script>
+    </script>
+    <script src="{{ asset('bundles/app/js/client/client_add.js') }}"></script>
+{% endblock %}

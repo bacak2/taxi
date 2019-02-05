@@ -1,0 +1,43 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+    <style>
+        .text-center{
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+
+{% block body %}
+    <div class="ui segment">
+        <table id="clientTable" class="display" width="100%" cellspacing="0"
+            data-get="{{ path('route_firm_get') }}"
+            data-edit="{{ path('route_firm_edit', {'id': '__id__'} ) }}">
+            <thead>
+            <tr>
+                <th>Nazwa klienta</th>
+                <th>NIP</th>
+                <th>Telefon</th>
+                <th>Umowa</th>
+                <th>Koniec umowy</th>
+                <th>Ulica</th>
+                <th>Kod pocztowy</th>
+                <th>Miasto</th>
+                <th>Kraj</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/moment.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/client/client.js') }}"></script>
+
+{% endblock %}

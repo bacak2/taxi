@@ -1,0 +1,157 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/calendar.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/sweetalert2.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/app.css') }}">
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="ui column" id="main-content"
+         data-vouchers="{{ path('route_voucher_api_get') }}"
+    >
+        <div class="ui pointing secondary menu">
+            <a class="item item-tab active"
+               data-tab="t1">Dodaj voucher</a>
+            <a class="item item-tab"
+               data-tab="t2">Lista Voucherów</a>
+        </div>
+
+        <div>
+            {#DODAJ VOUCHER#}
+            <div class="ui tab active" data-tab="t1">
+                <div class="ui segment">
+                    <div class="ui form">
+                        {{ form_start(form) }}
+                        <div class="eight wide field">
+                            <label>Kierowca</label>
+                            {{ form_widget(form.driverId) }}
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Voucher Numer</label>
+                                {{ form_widget(form.voucherNumber) }}
+                            </div>
+                            <div class="field">
+                                <label>Data</label>
+                                <div class="ui calendar datepicker">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        {{ form_widget(form.transactionDate) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Karta/Kod</label>
+                                {{ form_widget(form.voucherDescription) }}
+                            </div>
+                            <div class="field">
+                                <label>Kwota</label>
+                                {{ form_widget(form.totalAmount) }}
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Firma</label>
+                                {{ form_widget(form.clientId) }}
+                            </div>
+                            <div class="field">
+                                <label>Potrącenie</label>
+                                {{ form_widget(form.percentage) }}
+                            </div>
+                        </div>
+                        <div class="three fields">
+                            <div class="field"></div>
+                            <div class="field"></div>
+                            <div class="field">
+                                <input type="reset"
+                                       id="btnReset"
+                                       class="ui right floated red button" value="Anuluj">
+                                <input type="submit" class="ui right floated green button" value="Zapisz">
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+
+            {#LIST VOUCHEROW#}
+            <div class="ui tab" data-tab="t2">
+                <div class="ui segments">
+                    <div class="ui segment">
+                        <div class="ui form">
+                            <div class="two fields">
+                                <div class="field">
+                                    <label>Data do</label>
+                                    <div class="ui calendar datepicker">
+                                        <div class="ui input left icon">
+                                            <i class="calendar icon"></i>
+                                            <input type="text"
+                                                   placeholder="Data od"
+                                                   class="require-input"
+                                                   value="{{ minus30Days| date("Y-m-d") }}"
+                                                   id="dateFrom" name="dateFrom">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label>Data do</label>
+                                    <div class="ui calendar datepicker">
+                                        <div class="ui input left icon">
+                                            <i class="calendar icon"></i>
+                                            <input type="text"
+                                                   placeholder="Data od"
+                                                   class="require-input"
+                                                   value="{{ now| date("Y-m-d") }}"
+                                                   id="dateTo" name="dateTo">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field" style="text-align: center;">
+                                    <button class="ui left floated primary button"
+                                            id="btnSearch"
+                                            style="margin-top: 22px;">Szukaj</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui segment">
+                        <table id="voucherTable" class="display cell-border" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Kierowca</th>
+                                <th>Numer</th>
+                                <th>Firma</th>
+                                <th>Data</th>
+                                <th>Kwota</th>
+                                <th>Potrącenie</th>
+                                <th>Karta</th>
+                                <th>Voucher</th>
+                                <th>Data dodania</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendarSettings.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendar.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/sweetalert2.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/jquery.inputmask.bundle.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/voucher/voucher.js') }}"></script>
+{% endblock %}
+

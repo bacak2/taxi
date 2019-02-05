@@ -1,0 +1,11 @@
+{% extends "@App/public/base.html.twig" %}
+
+{% block body %}
+
+    <form action="{{ path('route_public_login') }}" method="post">
+        <input type="text" id="username" name="_username">
+        <input type="password" id="password" name="_password">
+        <input type="submit" value="Zaloguj">
+    </form>
+
+{% endblock %}

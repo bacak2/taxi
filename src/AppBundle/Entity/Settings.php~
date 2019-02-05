@@ -1,0 +1,73 @@
+<?php
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="settings")
+ */
+class Settings
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="decimal", scale=3, name="american_express")
+     */
+    private $americanExpress = 0;
+
+    /**
+     * @ORM\Column(type="decimal", scale=3, name="visa_master_card")
+     */
+    private $visaMasterCard = 0;
+
+    /**
+     * @ORM\Column(type="decimal", scale=3)
+     */
+    private $card = 0;
+
+    /**
+     * @ORM\Column(type="decimal", scale=3)
+     */
+    private $voucher = 0;
+
+    /**
+     * @ORM\Embedded(
+     *     class="AppBundle\Entity\Embedded\MoneyEmbedded",
+     *     columnPrefix="bankTransferCost"
+     * )
+     */
+    private $bankTransferCost = 0;
+
+    /**
+     * @ORM\Column(type="string", name="bank_account", nullable=true)
+     */
+    private $bankAccount;
+
+    /**
+     * @ORM\Column(type="string", name="bank_account_to_firm", nullable=true)
+     */
+    private $bankAccountToFirm;
+
+    /**
+     * @ORM\Column(type="string", name="free_transfer_bank_account", nullable=true)
+     */
+    private $freeTransferBankAccount;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $swift;
+
+    /**
+     * @ORM\Column(type="datetime", name="update_date")
+     */
+    private $updateDate;
+}

@@ -1,0 +1,71 @@
+{% extends "@App/base.html.twig" %}
+
+{% block body %}
+    <div class="ui segment clearfix" id="mainContent">
+        {{ form_start(form) }}
+        <div class="ui form">
+
+                <div class="field">
+                    <h4>Wypłata - generowanie przelewów</h4>
+                    <button class="ui button"
+                            data-href="{{ path('route_bank_calculate') }}"
+                            id="btnGenerate">Przelicz</button>
+                    {#<button>Rozlicz</button>#}
+                    <button class="ui button" id="btnFile"
+                        data-href="{{ path('route_bank_generate_file') }}">Zapisz plik Elixir-O</button>
+                </div>
+                <div class="two fields">
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Data od</label>
+                            <div class="ui calendar datepicker">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    {{ form_widget(form.dateFrom) }}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="field">
+                            <label>Data do</label>
+                            <div class="ui calendar datepicker">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    {{ form_widget(form.dateTo) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Kierowca</label>
+                        {{ form_widget(form.driver) }}
+                    </div>
+                </div>
+                <div class="inline field">
+                    <div class="ui toggle checkbox">
+                        {{ form_widget(form.bezgotowka) }}
+                    </div>
+                    <div class="ui toggle checkbox">
+                        {{ form_widget(form.importpko) }}
+                    </div>
+                    <div class="ui toggle checkbox">
+                        {{ form_widget(form.periodic) }}
+                    </div>
+                    <div class="ui toggle checkbox">
+                        {{ form_widget(form.nonPeriodic) }}
+                    </div>
+                </div>
+        </div>
+        {{ form_end(form) }}
+    </div> {#end segment#}
+    <div class="ui segments clearfix" id="responseDiv">
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/calendarSettings.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendar.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/bank/bank.js') }}"></script>
+{% endblock %}

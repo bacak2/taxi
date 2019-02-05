@@ -1,0 +1,56 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+   <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+   <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/calendar.min.css') }}">
+   <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/sweetalert2.css') }}">
+   <link rel="stylesheet" href="{{ asset('bundles/app/css/app.css') }}">
+    <style>
+        .selection{
+            width: 440px!important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div id="mainContent" data-unsigned="{{ path('route_unassigned_api_get') }}">
+        <div class="ui segment" >
+            <div class="ui form">
+                {{ form_start(form) }}
+                <div class="inline field">
+                    {{ form_widget(form.driver) }}
+                    <button id="btnAssign"
+                            data-action="{{ path('route_unassigned_api_assign') }}"
+                            class="ui green button">Przypisz</button>
+                </div>
+                {{ form_end(form) }}
+                <table id="unsignedTable" class="display cell-border" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                        <th></th>
+                        <th>Data transakcji</th>
+                        <th>Numer POS\TID</th>
+                        <th>Kwota</th>
+                        <th>Kwota po potrąceniu</th>
+                        <th>Typ karty</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+   <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+   <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+   <script src="{{ asset('bundles/app/js/assets/calendarSettings.js') }}"></script>
+   <script src="{{ asset('bundles/app/js/assets/calendar.min.js') }}"></script>
+   <script src="{{ asset('bundles/app/js/assets/sweetalert2.js') }}"></script>
+   <script>
+   </script>
+   <script src="{{ asset('bundles/app/js/transaction/transaction_unsigned.js') }}"></script>
+{% endblock %}
+

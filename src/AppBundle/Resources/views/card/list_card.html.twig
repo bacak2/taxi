@@ -1,0 +1,45 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+    <style>
+        .text-center{
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+
+{% block body %}
+    <div class="ui segment" id="table">
+        <table id="cardTable" class="cell-border display" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th>Numer karty</th>
+                <th>Firma</th>
+                <th>Dział</th>
+                <th>Pasażer</th>
+                <th>Typ</th>
+                <th>Status</th>
+                <th>Aktywna do</th>
+                <th>Zniżka</th>
+                <th>Komentarz</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+    <script>
+        var routeGetCards = '{{ path('route_card_api_get') }}';
+        var routeEditCard = '{{ path('route_card_add', {'id': '__id__'}) }}';
+    </script>
+    <script src="{{ asset('bundles/app/js/card/card_list.js') }}"></script>
+
+{% endblock %}
+

@@ -1,0 +1,42 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+    <style>
+        .text-center{
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+
+{% block body %}
+    <div class="ui segment">
+        <table id="firmTable" class="display" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th>Imię i Nazwisko</th>
+                <th>Numer kierowcy</th>
+                <th>Firma</th>
+                <th>Telefon</th>
+                <th>Email</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+    <script>
+        var routeGetDrivers = '{{ path('route_drivers_api_get') }}';
+        var routeEditDriver = '{{ path('route_driver_edit', {'id': '__id__'}) }}';
+    </script>
+    <script src="{{ asset('bundles/app/js/driver/driver.js') }}"></script>
+
+{% endblock %}
+

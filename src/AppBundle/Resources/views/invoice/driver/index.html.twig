@@ -1,0 +1,130 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/calendar.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/sweetalert2.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/app.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="ui segments main-content"
+         data-createinvoice="{{ path('route_invoice_driver') }}">
+        <div class="ui segment">
+            <div class="ui form">
+                <div class="five fields">
+                    <div class="field">
+                        Miesiąc
+                        <div class="ui calendar datepicker">
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                <input type="text"
+                                       value="{{ "now"|date("m") }}"
+                                       id="txtMonth" name="txtMonth">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        Rok
+                        <input type="text" name="txtYear" id="txtYear" value="{{ "now"|date('Y') }}">
+                    </div>
+                    <div class="field">
+                        <button class="ui button" id="btnPrintAll" name="btnPrintAll">
+                            <i class="print icon"></i> Drukuj wszystkie</button>
+                    </div>
+                    <div class="field">
+                        <button class="ui button" id="btnCreateAllInvoice" name="btnBook">
+                           <i class="file icon"></i> Wystaw wszystkie faktury</button>
+                    </div>
+                    <div class="field">
+                        <button class="ui button" id="btnInvoiceNumbers" name="btnBook">Numery Faktur kierowców</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui segment">
+            <div class="ui column ">
+                <div class="ui pointing secondary menu">
+                    <a class="item active item-tab"
+                       data-tab="t1">Faktury i rachunki kierowcow</a>
+                    <a class="item item-tab "
+                       data-tab="t2">Kierowcy do fakturowania</a>
+                    <div class="right menu">
+                        <a class="ui item" id="save">
+                            <div class="ui green button" id="btnCreateInvoice">Wystaw faktury</div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="ui form">
+                    <div class="ui active tab" data-tab="t1">
+                        <div class="ui segment">
+                            <table id="invoiceTable"
+                                   data-invoice="{{ path('print_invoice_for_driver', {'invoiceId': '__id__'}) }}"
+                                   data-url="{{ path('route_invoice_driver_get') }}"
+                                   class="display cell-border" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Kierowca</th>
+                                    <th>Typ</th>
+                                    <th>Nr dokumentu</th>
+                                    <th>Dokument</th>
+                                    <th>Sprzedawca</th>
+                                    <th>Nabywca</th>
+                                    <th>Rodzaj</th>
+                                    <th>Do zapłaty</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                    {#Umowy,prowizje i inne#}
+                    <div class="ui tab" data-tab="t2">
+                        <div class="ui segment">
+                            <table id="transactionTable"
+                                   data-url="{{ path('route_invoice_driver_get_transactions') }}"
+                                   class="display cell-border" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Numer</th>
+                                    <th>Imię i nazwisko</th>
+                                    <th>Pł. VAT</th>
+                                    <th>Stawka</th>
+                                    <th>Bagażówka</th>
+                                    <th>Typ transakcji</th>
+                                    <th>Kwota przejazdu</th>
+                                    <th>Kwota wypłacana</th>
+                                    <th>Liczba trans.</th>
+                                    <th>Nazwa firmy Kier.</th>
+                                    <th>Następny nr księgowy</th>
+                                    <th>Pierwsza transakcja</th>
+                                    <th>Ostatnia transakcja</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendarSettings.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendar.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/sweetalert2.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/invoice/driverInvoice.js') }}"></script>
+{% endblock %}
+

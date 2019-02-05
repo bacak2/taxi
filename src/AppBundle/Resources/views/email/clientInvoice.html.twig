@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        table{
+            border-collapse: collapse;
+        }
+        td {
+            padding: 3px 0 0 6px;
+
+        }
+        #first-row td{
+            border-top: 1px solid black;
+            padding-top: 6px;
+        }
+    </style>
+</head>
+<body>
+    Dzień dobry,
+    <br>
+    <br>
+    w załączniku przesyłamy Państwu fakturę za przejechane trasy.
+    <br>
+    <br>
+    Z poważaniem,
+    <br><br>
+    <span style="font-weight: bold;">Radio Taxi 919 Sp. z o.o.</span>
+    <br>e-mail: biuro@radiotaxi919.pl
+    <br>www: <a href="http://radiotaxi919.pl" target="_blank">www.radiotaxi919.pl</a>
+    <br>
+    <br>
+
+    <table>
+        <tr id="first-row">
+            <td rowspan="3">
+                <img src="{{ asset('bundles/app/images/email.png') }}" alt="">
+            </td>
+            <td>
+                RadioTaxi 919 Sp. z o.o.
+            </td>
+            <td>
+                Tel: (12) 410 76 72
+            </td>
+        </tr>
+        <tr>
+            <td>ul. Prof. Stefana Myczkowskiego 1/4</td>
+            <td>
+                Fax: (12) 410 76 66
+            </td>
+        </tr>
+        <tr>
+            <td>30-198 Kraków</td>
+            <td>NIP: 676-010-10-00</td>
+            <td></td>
+        </tr>
+    </table>
+</body>
+</html>

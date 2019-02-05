@@ -1,0 +1,13 @@
+{% extends "@App/base.html.twig" %}
+
+{% block body %}
+    <div class="ui segment">
+        <h3>Edycja faktury NR: {{ invoiceNumber }}</h3>
+        <a class="ui button" href="{{ path('route_invoice_client') }}">Powrót</a>
+
+        <div class="ui form">
+            {{ form(form) }}
+        </div>
+
+    </div>
+{% endblock %}

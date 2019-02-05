@@ -1,0 +1,73 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/calendar.min.css') }}">
+    <style>
+        .text-center{
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="ui segment" id="mainContent">
+        <div class="ui form">
+            <div class="three fields">
+                <div class="field">
+                    <div class="ui calendar datepicker" >
+                        <div class="ui labeled input right icon">
+                            <div class="ui label">
+                                Od:
+                            </div>
+                            <input type="text" id="dateFrom" name="dateFrom" placeholder="Data od">
+                            <i class="calendar icon"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="datepicker">
+                        <div class="ui labeled right icon input">
+                            <label class="ui label" for="dateTo">Do:</label>
+                            <input type="text" id="dateTo" name="dateTo" placeholder="Data do">
+                            <i class="calendar icon"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <button class="ui blue button" id="btnSearch">Szukaj</button>
+                </div>
+            </div>
+        </div>
+        <table id="kpTable" class="display" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Data wystawienia</th>
+                <th>Numer</th>
+                <th>Kwota</th>
+                <th>Wpłacający</th>
+                <th>Za co</th>
+                {#<th>Rodzaj</th>#}
+                <th>Wystawił</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendarSettings.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendar.min.js') }}"></script>
+    <script>
+        var routeGetKPList = '{{ path('route_kp_ajax') }}';
+        var routePrintStandardsKP = '{{ path('print_standard_kp', {'id': '__kp__'}) }}';
+        var routePrintWarehouseKP = '{{ path('print_warehouse_kp', {'id': '__kp__'}) }}';
+    </script>
+    <script src="{{ asset('bundles/app/js/kp/app_kp_list.js') }}"></script>
+
+{% endblock %}

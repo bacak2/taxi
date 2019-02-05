@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ document['reportNumber'] }}</title>
+    <style>
+        table, table td{
+            border-collapse: collapse;
+            padding: 4px;
+            font-size: 12px;
+        }
+        #tableKw td{
+            font-size: 10px;
+            border: 1px solid black;
+        }
+        #tableKp td{
+            font-size: 10px;
+            border: 1px solid black;
+        }
+        .b-top{
+            border-top: 1px solid black;}
+        .b-bottom{
+            border-bottom: 1px solid black;
+        }
+        .b-left{
+            border-left: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <table width="100%" id="mainTable">
+        <tr>
+            <td style="font-weight: bold; font-size: 14px; border-bottom: 1px solid black;">
+                RAPORT KASOWY {% if document['reportType'] == 'mr' %}
+                    - MIESIĘCZNY
+                {% endif %}
+            </td>
+            <td style="text-align: right;border-bottom: 1px solid black;">
+                Data: {{ document['forDate']|date("Y-m-d") }}
+            </td>
+            <td rowspan="2" style="text-align: right" width="120px">
+                <img src="{{ logo }}" alt="" width="120" height="55">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">{{ document['username'] }}</td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <table width="100%">
+                    <tr>
+                        <td class="b-top" width="120px">Numer</td>
+                        <td class="b-top">{{ document['reportNumber'] }}</td>
+                        <td class="b-top b-left" width="70px">Ile KP</td>
+                        <td class="b-top" width="70px" style="text-align: center">{{ document['kpCount'] }}</td>
+                    </tr>
+                    <tr>
+                        <td>Poprzedni stan</td>
+                        <td>{{ document['prevAmount'] }}zł</td>
+                        <td class="b-left b-bottom">Ile KW</td>
+                        <td class="b-bottom" style="text-align: center">{{ document['kwCount'] }}</td>
+                    </tr>
+                    <tr>
+                        <td>Aktualny stan</td>
+                        <td style="font-weight: bold;">{{ document['totalAmount'] }}zł</td>
+                        <td class="b-left">Kwota KP</td>
+                        <td style="text-align: right;">{{ document['kpAmount'] }}zł</td>
+                    </tr>
+                    <tr>
+                        <td class="b-bottom">Zmiana w kasie</td>
+                        <td class="b-bottom">{{ document['changeAmount'] }}zł</td>
+                        <td class="b-bottom b-left">Kwota KW</td>
+                        <td class="b-bottom" style="text-align: right;">{{ document['kwAmount'] }}zł</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="padding-top: 10px;">
+                <table width="100%" id="tableKp">
+                    <tr>
+                        <td colspan="4" style="font-weight: bold; padding: 6px; font-size: 12px">KP - Kasa przyjęła</td>
+                    </tr>
+                    {% if document['kp'] is defined %}
+                        {% for docKp in document['kp']  %}
+                            <tr>
+                                <td width="100px">{{ docKp['cashRegisterNumber'] }}</td>
+                                <td>{{ docKp['client'] }}</td>
+                                <td>{{ docKp['title'] }}</td>
+                                <td style="text-align: right; width: 60px">{{ docKp['amount'] }} zł</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="padding-top: 10px;">
+                <table width="100%" id="tableKw">
+                    <tr>
+                        <td colspan="4"
+                            style="font-weight: bold; padding: 6px; font-size: 12px">
+                            KW - Kasa wydała</td>
+                    </tr>
+                    {% if document['kw'] is defined %}
+                        {% for docKw in document['kw']  %}
+                            <tr>
+                                <td width="100px">{{ docKw['cashRegisterNumber'] }}</td>
+                                <td>{{ docKw['client'] }}</td>
+                                <td>{{ docKw['title'] }}</td>
+                                <td style="text-align: right; width: 60px">{{ docKw['amount'] }} zł</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="padding: 20px">
+                <table style="width: 100%">
+                    <tr>
+                        <td></td>
+                        <td style="width: 210px; text-align: center;">{{ "now"|date("Y-m-d H:i") }}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="padding-top: 20px;">_____________________________________</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="font-size: 8px; text-align: center">Podpis osoby sporządzającej raport</td>
+                    </tr>
+                    <tr>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

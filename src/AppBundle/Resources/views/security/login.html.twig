@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Taxi919 | Logowanie</title>
+    <link rel="stylesheet" href="{{ asset('semantic/dist/semantic.min.css') }}">
+    <style type="text/css">
+        body {
+            background-color: #DADADA;
+        }
+        body > .grid {
+            height: 100%;
+        }
+        .image {
+            margin-top: -100px;
+        }
+        .column {
+            max-width: 450px;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="ui middle aligned center aligned grid">
+        <div class="column">
+            {{ form_start(form, {
+                'action': path('login'),
+                'attr': { 'class': 'ui large form'}
+            }) }}
+                <div class="ui stacked segment">
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            {{ form_widget(form.username, {'attr': {'placeholder':  'Login'}}) }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            {{ form_widget(form.password, {'attr': {
+                                'placeholder':  'Hasło',
+                                'autocomplete': 'nope'
+                            }}) }}
+                        </div>
+                    </div>
+                    <div class="field" style="text-align: left;">
+                        <div class="ui checkbox" style="text-align: left">
+                            {{ form_widget(form.remember_me) }}
+                        </div>
+                    </div>
+                    {{ form_widget(form.submit, {'label':'Zaloguj','attr': {
+                        'class': 'ui fluid large teal submit button'
+                    }}) }}
+
+                </div>
+                <div class="ui error message">dfsdf
+                    {{ form_errors(form)|trans }}
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="{{ asset('semantic/dist/components/form.js') }}"></script>
+    <script src="{{ asset('semantic/dist/components/transition.js') }}"></script>
+</body>
+</html>

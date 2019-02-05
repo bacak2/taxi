@@ -1,0 +1,73 @@
+{% extends "@App/base.html.twig" %}
+
+{% block body %}
+    <div class="ui segment" id="mainContent">
+
+
+        <div class="ui grid">
+            <div class="ui sixteen wide column">
+                <h4>Wypłata - generowanie przelewów</h4>
+                <button class="ui button">Generuj</button>
+                <button class="ui button">Zapisz plik Elixir-O</button>
+            </div>
+            <div class="ui four wide column">
+                <div class="ui celled relaxed list">
+                    <div class="item">
+                        <div class="ui master checkbox">
+                            <input name="fruits" type="checkbox">
+                            <label>Wszystkie</label>
+                        </div>
+                        <div class="list">
+                            <div class="item">
+                                <div class="ui child checkbox">
+                                    <input name="voucher919" type="checkbox">
+                                    <label>Voucher 919</label>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="ui child checkbox">
+                                    <input name="withoutCash" type="checkbox">
+                                    <label>Transakcje bezgotówkowe</label>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="ui child checkbox">
+                                    <input name="paymentCard" type="checkbox">
+                                    <label>Karty płatnicze</label>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="ui child checkbox">
+                                    <input name="periodicTransfer" type="checkbox">
+                                    <label>Przelewy okresowe</label>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="ui child checkbox">
+                                    <input name="nonPeriodicTransfer" type="checkbox">
+                                    <label>Przelewy nieokresowe</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> {#end checkbox list#}
+            </div>
+            <div class="ui twelve wide column">
+                <div class="ui pointing secondary menu">
+                    <a class="item bank-item-tab active" data-tab="bank-tab1">Plik Elixir</a>
+                </div>
+
+                <div class="ui active tab bank-tab" data-tab="bank-tab1">
+                    <div class="ui segment">
+                        Elixir
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> {#end segment#}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/bank/bank.js') }}"></script>
+{% endblock %}

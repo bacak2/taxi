@@ -1,0 +1,30 @@
+<?php
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="debit_cart_type")
+ */
+class DebitCartType
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, precision=4)
+     */
+    private $provision;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $name;
+}

@@ -1,0 +1,467 @@
+<?php
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(
+ *     repositoryClass="AppBundle\Repository\TransactionRepository"
+ * )
+ * @ORM\Table(name="transaction")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class Transaction
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="integer", name="taxi360id", nullable=true)
+     */
+    private $taxi360ID;
+
+    /**
+     * @ORM\Column(type="datetime", name="transaction_date", nullable=true)
+     */
+    private $transactionDate;
+
+    /**
+     * ACCEPTED / REJECTED /CANCELED
+     * @ORM\Column(type="string", name="transaction_status", nullable=true)
+     */
+    private $transactionStatus;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="total_amount", nullable=true)
+     */
+    private $totalAmount;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="driver_amount", nullable=true)
+     */
+    private $driverAmount;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, nullable=true)
+     */
+    private $vat;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, nullable=true)
+     */
+    private $price;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2)
+     */
+    private $deduction;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true, name="firm_settlement")
+     */
+    private $firmSettlement;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true, name="driver_settlement")
+     */
+    private $driverSettlement;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\Card",
+     *     inversedBy="transactions"
+     * )
+     * @ORM\JoinColumn(
+     *     name="card_id",
+     *     referencedColumnName="id",
+     *     nullable=true,
+     *     onDelete="SET NULL"
+     * )
+     */
+    private $card;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $driver;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\Firm",
+     *     inversedBy="transactions",
+     * )
+     * @ORM\JoinColumn(
+     *     name="firm_id",
+     *     referencedColumnName="id",
+     *     onDelete="SET NULL",
+     *     nullable=true
+     * )
+     */
+    private $firm;
+
+    /**
+     * @ORM\Column(type="datetime", name="update_date")
+     */
+    private $updateDate;
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateDate()
+    {
+        $this->updateDate = new \DateTime();
+    }
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set taxi360ID.
+     *
+     * @param int|null $taxi360ID
+     *
+     * @return Transaction
+     */
+    public function setTaxi360ID($taxi360ID = null)
+    {
+        $this->taxi360ID = $taxi360ID;
+
+        return $this;
+    }
+
+    /**
+     * Get taxi360ID.
+     *
+     * @return int|null
+     */
+    public function getTaxi360ID()
+    {
+        return $this->taxi360ID;
+    }
+
+    /**
+     * Set transactionDate.
+     *
+     * @param \DateTime|null $transactionDate
+     *
+     * @return Transaction
+     */
+    public function setTransactionDate($transactionDate = null)
+    {
+        $this->transactionDate = $transactionDate;
+
+        return $this;
+    }
+
+    /**
+     * Get transactionDate.
+     *
+     * @return \DateTime|null
+     */
+    public function getTransactionDate()
+    {
+        return $this->transactionDate;
+    }
+
+    /**
+     * Set transactionStatus.
+     *
+     * @param string|null $transactionStatus
+     *
+     * @return Transaction
+     */
+    public function setTransactionStatus($transactionStatus = null)
+    {
+        $this->transactionStatus = $transactionStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get transactionStatus.
+     *
+     * @return string|null
+     */
+    public function getTransactionStatus()
+    {
+        return $this->transactionStatus;
+    }
+
+    /**
+     * Set totalAmount.
+     *
+     * @param string|null $totalAmount
+     *
+     * @return Transaction
+     */
+    public function setTotalAmount($totalAmount = null)
+    {
+        $this->totalAmount = $totalAmount;
+
+        return $this;
+    }
+
+    /**
+     * Get totalAmount.
+     *
+     * @return string|null
+     */
+    public function getTotalAmount()
+    {
+        return $this->totalAmount;
+    }
+
+    /**
+     * Set driverAmount.
+     *
+     * @param string|null $driverAmount
+     *
+     * @return Transaction
+     */
+    public function setDriverAmount($driverAmount = null)
+    {
+        $this->driverAmount = $driverAmount;
+
+        return $this;
+    }
+
+    /**
+     * Get driverAmount.
+     *
+     * @return string|null
+     */
+    public function getDriverAmount()
+    {
+        return $this->driverAmount;
+    }
+
+    /**
+     * Set vat.
+     *
+     * @param string|null $vat
+     *
+     * @return Transaction
+     */
+    public function setVat($vat = null)
+    {
+        $this->vat = $vat;
+
+        return $this;
+    }
+
+    /**
+     * Get vat.
+     *
+     * @return string|null
+     */
+    public function getVat()
+    {
+        return $this->vat;
+    }
+
+    /**
+     * Set price.
+     *
+     * @param string|null $price
+     *
+     * @return Transaction
+     */
+    public function setPrice($price = null)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price.
+     *
+     * @return string|null
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set deduction.
+     *
+     * @param string $deduction
+     *
+     * @return Transaction
+     */
+    public function setDeduction($deduction)
+    {
+        $this->deduction = $deduction;
+
+        return $this;
+    }
+
+    /**
+     * Get deduction.
+     *
+     * @return string
+     */
+    public function getDeduction()
+    {
+        return $this->deduction;
+    }
+
+    /**
+     * Set firmSettlement.
+     *
+     * @param int|null $firmSettlement
+     *
+     * @return Transaction
+     */
+    public function setFirmSettlement($firmSettlement = null)
+    {
+        $this->firmSettlement = $firmSettlement;
+
+        return $this;
+    }
+
+    /**
+     * Get firmSettlement.
+     *
+     * @return int|null
+     */
+    public function getFirmSettlement()
+    {
+        return $this->firmSettlement;
+    }
+
+    /**
+     * Set driverSettlement.
+     *
+     * @param int|null $driverSettlement
+     *
+     * @return Transaction
+     */
+    public function setDriverSettlement($driverSettlement = null)
+    {
+        $this->driverSettlement = $driverSettlement;
+
+        return $this;
+    }
+
+    /**
+     * Get driverSettlement.
+     *
+     * @return int|null
+     */
+    public function getDriverSettlement()
+    {
+        return $this->driverSettlement;
+    }
+
+    /**
+     * Set card.
+     *
+     * @param int|null $card
+     *
+     * @return Transaction
+     */
+    public function setCard($card = null)
+    {
+        $this->card = $card;
+
+        return $this;
+    }
+
+    /**
+     * Get card.
+     *
+     * @return int|null
+     */
+    public function getCard()
+    {
+        return $this->card;
+    }
+
+    /**
+     * Set driver.
+     *
+     * @param int|null $driver
+     *
+     * @return Transaction
+     */
+    public function setDriver($driver = null)
+    {
+        $this->driver = $driver;
+
+        return $this;
+    }
+
+    /**
+     * Get driver.
+     *
+     * @return int|null
+     */
+    public function getDriver()
+    {
+        return $this->driver;
+    }
+
+    /**
+     * Set updateDate.
+     *
+     * @param \DateTime $updateDate
+     *
+     * @return Transaction
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updateDate.
+     *
+     * @return \DateTime
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * Set firm.
+     *
+     * @param \AppBundle\Entity\Firm|null $firm
+     *
+     * @return Transaction
+     */
+    public function setFirm(\AppBundle\Entity\Firm $firm = null)
+    {
+        $this->firm = $firm;
+
+        return $this;
+    }
+
+    /**
+     * Get firm.
+     *
+     * @return \AppBundle\Entity\Firm|null
+     */
+    public function getFirm()
+    {
+        return $this->firm;
+    }
+}

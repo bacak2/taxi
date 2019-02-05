@@ -1,0 +1,136 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .tr-items input{
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+
+{% block body %}
+    {% macro add(detail) %}
+        {% set netto = detail.netto.vars.value %}
+        {% set brutto = detail.brutto.vars.value %}
+        <tr class="tr-items">
+            <td>{{ form_widget(detail.param) }}</td>
+            <td>
+                <div class="ui right labeled input" style="width: 70px">
+                    {{ form_widget(detail.netto) }}
+                    <label for="" class="ui label"
+                           style="background-color: white;padding-left: 2px;">zł</label>
+                </div>
+            </td>
+            <td>{{ form_widget(detail.vat) }}</td>
+            <td>
+                <div class="ui right labeled input" style="width: 70px">
+                    {{ form_widget(detail.brutto) }}
+                    <label for="" class="ui label"
+                           style="background-color: white;white;padding-left: 2px;">zł</label>
+                </div>
+            </td>
+            <td>{{ form_widget(detail.quantity) }}</td>
+            <td><button class="btnDelete ui red button">Usuń</button></td>
+        </tr>
+    {% endmacro %}
+
+    {% import _self as macroDetail %}
+    <div class="ui green clearing segment">
+        <div class="ui segment">
+            <h3>KP</h3>
+        </div>
+        <div class="ui container" id="mainContainer">
+            <div class="ui form">
+                {{ form_start(form) }}
+                <div class="two fields">
+                    <div class="field">
+                        <label>Kierowca</label>
+                        {{ form_widget(form.driver) }}
+                    </div>
+                    <div class="field">
+                        <label>Rodzaj KP:</label>
+                        {{ form_widget(form.kp_type) }}
+                    </div>
+                </div>
+                <hr>
+                <div class="fields">
+                    <div class="eight wide field">
+                        <label>Towar</label>
+                        {{ form_widget(form.kp_towar) }}
+                    </div>
+                    <div class="two wide field">
+                        <label>Brutto</label>
+                        <input type="text" id="txtBrutto" name="txtBrutto" placeholder="Brutto">
+                    </div>
+                    <div class="two wide field">
+                        <label>Vat</label>
+                        <input type="text" id="txtVat" name="txtVat" placeholder="Vat">
+                    </div>
+                    <div class="two wide field">
+                        <label>Ilość</label>
+                        <input type="text" id="txtQuantity" name="txtQuantity" placeholder="Ilość">
+                    </div>
+                    <div class="two wide field">
+                        <button class="ui right floated button" id="btnAdd" style="margin-top: 15px">Dodaj</button>
+                    </div>
+                </div>
+
+
+                <div class="field" style="overflow: scroll; height: 30vh">
+                    <table id="tableDetail"
+                           class="ui single line compact table">
+                        <thead style="text-align: center">
+                            <tr>
+                                <th >Towar</th>
+                                <th style="width: 120px">Netto</th>
+                                <th style="width: 120px">Vat</th>
+                                <th style="width: 120px">Brutto</th>
+                                <th style="width: 120px">Ilość</th>
+                                <th style="width: 80px"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="detailCollection"
+                               data-index="{{ form.cashRegisterDetails|length }}"
+                               data-prototype="{{ macroDetail.add(form.cashRegisterDetails.vars.prototype)|e }}">
+                        {% for detail in form.cashRegisterDetails %}
+                            {{ macroDetail.add(detail) }}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="inline fields">
+                    <div class="four wide field">
+                        <label>Suma</label>
+                        {{ form_widget(form.amount) }}
+                    </div>
+                    <div class="four wide field">
+                        <label>Netto</label>
+                        <input type="text" id="txtNetto" name="txtNetto" readonly="">
+                    </div>
+                    <div class="four wide field"></div>
+                    <div class="four wide field">
+                        {{ form_widget(form.submit) }}
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/jquery.inputmask.bundle.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/kp/kp_warehouse.js') }}"></script>
+    <script>
+        {% set printId = app.flashes('print') %}
+        {% if printId is defined and printId|length > 0 %}
+            var url = '{{ path('print_warehouse_kp', {'id': printId[printId|length-1]}) }}';
+            var win = window.open(url, '_blank');
+            win.focus();
+        {% endif %}
+    </script>
+{% endblock %}
+

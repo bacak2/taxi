@@ -1,0 +1,22 @@
+{% macro addBlockade(blockade, id, hash) %}
+    <tr>
+        <td style="width: 250px;">
+            <label>Data blokady</label>
+            <div class="ui calendar datepicker" >
+                <div class="ui input left icon">
+                    <i class="calendar icon"></i>
+                    {{ form_widget(blockade.blockadeDate) }}
+                </div>
+            </div>
+        </td>
+        <td>
+            <label>Komentarz</label>
+            {{ form_widget(blockade.comment) }}
+        </td>
+        <td style="width: 100px;">
+            <button class="ui red button center floated btn-delete-blockade"
+                    id="{{ id }}"
+                    data-hash="{{ hash }}">Usuń</button>
+        </td>
+    </tr>
+{% endmacro %}

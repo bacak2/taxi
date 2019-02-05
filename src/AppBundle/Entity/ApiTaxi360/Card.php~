@@ -1,0 +1,888 @@
+<?php
+
+namespace AppBundle\Entity\ApiTaxi360;
+
+
+use AppBundle\Service\HelperService;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CardRepository")
+ * @ORM\Table(name="card")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class Card
+{
+    /**
+     * @ORM\Id()
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\User"
+     * )
+     * @ORM\JoinColumn(
+     *     name="user_id",
+     *     referencedColumnName="id",
+     *     nullable=true,
+     *     onDelete="SET NULL"
+     * )
+     */
+    private $user;
+
+    //TAXI360
+    //TAXI360
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $pan;
+
+    /**
+     * @ORM\Column(type="integer", name="taxi_card_id", nullable=true)
+     * NUMER KARTY W SYSTEMIE TAXI360
+     */
+    private $taxiCardId;
+
+    /**
+     * @ORM\Column(type="integer", name="taxi_client_id", nullable=true)
+     */
+    private $taxiClientId;
+
+    /**
+     * @ORM\Column(type="integer", name="taxi_passenger_id", nullable=true)
+     */
+    private $taxiPassengerId;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * Insert\Update
+     */
+    private $action;
+
+    /**
+     * @ORM\Column(type="datetime", name="movement_date", nullable=true)
+     */
+    private $movementDate;
+
+    /**
+     * @ORM\Column(type="string", name="card_type", nullable=true)
+     * PREPAID | STANDARD | VOUCHER
+     */
+    private $cardType;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * ACTIVE | BLOCKED | DEFINITION | NEW | RETIRED | SPENT | INIT
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="daily_limit", nullable=true)
+     */
+    private $dailyLimit;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, nullable=true, name="monthly_limit")
+     */
+    private $monthlyLimit;
+
+    /**
+     * @ORM\Column(type="integer", name="daily_usage", nullable=true)
+     */
+    private $dailyUsage;
+
+    /**
+     * @ORM\Column(type="string", name="working_days", nullable=true)
+     */
+    private $workingDays;
+
+    /**
+     * @ORM\Column(type="date", name="valid_until")
+     */
+    private $validUntil;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="available_amount", nullable=true)
+     */
+    private $availableAmount;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $comment;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $department;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $info1;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $info2;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $info3;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $mpk;
+
+    /**
+     * @ORM\Column(type="integer", name="sequence_id", nullable=true)
+     */
+    private $sequenceId;
+
+    /********************************* KONIEC API *******************************************/
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\ApiTaxi360\Client",
+     *     inversedBy="cards"
+     * )
+     * @ORM\JoinColumn(
+     *     name="client_id",
+     *     referencedColumnName="id",
+     *     nullable=true
+     * )
+     */
+    private $client;
+
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\ApiTaxi360\Passenger"
+     * )
+     * @ORM\JoinColumn(
+     *     name="passenger_id",
+     *     referencedColumnName="id",
+     *     nullable=true
+     * )
+     */
+    private $passenger;
+
+    /**
+     * @ORM\Column(type="boolean", name="is_active")
+     */
+    private $isActive = true;
+
+    /**
+     * @ORM\Column(type="decimal", scale=3, nullable=true)
+     */
+    private $discount = 0;
+
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $hash;
+
+    /**
+     * @ORM\Column(type="datetime", name="update_date")
+     */
+    private $updateDate;
+
+    /**
+     * Card constructor.
+     */
+    public function __construct()
+    {
+        $this->hash = HelperService::generateHash($this->id);
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateDate()
+    {
+        $this->updateDate = new \DateTime();
+    }
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set pan.
+     *
+     * @param string $pan
+     *
+     * @return Card
+     */
+    public function setPan($pan)
+    {
+        $this->pan = $pan;
+
+        return $this;
+    }
+
+    /**
+     * Get pan.
+     *
+     * @return string
+     */
+    public function getPan()
+    {
+        return $this->pan;
+    }
+
+    /**
+     * Set taxiCardId.
+     *
+     * @param int|null $taxiCardId
+     *
+     * @return Card
+     */
+    public function setTaxiCardId($taxiCardId = null)
+    {
+        $this->taxiCardId = $taxiCardId;
+
+        return $this;
+    }
+
+    /**
+     * Get taxiCardId.
+     *
+     * @return int|null
+     */
+    public function getTaxiCardId()
+    {
+        return $this->taxiCardId;
+    }
+
+    /**
+     * Set taxiClientId.
+     *
+     * @param int|null $taxiClientId
+     *
+     * @return Card
+     */
+    public function setTaxiClientId($taxiClientId = null)
+    {
+        $this->taxiClientId = $taxiClientId;
+
+        return $this;
+    }
+
+    /**
+     * Get taxiClientId.
+     *
+     * @return int|null
+     */
+    public function getTaxiClientId()
+    {
+        return $this->taxiClientId;
+    }
+
+    /**
+     * Set taxiPassengerId.
+     *
+     * @param int|null $taxiPassengerId
+     *
+     * @return Card
+     */
+    public function setTaxiPassengerId($taxiPassengerId = null)
+    {
+        $this->taxiPassengerId = $taxiPassengerId;
+
+        return $this;
+    }
+
+    /**
+     * Get taxiPassengerId.
+     *
+     * @return int|null
+     */
+    public function getTaxiPassengerId()
+    {
+        return $this->taxiPassengerId;
+    }
+
+    /**
+     * Set action.
+     *
+     * @param string|null $action
+     *
+     * @return Card
+     */
+    public function setAction($action = null)
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * Get action.
+     *
+     * @return string|null
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * Set movementDate.
+     *
+     * @param \DateTime|null $movementDate
+     *
+     * @return Card
+     */
+    public function setMovementDate($movementDate = null)
+    {
+        $this->movementDate = $movementDate;
+
+        return $this;
+    }
+
+    /**
+     * Get movementDate.
+     *
+     * @return \DateTime|null
+     */
+    public function getMovementDate()
+    {
+        return $this->movementDate;
+    }
+
+    /**
+     * Set cardType.
+     *
+     * @param string|null $cardType
+     *
+     * @return Card
+     */
+    public function setCardType($cardType = null)
+    {
+        $this->cardType = $cardType;
+
+        return $this;
+    }
+
+    /**
+     * Get cardType.
+     *
+     * @return string|null
+     */
+    public function getCardType()
+    {
+        return $this->cardType;
+    }
+
+    /**
+     * Set status.
+     *
+     * @param string|null $status
+     *
+     * @return Card
+     */
+    public function setStatus($status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status.
+     *
+     * @return string|null
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set dailyLimit.
+     *
+     * @param string|null $dailyLimit
+     *
+     * @return Card
+     */
+    public function setDailyLimit($dailyLimit = null)
+    {
+        $this->dailyLimit = $dailyLimit;
+
+        return $this;
+    }
+
+    /**
+     * Get dailyLimit.
+     *
+     * @return string|null
+     */
+    public function getDailyLimit()
+    {
+        return $this->dailyLimit;
+    }
+
+    /**
+     * Set monthlyLimit.
+     *
+     * @param string|null $monthlyLimit
+     *
+     * @return Card
+     */
+    public function setMonthlyLimit($monthlyLimit = null)
+    {
+        $this->monthlyLimit = $monthlyLimit;
+
+        return $this;
+    }
+
+    /**
+     * Get monthlyLimit.
+     *
+     * @return string|null
+     */
+    public function getMonthlyLimit()
+    {
+        return $this->monthlyLimit;
+    }
+
+    /**
+     * Set dailyUsage.
+     *
+     * @param int|null $dailyUsage
+     *
+     * @return Card
+     */
+    public function setDailyUsage($dailyUsage = null)
+    {
+        $this->dailyUsage = $dailyUsage;
+
+        return $this;
+    }
+
+    /**
+     * Get dailyUsage.
+     *
+     * @return int|null
+     */
+    public function getDailyUsage()
+    {
+        return $this->dailyUsage;
+    }
+
+    /**
+     * Set workingDays.
+     *
+     * @param string|null $workingDays
+     *
+     * @return Card
+     */
+    public function setWorkingDays($workingDays = null)
+    {
+        $this->workingDays = $workingDays;
+
+        return $this;
+    }
+
+    /**
+     * Get workingDays.
+     *
+     * @return string|null
+     */
+    public function getWorkingDays()
+    {
+        return $this->workingDays;
+    }
+
+    /**
+     * Set validUntil.
+     *
+     * @param \DateTime $validUntil
+     *
+     * @return Card
+     */
+    public function setValidUntil($validUntil)
+    {
+        if($validUntil instanceof \DateTime)
+        {
+            $this->validUntil = $validUntil;
+        }else{
+            $this->validUntil = new \DateTIme($validUntil);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get validUntil.
+     *
+     * @return \DateTime
+     */
+    public function getValidUntil()
+    {
+        if($this->validUntil instanceof \DateTime)
+        {
+            return $this->validUntil->format('Y-m-d H:i:s');
+        }
+        return $this->validUntil;
+    }
+
+    /**
+     * Set availableAmount.
+     *
+     * @param string|null $availableAmount
+     *
+     * @return Card
+     */
+    public function setAvailableAmount($availableAmount = null)
+    {
+        $this->availableAmount = $availableAmount;
+
+        return $this;
+    }
+
+    /**
+     * Get availableAmount.
+     *
+     * @return string|null
+     */
+    public function getAvailableAmount()
+    {
+        return $this->availableAmount;
+    }
+
+    /**
+     * Set comment.
+     *
+     * @param string|null $comment
+     *
+     * @return Card
+     */
+    public function setComment($comment = null)
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Get comment.
+     *
+     * @return string|null
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * Set department.
+     *
+     * @param string|null $department
+     *
+     * @return Card
+     */
+    public function setDepartment($department = null)
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
+    /**
+     * Get department.
+     *
+     * @return string|null
+     */
+    public function getDepartment()
+    {
+        return $this->department;
+    }
+
+    /**
+     * Set info1.
+     *
+     * @param string|null $info1
+     *
+     * @return Card
+     */
+    public function setInfo1($info1 = null)
+    {
+        $this->info1 = $info1;
+
+        return $this;
+    }
+
+    /**
+     * Get info1.
+     *
+     * @return string|null
+     */
+    public function getInfo1()
+    {
+        return $this->info1;
+    }
+
+    /**
+     * Set info2.
+     *
+     * @param string|null $info2
+     *
+     * @return Card
+     */
+    public function setInfo2($info2 = null)
+    {
+        $this->info2 = $info2;
+
+        return $this;
+    }
+
+    /**
+     * Get info2.
+     *
+     * @return string|null
+     */
+    public function getInfo2()
+    {
+        return $this->info2;
+    }
+
+    /**
+     * Set info3.
+     *
+     * @param string|null $info3
+     *
+     * @return Card
+     */
+    public function setInfo3($info3 = null)
+    {
+        $this->info3 = $info3;
+
+        return $this;
+    }
+
+    /**
+     * Get info3.
+     *
+     * @return string|null
+     */
+    public function getInfo3()
+    {
+        return $this->info3;
+    }
+
+    /**
+     * Set mpk.
+     *
+     * @param string|null $mpk
+     *
+     * @return Card
+     */
+    public function setMpk($mpk = null)
+    {
+        $this->mpk = $mpk;
+
+        return $this;
+    }
+
+    /**
+     * Get mpk.
+     *
+     * @return string|null
+     */
+    public function getMpk()
+    {
+        return $this->mpk;
+    }
+
+    /**
+     * Set sequenceId.
+     *
+     * @param int|null $sequenceId
+     *
+     * @return Card
+     */
+    public function setSequenceId($sequenceId = null)
+    {
+        $this->sequenceId = $sequenceId;
+
+        return $this;
+    }
+
+    /**
+     * Get sequenceId.
+     *
+     * @return int|null
+     */
+    public function getSequenceId()
+    {
+        return $this->sequenceId;
+    }
+
+    /**
+     * Set isActive.
+     *
+     * @param bool $isActive
+     *
+     * @return Card
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive.
+     *
+     * @return bool
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Set hash.
+     *
+     * @param string $hash
+     *
+     * @return Card
+     */
+    public function setHash($hash)
+    {
+        $this->hash = $hash;
+
+        return $this;
+    }
+
+    /**
+     * Get hash.
+     *
+     * @return string
+     */
+    public function getHash()
+    {
+        return $this->hash;
+    }
+
+    /**
+     * Set updateDate.
+     *
+     * @param \DateTime $updateDate
+     *
+     * @return Card
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updateDate.
+     *
+     * @return \DateTime
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * Set user.
+     *
+     * @param \AppBundle\Entity\User|null $user
+     *
+     * @return Card
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user.
+     *
+     * @return \AppBundle\Entity\User|null
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param mixed $client
+     * @return Card
+     */
+    public function setClient($client)
+    {
+        $this->client = $client;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDiscount()
+    {
+        return $this->discount;
+    }
+
+    /**
+     * @param mixed $discount
+     * @return Card
+     */
+    public function setDiscount($discount)
+    {
+        $this->discount = $discount;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPassenger()
+    {
+        return $this->passenger;
+    }
+
+    /**
+     * @param mixed $passenger
+     * @return Card
+     */
+    public function setPassenger($passenger)
+    {
+        $this->passenger = $passenger;
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->pan;
+    }
+}

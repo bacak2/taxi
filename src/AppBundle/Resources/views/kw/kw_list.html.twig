@@ -1,0 +1,74 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/calendar.min.css') }}">
+    <style>
+        .text-center{
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="ui segment" id="mainContent">
+        <div class="ui form">
+            <div class="three fields">
+                <div class="field">
+                    <div class="ui calendar datepicker" >
+                        <div class="ui labeled input right icon">
+                            <div class="ui label">
+                                Od:
+                            </div>
+                            <input type="text" id="dateFrom" name="dateFrom" placeholder="Data od">
+                            <i class="calendar icon"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="datepicker">
+                        <div class="ui labeled input right icon">
+                            <div class="ui label">Do:</div>
+                            <input type="text" id="dateTo" name="dateTo" placeholder="Data do">
+                            <i class="calendar icon"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <button class="ui blue button" id="btnSearch">Szukaj</button>
+                </div>
+            </div>
+        </div>
+        <table id="kwTable" class="display" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Data wypłaty</th>
+                <th>Numer</th>
+                <th>Kwota</th>
+                <th>Przyjmujący</th>
+                <th>Za co</th>
+                {#<th>Rodzaj</th>#}
+                <th>Dla bezgotówki</th>
+                <th>Wystawił</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendarSettings.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendar.min.js') }}"></script>
+    <script>
+        var routeGetKWList = '{{ path('route_kw_ajax') }}';
+        var routePrintStandardKW = '{{ path('print_standard_kw', {'id': '__kw__'}) }}';
+        var routePrintSettlementKW = '{{ path('print_settlement_kw', {'id': '__kw__'}) }}';
+    </script>
+    <script src="{{ asset('bundles/app/js/kw/app_kw_list.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+parameters:
+    #parameter_name: value
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    AppBundle\:
+        resource: '../../src/AppBundle/*'
+        exclude: '../../src/AppBundle/{Entity,Repository,Tests}'
+
+    # controllers are imported separately to make sure they're public
+    # and have a tag that allows actions to type-hint services
+    AppBundle\Controller\:
+        resource: '../../src/AppBundle/Controller'
+        public: true
+        tags: ['controller.service_arguments']
+
+    AppBundle\Service\Taxi360Service:
+        arguments: ['@doctrine']
+    app.service.taxi_360:
+        class: AppBundle\Service\Taxi360Service
+        public: true
+
+    app.print:
+        class: AppBundle\Service\PrintService
+        public: true
+        lazy: true
+        arguments: ['@twig']
+
+    app.enumerator:
+        class: AppBundle\Service\EnumeratorService
+        public: true
+        lazy: true
+        arguments: ['@doctrine', '@security.token_storage']
+
+    GuzzleHttp\Client: ~
+    AppBundle\Repository\KasaRepository:
+        lazy: true

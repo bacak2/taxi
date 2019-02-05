@@ -1,0 +1,62 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .ui.action.input input[type="file"] {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+
+{% block body %}
+    <div class="ui segment">
+        {% for label, messages in app.flashes %}
+            {% if label == "success" %}
+                <div class="ui success message">
+                    <div class="header">Zakończono import danych!</div>
+                    <p>Transakcje zaimportowane pomyślnie!</p>
+                </div>
+            {% endif %}
+        {% endfor %}
+        <div class="ui form">
+            {{ form_start(form) }}
+            <div class="field">
+                <div class="field">
+                    <div class="ui buttons">
+                        <button class="ui button" id="txtFilename">Wybierz plik CSV/3d.xml</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="three fields">
+                <div class="field">
+                    <input type="text" placeholder="Nazwa pliku" id="filename">
+                    <div class="ui action input">
+                        {{ form_widget(form.filename) }}
+                    </div>
+                </div>
+                <div class="field">
+                    {{ form_widget(form.submit) }}
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $("#txtFilename").click(function() {
+            $('#transaction_file_form_filename').click();
+        });
+
+        $('input:file', '.ui.action.input')
+            .on('change', function(e) {
+                var name = e.target.files[0].name;
+                $('#filename').val(name);
+            });
+    </script>
+{% endblock %}

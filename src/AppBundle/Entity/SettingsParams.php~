@@ -1,0 +1,361 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Money\Currency;
+use Money\Money;
+use Symfony\Component\Validator\Constraints\DateTime;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="settings_params")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class SettingsParams
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="decimal", scale=3, name="american_express")
+     */
+    private $americanExpress = 0;
+
+    /**
+     * @ORM\Column(type="decimal", scale=3, name="visa_master_card")
+     */
+    private $visaMasterCard = 0;
+
+    /**
+     * @ORM\Column(type="decimal", scale=3)
+     */
+    private $card = 0;
+
+    /**
+     * @ORM\Column(type="decimal", scale=3)
+     */
+    private $voucher = 0;
+
+    /**
+     * @ORM\Column(type="decimal", scale=3, name="evoucher")
+     */
+    private $eVoucher = 0;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, name="bank_transfer_cost")
+     */
+    private $bankTransferCost = 0;
+
+    /**
+     * @ORM\Column(type="string", name="bank_account", nullable=true)
+     */
+    private $bankAccount;
+
+    /**
+     * @ORM\Column(type="string", name="bank_account_to_firm", nullable=true)
+     */
+    private $bankAccountToFirm;
+
+    /**
+     * @ORM\Column(type="string", name="free_transfer_bank_account", nullable=true)
+     */
+    private $freeTransferBankAccount;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $swift;
+
+    /**
+     * @ORM\Column(type="datetime", name="update_date")
+     */
+    private $updateDate;
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set americanExpress.
+     *
+     * @param string $americanExpress
+     *
+     * @return SettingsParams
+     */
+    public function setAmericanExpress($americanExpress)
+    {
+        $this->americanExpress = $americanExpress;
+
+        return $this;
+    }
+
+    /**
+     * Get americanExpress.
+     *
+     * @return string
+     */
+    public function getAmericanExpress()
+    {
+        return $this->americanExpress;
+    }
+
+    /**
+     * Set visaMasterCard.
+     *
+     * @param string $visaMasterCard
+     *
+     * @return SettingsParams
+     */
+    public function setVisaMasterCard($visaMasterCard)
+    {
+        $this->visaMasterCard = $visaMasterCard;
+
+        return $this;
+    }
+
+    /**
+     * Get visaMasterCard.
+     *
+     * @return string
+     */
+    public function getVisaMasterCard()
+    {
+        return $this->visaMasterCard;
+    }
+
+    /**
+     * Set card.
+     *
+     * @param string $card
+     *
+     * @return SettingsParams
+     */
+    public function setCard($card)
+    {
+        $this->card = $card;
+
+        return $this;
+    }
+
+    /**
+     * Get card.
+     *
+     * @return string
+     */
+    public function getCard()
+    {
+        return $this->card;
+    }
+
+    /**
+     * Set voucher.
+     *
+     * @param string $voucher
+     *
+     * @return SettingsParams
+     */
+    public function setVoucher($voucher)
+    {
+        $this->voucher = $voucher;
+
+        return $this;
+    }
+
+    /**
+     * Get voucher.
+     *
+     * @return string
+     */
+    public function getVoucher()
+    {
+        return $this->voucher;
+    }
+
+    /**
+     * Set eVoucher.
+     *
+     * @param string $eVoucher
+     *
+     * @return SettingsParams
+     */
+    public function setEVoucher($eVoucher)
+    {
+        $this->eVoucher = $eVoucher;
+
+        return $this;
+    }
+
+    /**
+     * Get eVoucher.
+     *
+     * @return string
+     */
+    public function getEVoucher()
+    {
+        return $this->eVoucher;
+    }
+
+    /**
+     * Set bankTransferCost.
+     *
+     * @param string $bankTransferCost
+     *
+     * @return SettingsParams
+     */
+    public function setBankTransferCost($bankTransferCost)
+    {
+        $this->bankTransferCost = $bankTransferCost;
+
+        return $this;
+    }
+
+    /**
+     * Get bankTransferCost.
+     *
+     * @return string
+     */
+    public function getBankTransferCost()
+    {
+        return $this->bankTransferCost;
+    }
+
+    /**
+     * Set bankAccount.
+     *
+     * @param string|null $bankAccount
+     *
+     * @return SettingsParams
+     */
+    public function setBankAccount($bankAccount = null)
+    {
+        $this->bankAccount = $bankAccount;
+
+        return $this;
+    }
+
+    /**
+     * Get bankAccount.
+     *
+     * @return string|null
+     */
+    public function getBankAccount()
+    {
+        return $this->bankAccount;
+    }
+
+    /**
+     * Set bankAccountToFirm.
+     *
+     * @param string|null $bankAccountToFirm
+     *
+     * @return SettingsParams
+     */
+    public function setBankAccountToFirm($bankAccountToFirm = null)
+    {
+        $this->bankAccountToFirm = $bankAccountToFirm;
+
+        return $this;
+    }
+
+    /**
+     * Get bankAccountToFirm.
+     *
+     * @return string|null
+     */
+    public function getBankAccountToFirm()
+    {
+        return $this->bankAccountToFirm;
+    }
+
+    /**
+     * Set freeTransferBankAccount.
+     *
+     * @param string|null $freeTransferBankAccount
+     *
+     * @return SettingsParams
+     */
+    public function setFreeTransferBankAccount($freeTransferBankAccount = null)
+    {
+        $this->freeTransferBankAccount = $freeTransferBankAccount;
+
+        return $this;
+    }
+
+    /**
+     * Get freeTransferBankAccount.
+     *
+     * @return string|null
+     */
+    public function getFreeTransferBankAccount()
+    {
+        return $this->freeTransferBankAccount;
+    }
+
+    /**
+     * Set swift.
+     *
+     * @param string|null $swift
+     *
+     * @return SettingsParams
+     */
+    public function setSwift($swift = null)
+    {
+        $this->swift = $swift;
+
+        return $this;
+    }
+
+    /**
+     * Get swift.
+     *
+     * @return string|null
+     */
+    public function getSwift()
+    {
+        return $this->swift;
+    }
+
+    /**
+     * Set updateDate.
+     *
+     * @param \DateTime $updateDate
+     *
+     * @return SettingsParams
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updateDate.
+     *
+     * @return \DateTime
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateDate()
+    {
+        $this->updateDate = new \DateTime();
+    }
+}
