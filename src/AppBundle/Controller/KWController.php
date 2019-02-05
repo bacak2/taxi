@@ -80,26 +80,36 @@ class KWController extends Controller
                 if($form->isSubmitted() && $form->isValid())
                 {
                     $manager = $this->getDoctrine()->getManager();
-                    $enumerator = $this->getDoctrine()->getRepository(Enumerator::class)
-                        ->getEnumerator(Enumerator::TYPE_KW, $this->getUser());
 
+                    $reportDate = $this->getDoctrine()
+                        ->getRepository('AppBundle:CashRegister\CashRegisterReport')
+                        ->findOneBy(['reportForDate' => $cashRegister->getTransactionDate()]);
+                    if(is_null($reportDate)) {
+                        $enumerator = $this->getDoctrine()->getRepository(Enumerator::class)
+                            ->getEnumerator(Enumerator::TYPE_KW, $this->getUser());
 
-                    $cashRegister
-                        ->setCashRegisterNumber($enumerator->getCashRegisterNumber());
-                    $details = new CashRegisterDetail();
-                    $details
-                        ->setCashRegister($cashRegister)
-                        ->setParam($form->get('param')->getData())
-                        ->setQuantity(1)
-                        ->setBrutto($form->get('amount')->getData());
+                        $cashRegister
+                            ->setCashRegisterNumber($enumerator->getCashRegisterNumber());
+                        $details = new CashRegisterDetail();
+                        $details
+                            ->setCashRegister($cashRegister)
+                            ->setParam($form->get('param')->getData())
+                            ->setQuantity(1)
+                            ->setBrutto($form->get('amount')->getData());
 
-                    $manager->persist($cashRegister);
-                    $manager->persist($details);
-                    $manager->persist($enumerator);
-                    $manager->flush();
+                        $manager->persist($cashRegister);
+                        $manager->persist($details);
+                        $manager->persist($enumerator);
+                        $manager->flush();
 
-                    $this->addFlash('print', $cashRegister->getId());
-                    return $this->redirectToRoute('route_kw_standard_add');
+                        $this->addFlash('print', $cashRegister->getId());
+                        return $this->redirectToRoute('route_kw_standard_add');
+                    }
+                    else
+                    {
+                        $this->addFlash('error', 'Dla tej daty dzień jest już zamknięty');
+                        return $this->redirectToRoute('route_kw_standard_add');
+                    }
                 }
             }
         }

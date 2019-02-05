@@ -1,44 +1,60 @@
 {% extends "@App/base.html.twig" %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #driversNote, #errorMessage{
+            display: none;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
     <div class="ui green clearing segment">
-        {% set errors = app.flashes('error') %}
-        {% if errors is defined and errors  %}
-            {{ errors.error }}
-        {% endif %}
         <div class="ui container">
-        <div class="ui segment">
-            <h3>KP</h3>
-        </div>
-        <div class="ui form">
-            {{ form_start(form) }}
-            <div class="field">
-                {{ form_label(form.transactionDate) }}
-                {{ form_widget(form.transactionDate) }}
+            <div id="errorMessage" class="ui negative message">
+                <i class="close icon"></i>
+                <div class="header">
+                    Błąd dodawania!
+                </div>
+                <p></p>
             </div>
-            <div class="field">
-                {{ form_label(form.recipient) }}
-                {{ form_widget(form.recipient) }}
+            <div class="ui segment">
+                <h3>KP</h3>
             </div>
-            <div class="field">
-                {{ form_label(form.title) }}
-                {{ form_widget(form.title) }}
+            <div class="ui form">
+                {{ form_start(form) }}
+                <div class="field">
+                    {{ form_label(form.transactionDate) }}
+                    {{ form_widget(form.transactionDate) }}
+                </div>
+                <div class="field">
+                    {{ form_label(form.recipient) }}
+                    {{ form_widget(form.recipient) }}
+                </div>
+                <div id="driversNote" class="field">
+                    <label>Informacje o kierowcy</label>
+                    <div></div>
+                </div>
+                <div class="field">
+                    {{ form_label(form.title) }}
+                    {{ form_widget(form.title) }}
+                </div>
+                <div class="field">
+                    {{ form_label(form.amount) }}
+                    {{ form_widget(form.amount) }}
+                </div>
+                <div class="field">
+                    {{ form_label(form.param) }}
+                    {{ form_widget(form.param) }}
+                </div>
+                <div class="field">
+                    <input type="submit"
+                           class="ui green right floated button"
+                           value="Zapisz i drukuj potwierdzenie">
+                </div>
+                {{ form_end(form) }}
             </div>
-            <div class="field">
-                {{ form_label(form.amount) }}
-                {{ form_widget(form.amount) }}
-            </div>
-            <div class="field">
-                {{ form_label(form.param) }}
-                {{ form_widget(form.param) }}
-            </div>
-            <div class="field">
-                <input type="submit"
-                       class="ui green right floated button"
-                       value="Zapisz i drukuj potwierdzenie">
-            </div>
-            {{ form_end(form) }}
-        </div>
         </div>
     </div>
 {% endblock %}
@@ -49,19 +65,21 @@
     <script>
         {% set printId = app.flashes('print') %}
         {% if printId is defined and printId|length > 0 %}
-        var url = '{{ path('print_standard_kp', {'id': printId[printId|length-1]}) }}';
-        var win = window.open(url, '_blank');
-        win.focus();
+            var url = '{{ path('print_standard_kp', {'id': printId[printId|length-1]}) }}';
+            var win = window.open(url, '_blank');
+            win.focus();
+        {% else %}
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    {% if label == "error" %}
+                        $("#errorMessage").show();
+                        $("#errorMessage p").text('{{ message }}');
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
         {% endif %}
-
-        $(document).ready(function(){
-            $('.ui .dropdown').dropdown({
-                fullTextSearch: true,
-                minCharacters: 2,
-                placeholder: false
-            });
-            $('#kpform_amount').inputmask("currency", {prefix: '', groupSeparator: '', rightAlign: false});
-        });
+        let getDriverNoteRoute = '{{ path('driver_note_kp_ajax') }}';
     </script>
+    <script src="{{ asset('bundles/app/js/kp/kp_standard_add.js') }}"></script>
 {% endblock %}
 

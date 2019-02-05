@@ -57,4 +57,13 @@ class DriverRepository extends \Doctrine\ORM\EntityRepository implements UserPro
         dump($class);
         die;
     }
+
+    public function getDriverNote($id)
+    {
+        $qb = $this->createQueryBuilder('d')
+            ->select("d.comment")
+            ->where("d.id = ".$id);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

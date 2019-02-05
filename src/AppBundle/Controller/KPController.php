@@ -11,6 +11,7 @@ use AppBundle\Form\CashRegister\KWForm;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use AppBundle\Entity\ApiTaxi360\Driver;
 
 /**
  * Class KPController
@@ -102,7 +103,7 @@ class KPController extends Controller
                 }
                 else
                 {
-                    $this->addFlash('error', 'Dla tej daty jest już zamknięty dzień');
+                    $this->addFlash('error', 'Dla tej daty dzień jest już zamknięty');
                     return $this->redirectToRoute('route_kp_standard_add');
                 }
             }
@@ -152,4 +153,21 @@ class KPController extends Controller
             'form' => $form->createView()
         ));
     }
+
+    /**
+     * @Route(
+     *     "/api/driver-note-kp",
+     *     name="driver_note_kp_ajax"
+     * )
+     */
+    public function getDriverNote(Request $request)
+    {
+        $driverId = $request->query->get('driverId');
+        $repo = $this->getDoctrine()->getRepository(Driver::class);
+
+        return $this->json(array(
+            "data" => $repo->getDriverNote($driverId)
+        ));
+    }
+
 }
