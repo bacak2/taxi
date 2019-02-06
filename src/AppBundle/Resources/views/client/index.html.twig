@@ -7,6 +7,18 @@
         .text-center{
             text-align: center;
         }
+
+        .d-none{
+            display: none;
+        }
+
+        @media screen and (min-width: 640px){
+            #statusBox{
+                position: absolute;
+                right: 220px;
+                bottom: 10px;
+            }
+        }
     </style>
 {% endblock %}
 
@@ -27,6 +39,7 @@
                 <th>Kod pocztowy</th>
                 <th>Miasto</th>
                 <th>Kraj</th>
+                <th class="d-none">Status</th>
             </tr>
             </thead>
         </table>

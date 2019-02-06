@@ -30,7 +30,7 @@ class ClientRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('c')
             ->select('c.id, c.name, c.nip, c.phoneNumber as phone, c.agreementNumber,
                 c.agreementUntil, c.addressStreet street, c.addressPostalCode pcode, c.addressTown town,
-                c.addressCountry country');
+                c.addressCountry country, c.status status');
 
         return $qb->getQuery()->getArrayResult();
     }

@@ -3,10 +3,6 @@ $(document)
         var $clientTable = $('#clientTable'),
             editLink = $clientTable.data('edit');
 
-        $clientTable.on('processing.dt', function () {
-            console.log('szukam');
-        });
-
         var table = $clientTable.DataTable({
             "dom": '<"ui inline form"<"ui two fields"<"field"l><"field"f>>>t<"input"p>',
             "language": dataTablesPL,
@@ -77,7 +73,44 @@ $(document)
                     data: "country",
                     className:"text-center",
                     bSearchable: false
+                },
+                {
+                    data: 'status',
+                    className: "d-none",
+                    bSearchable: true,
+                    render: function (data, type, row) {
+                        return (data != 'ACTIVE')? '<div><i class="red icon close"></i>Nieaktywny</div>'
+                            : '<div><i class="green icon checkmark"></i>Aktywny</div>';
+                    }
                 }
             ]
         });
-} );
+
+        $('<div id="statusBox" class="ui toggle checkbox checked">\n' +
+            '<div class="ui checkbox checked">\n' +
+            '<input id="active" type="checkbox">\n' +
+            '<label>Tylko aktywne</label>\n' +
+            '</div>\n' +
+            '</div>')
+            .insertBefore("#clientTable_filter");
+
+        const statusCheckbox = $('#active');
+
+        statusCheckbox.on('click', function(){
+            if(this.checked){
+                $.fn.dataTable.ext.search.push(
+                    function (settings, data, dataIndex){
+                        return (data[9] == 'Aktywny') ? true : false;
+                    }
+                );
+            }
+            else{
+                $.fn.dataTable.ext.search.pop();
+            }
+
+            table.draw();
+
+        });
+
+        statusCheckbox.click();
+    } );
