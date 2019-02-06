@@ -51,7 +51,7 @@ $(document)
                 {
                     data: 'status',
                     className: "text-center",
-                    bSearchable: false,
+                    bSearchable: true,
                     render: function (data, type, row) {
                         return (data != 'ACTIVE')? '<div><i class="red icon close"></i>Nieaktywny</div>'
                             : '<div><i class="green icon checkmark"></i>Aktywny</div>';
@@ -59,6 +59,36 @@ $(document)
                 }
             ]
         });
+
+        $('<div id="statusBox" class="ui toggle checkbox checked">\n' +
+            '<div class="ui checkbox checked">\n' +
+            '<input id="active" type="checkbox">\n' +
+            '<label>Tylko aktywne</label>\n' +
+            '</div>\n' +
+            '</div>')
+            .insertBefore("#firmTable_filter");
+
+        const statusCheckbox = $('#active');
+
+        statusCheckbox.on('click', function(){
+            if(this.checked){
+                $.fn.dataTable.ext.search.push(
+                    function (settings, data, dataIndex){
+                        return (data[5] == 'Aktywny') ? true : false;
+                    }
+                );
+            }
+            else{
+                $.fn.dataTable.ext.search.pop();
+            }
+
+            table.draw();
+
+        });
+
+        statusCheckbox.click();
+
+
     } );
 
 function getEditRoute(route ,id) {

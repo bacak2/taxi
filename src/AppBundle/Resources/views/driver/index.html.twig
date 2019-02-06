@@ -7,19 +7,19 @@
         .text-center{
             text-align: center;
         }
+
+        @media screen and (min-width: 640px){
+            #statusBox{
+                position: absolute;
+                right: 220px;
+                bottom: 10px;
+            }
+        }
     </style>
 {% endblock %}
 
 
 {% block body %}
-    <div class="inline field">
-        <div class="ui toggle checkbox">
-            <div class="ui checkbox">
-                <input id="bank_bezgotowka" name="bank" required="required" value="1" checked="checked" tabindex="0" class="hidden" type="checkbox">
-                <label>Transakcje bezgotówkowe</label>
-            </div>
-        </div>
-    </div>
     <div class="ui segment">
         <table id="firmTable" class="display" width="100%" cellspacing="0">
             <thead>
