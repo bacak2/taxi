@@ -10,7 +10,9 @@
                     <button class="ui button"
                             data-href="{{ path('route_bank_calculate') }}"
                             id="btnGenerate">Przelicz</button>
-                    {#<button>Rozlicz</button>#}
+                    <button class="ui button"
+                            data-href="{{ path('route_bank_settle') }}"
+                            id="btnSettle">Rozlicz</button>
                     <button class="ui button" id="btnFile"
                         data-href="{{ path('route_bank_generate_file') }}">Zapisz plik Elixir-O</button>
                 </div>

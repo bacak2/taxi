@@ -98,4 +98,20 @@ class BankController extends Controller
 
         return $response;
     }
+
+    /**
+     * @Route(
+     *     "/ajax/settle",
+     *     name="route_bank_settle"
+     * )
+     */
+    public function settleAction(Request $request, BankService $bank)
+    {
+        $formData = $request->request->get('formData');
+        return $formData;
+        $bank->update($formData);
+        return $this->json([
+            'response' => 'true'
+        ]);
+    }
 }

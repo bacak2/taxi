@@ -107,7 +107,7 @@ class BankService
         return $result;
     }
 
-    protected function convertFormData($formData)
+    public function convertFormData($formData)
     {
         $result = [
             'dateFrom' => null,
@@ -167,5 +167,31 @@ class BankService
         }
 
         return implode(',', $string);
+    }
+
+    public function update($formData)
+    {
+        $params = $this->convertFormData($formData);
+        $periodic = $this->getPeriodicCondition($params);
+        $transactionType = $this->getTransactionTypeCondition($params);
+        $sql = sprintf("UPDATE
+                transaction t
+                JOIN settlement s ON t.id = s.transaction_id
+                JOIN driver d ON t.driver_id = d.id
+                SET s.is_settled = 1
+                WHERE 1=1
+                  AND t.transaction_status = 'ACCEPTED'
+                  %s %s %s %s %s
+                  -- AND d.account_number <> ''
+                  AND s.is_settled = 0
+                ",
+            ($params['dateFrom'] != null) ? " AND t.transaction_date >= '".$params['dateFrom']."'" : null,
+            ($params['dateTo'] != null) ? " AND t.transaction_date <= '".$params['dateTo']." 23:59:59'" : null,
+            ($params['driver'] != null) ? " AND d.id = " . $params['driver'] : null,
+            " AND d.periodic_transfer in({$periodic})",
+            " AND t.transaction_type in ({$transactionType})"
+        );
+        $pdo = $this->doctrine->getConnection();
+        $pdo->query($sql);
     }
 }

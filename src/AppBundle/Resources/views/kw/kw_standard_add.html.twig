@@ -3,7 +3,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
-        #note{
+        #note, #errorMessage{
             display: none;
         }
     </style>
@@ -12,28 +12,13 @@
 {% block body %}
     <div class="ui clearing segment">
         <div class="ui container">
-            {% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    {% if label == "warning" %}
-                        <div class="ui negative message">
-                            <i class="close icon"></i>
-                            <div class="header">
-                                Błąd dodawania!
-                            </div>
-                            <p>{{ message }}</p>
-                        </div>
-                    {% endif %}
-                    {% if label == "error" %}
-                        <div class="ui negative message">
-                            <i class="close icon"></i>
-                            <div class="header">
-                                Błąd dodawania!
-                            </div>
-                            <p>{{ message }}</p>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
+            <div id="errorMessage" class="ui negative message">
+                <i class="close icon"></i>
+                <div class="header">
+                    Błąd dodawania!
+                </div>
+                <p></p>
+            </div>
             <div class="ui red segment">
                 <h3>KW</h3>
             </div>
@@ -83,6 +68,15 @@
             var url = '{{ path('print_standard_kw', {'id': printId[printId|length-1]}) }}';
             var win = window.open(url, '_blank');
             win.focus();
+        {% else %}
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    {% if label == "error" %}
+                    $("#errorMessage").show();
+                    $("#errorMessage p").text('{{ message }}');
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
         {% endif %}
 
         let getDriverNoteRoute = '{{ path('get_driver_note_kw_ajax') }}';
