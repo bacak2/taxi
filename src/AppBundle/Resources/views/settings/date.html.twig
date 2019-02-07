@@ -1,0 +1,63 @@
+{% extends "@App/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/calendar.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/app.css') }}">
+    <style>
+        .gray{
+            color: lightcoral;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="ui sixteen column row" id="mainContent" data-changepercentage="{{ path('route_transaction_api_change_percentage') }}" data-resettransaction="{{ path('route_transaction_api_reset_trans') }}">
+        <div class="ui segments">
+            <div class="ui segment">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        {% if label == "info" %}
+                            <div class="ui info message">
+                                <i class="close icon"></i>
+                                <div class="header">
+                                    {{ message }}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                <form class="ui form" method="post" action="{{ path('route_date_settings') }}">
+                    <div class="field">
+                        <label>Data</label>
+                        <div class="ui calendar datepicker">
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                <input type="text" placeholder="Data od" class="require-input" value="{{ setDate|date("Y-m-d") }}" id="date" name="date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <input type="submit" value="Zapisz" class="ui green button">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/sweetalert2.all.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendarSettings.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/calendar.min.js') }}"></script>
+    <script>
+        var routeGetTransactions = '{{ path('route_transaction_api_get') }}';
+        var routeTransactionExportCSV = '{{ path('route_transaction_export_csv') }}';
+    </script>
+    <script src="{{ asset('bundles/app/js/transaction/transaction.js') }}"></script>
+{% endblock %}

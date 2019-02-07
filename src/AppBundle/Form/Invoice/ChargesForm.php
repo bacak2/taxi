@@ -49,13 +49,13 @@ class ChargesForm extends AbstractType
                 ]
             ])
             
-            ->add('chargeType', EntityType::class, [
+            /*->add('chargeType', EntityType::class, [
                 'label' => 'Nalicz opłatę',
                 'class' => ChargeType::class,
                 'attr' => [
                     'class' => 'ui dropdown'
                 ]
-            ] )
+            ] )*/
             ->add('vat', PercentType::class, [
                 'label' => 'VAT(%)',
                 'scale' => 1

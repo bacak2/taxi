@@ -14,6 +14,9 @@ class BankService
 
     private $transferCost = 0.65;
 
+    /**
+     * @todo get transfer cost from settings
+     */
     public function __construct(RegistryInterface $doctrine)
     {
         $this->doctrine = $doctrine;
@@ -69,6 +72,8 @@ class BankService
         $result['noAccount']['amount'] = 0;
         $result['noAccount']['description'] = 'Brak numeru konta';
         $drivers = [];
+        $result['transactions'] = [];
+
         while ($row = $rows->fetch(\PDO::FETCH_ASSOC))
         {
             /** Czy wpisany jest numer konta */
@@ -93,6 +98,9 @@ class BankService
                     }
                 }
             }
+
+            array_push($result['transactions'], $row);
+
         }
 
         return $result;

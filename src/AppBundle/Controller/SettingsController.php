@@ -59,4 +59,25 @@ class SettingsController extends Controller
     {
 
     }
+
+    /**
+     * @Route(
+     *     "/data",
+     *     name="route_date_settings"
+     * )
+     */
+    public function dateSettingsAction(Request $request)
+    {
+        if($request->isMethod('POST'))
+        {
+            $this->get('session')->set('date', $request->request->get('date'));
+            $this->addFlash('info', 'Zmieniono datę');
+        }
+
+        $setDate = $this->get('session')->get('date') ?? date("Y-m-d");
+
+        return $this->render('@App/settings/date.html.twig', array(
+            'setDate' => $setDate
+        ));
+    }
 }
