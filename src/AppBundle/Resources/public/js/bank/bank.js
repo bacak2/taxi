@@ -9,7 +9,7 @@ var app = function () {
 
     $btnFile.on('click', function (e) {
         e.preventDefault();
-        document.location.href = $(this).data('href');
+        $('form[name=bank]').submit();
     });
 
     $btnGenerate.on('click', function (e) {
@@ -38,7 +38,7 @@ var app = function () {
                         }
                     })
                 }catch (e) {
-                    
+
                 }
             },
             complete: function () {

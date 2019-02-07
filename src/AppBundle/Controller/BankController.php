@@ -45,13 +45,19 @@ class BankController extends Controller
      */
     public function calculateAction(Request $request, BankService $bank, $generateTransactions = false)
     {
-        $formData = $request->request->get('formData');
+        if($generateTransactions) $formData = $request;
+        else $formData = $request->request->get('formData');
 
         $sum = $bank->calculate($formData, $generateTransactions);
 
-        return $this->json([
-            'response' => $sum
-        ]);
+        if($generateTransactions){
+            return $sum;
+        }
+        else{
+            return $this->json([
+                'response' => $sum
+            ]);
+        }
     }
 
     /**
@@ -75,10 +81,11 @@ class BankController extends Controller
         } catch (Exception $e) {
 
         }
-        //var_dump($request->request->get('formData')); exit();
-        //$sum = $this->calculateAction($request, $bank, true);
 
-        //$csv->insertAll($transactionRepo->findTransactions($params, true));
+        $transactions = $this->calculateAction($request, $bank, true);
+        $transactions = $transactions['transactions'];
+
+        $csv->insertAll($transactions);
 
         $response = new Response();
         $response->headers->set('Content-Type', 'text/csv;charset=UTF-8');

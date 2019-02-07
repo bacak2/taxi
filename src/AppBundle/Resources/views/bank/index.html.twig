@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="ui segment clearfix" id="mainContent">
-        {{ form_start(form) }}
+        {{ form_start(form, {'action': path('route_bank_generate_file'), 'method': 'POST'}) }}
         <div class="ui form">
 
                 <div class="field">

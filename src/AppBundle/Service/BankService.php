@@ -24,7 +24,8 @@ class BankService
 
     public function calculate($formData, $generateTransactions = false)
     {
-        $params = $this->convertFormData($formData);
+        if($generateTransactions) $params = $this->getFormData($formData);
+        else $params = $this->convertFormData($formData);
         $periodic = $this->getPeriodicCondition($params);
         $transactionType = $this->getTransactionTypeCondition($params);
 //        $params['dateFrom'] = '2018-11-12';
@@ -124,6 +125,18 @@ class BankService
             }else{
                 $result[$key] = null;
             }
+        }
+
+        return $result;
+    }
+
+    protected function getFormData($formData)
+    {
+        $params = $formData->request->all();
+        $result = [];
+
+        foreach($params["bank"] as $key => $value){
+            $result[$key] = $value;
         }
 
         return $result;
