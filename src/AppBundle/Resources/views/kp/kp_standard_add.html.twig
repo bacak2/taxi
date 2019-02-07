@@ -79,6 +79,9 @@
             {% endfor %}
         {% endif %}
         let getDriverNoteRoute = '{{ path('driver_note_kp_ajax') }}';
+        $(document).ready(function(){
+            $("#kpform_transactionDate").prop('disabled', true);
+        });
     </script>
     <script src="{{ asset('bundles/app/js/kp/kp_standard_add.js') }}"></script>
 {% endblock %}

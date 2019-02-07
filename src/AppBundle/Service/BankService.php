@@ -22,7 +22,7 @@ class BankService
         $this->doctrine = $doctrine;
     }
 
-    public function calculate($formData)
+    public function calculate($formData, $generateTransactions = false)
     {
         $params = $this->convertFormData($formData);
         $periodic = $this->getPeriodicCondition($params);
@@ -72,7 +72,7 @@ class BankService
         $result['noAccount']['amount'] = 0;
         $result['noAccount']['description'] = 'Brak numeru konta';
         $drivers = [];
-        $result['transactions'] = [];
+        if($generateTransactions) $result['transactions'] = [];
 
         while ($row = $rows->fetch(\PDO::FETCH_ASSOC))
         {
@@ -99,7 +99,7 @@ class BankService
                 }
             }
 
-            array_push($result['transactions'], $row);
+            if($generateTransactions) array_push($result['transactions'], $row);
 
         }
 

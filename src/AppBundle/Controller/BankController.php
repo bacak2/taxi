@@ -37,16 +37,17 @@ class BankController extends Controller
     }
 
     /**
+     * @param Bool $generateTransactions
      * @Route(
      *     "/ajax/calculate",
      *     name="route_bank_calculate"
      * )
      */
-    public function calculateAction(Request $request, BankService $bank)
+    public function calculateAction(Request $request, BankService $bank, $generateTransactions = false)
     {
         $formData = $request->request->get('formData');
 
-        $sum = $bank->calculate($formData);
+        $sum = $bank->calculate($formData, $generateTransactions);
 
         return $this->json([
             'response' => $sum
@@ -61,7 +62,7 @@ class BankController extends Controller
      *     name="route_bank_generate_file"
      * )
      */
-    public function generateFile(Request $request)
+    public function generateFile(Request $request, BankService $bank)
     {
         $csv = Writer::createFromPath('php://temp', 'r+');
         try {
@@ -74,6 +75,8 @@ class BankController extends Controller
         } catch (Exception $e) {
 
         }
+        //var_dump($request->request->get('formData')); exit();
+        //$sum = $this->calculateAction($request, $bank, true);
 
         //$csv->insertAll($transactionRepo->findTransactions($params, true));
 

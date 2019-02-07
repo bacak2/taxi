@@ -87,6 +87,10 @@
 
         let getDriverNoteRoute = '{{ path('get_driver_note_kw_ajax') }}';
         let getCompanyNoteRoute = '{{ path('get_company_note_kw_ajax') }}';
+
+        $(document).ready(function(){
+            $("#kwform_transactionDate").prop('disabled', true);
+        });
     </script>
     <script src="{{ asset('bundles/app/js/kw/kw_standard_add.js') }}"></script>
 {% endblock %}
