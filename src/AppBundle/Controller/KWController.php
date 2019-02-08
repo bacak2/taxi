@@ -152,4 +152,8 @@ class KWController extends Controller
             "data" => $repo->getClientNote($companyName)
         ));
     }
+
+    public function createKwFromTransaction(){
+        //
+    }
 }

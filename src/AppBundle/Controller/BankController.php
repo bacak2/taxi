@@ -108,8 +108,10 @@ class BankController extends Controller
     public function settleAction(Request $request, BankService $bank)
     {
         $formData = $request->request->get('formData');
-        return $formData;
-        $bank->update($formData);
+        $response = $this->forward('AppBundle\Controller\KWController::createKwFromTransaction', [
+        ]);
+        return $response;
+        $bank->updateSettlements($formData);
         return $this->json([
             'response' => 'true'
         ]);

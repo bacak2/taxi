@@ -4,6 +4,7 @@ namespace AppBundle\Service;
 
 
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use AppBundle\Entity\Params\TaxiSettings;
 
 class BankService
 {
@@ -14,12 +15,11 @@ class BankService
 
     private $transferCost = 0.65;
 
-    /**
-     * @todo get transfer cost from settings
-     */
     public function __construct(RegistryInterface $doctrine)
     {
         $this->doctrine = $doctrine;
+        $params = $this->doctrine->getRepository(TaxiSettings::class)->find(1);
+        $this->transferCost = $params->getBankTransferCost();
     }
 
     public function calculate($formData, $generateTransactions = false)
@@ -169,7 +169,7 @@ class BankService
         return implode(',', $string);
     }
 
-    public function update($formData)
+    public function updateSettlements($formData)
     {
         $params = $this->convertFormData($formData);
         $periodic = $this->getPeriodicCondition($params);
