@@ -34,6 +34,7 @@ class SettingsController extends Controller
         $params = $this->getDoctrine()->getRepository(TaxiSettings::class)
             ->find(1);
         $form = $this->createForm(ParamsForm::class, $params);
+        $formDictionary = $this->createForm(ParamForm::class);
         if($request->isMethod('POST'))
         {
             $form->handleRequest($request);
@@ -50,14 +51,25 @@ class SettingsController extends Controller
             }
         }
 
-        return $this->render('@App/settings/params.html.twig', array(
-            'form' => $form->createView()
+        return $this->render('@App/settings/base.html.twig', array(
+            'formParams' => $form->createView(),
+            'formDictionary' => $formDictionary->createView()
         ));
     }
 
-    public function paramsAction()
+    /**
+     * @Route(
+     *     "/slownik-pobierz",
+     *     name="route_dictionary_api_get"
+     * )
+     */
+    public function dictionaryGetAction()
     {
+        $repo = $this->getDoctrine()->getRepository(Param::class);
 
+        return $this->json(array(
+            'data' => $repo->getParamList()
+        ));
     }
 
     /**

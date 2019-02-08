@@ -15,4 +15,17 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class ParamRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @Słownik - lista parametrów
+     * @param array $params
+     * @return array
+     */
+    public function getParamList($params = array())
+    {
+        $qb = $this->createQueryBuilder('d')
+            ->select("d.name as name, dc.name as category")
+            ->join('d.category', 'dc');
+
+        return $qb->getQuery()->getArrayResult();
+    }
 }

@@ -1,0 +1,56 @@
+{% extends "@App/base.html.twig" %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/assets/datatables.min.css') }}">
+    <style>
+        label{
+            width: 250px!important;
+        }
+        #right-content{
+            text-align: right;
+            margin-top: 40px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <script>var routeGetDictionary = '{{ path('route_dictionary_api_get') }}';</script>
+<div class="main-content">
+    <div class="ui pointing secondary menu">
+        <a class="item item-tab active" data-tab="t1">Dane firmy</a>
+        <a class="item item-tab" data-tab="t2">Słownik</a>
+    </div>
+
+    <div class="ui form">
+        <div class="ui active tab" data-tab="t1">
+            {{ include('@App/settings/params.html.twig', {'form': formParams}) }}
+        </div>
+        <div class="ui tab" data-tab="t2">
+            {{ include('@App/settings/dictionary.html.twig', {'form': formDictionary}) }}
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/assets/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/dataTablesLanguage.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/jquery.inputmask.bundle.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/assets/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/settings/settings.js') }}"></script>
+    <script>
+        $('#spf_bankAccount').inputmask("99 9999 9999 9999 9999 9999 9999",);
+        $('#spf_bankAccountToFirm').inputmask("99 9999 9999 9999 9999 9999 9999");
+        $('#spf_freeTransferBankAccount').inputmask("99 9999 9999 9999 9999 9999 9999");
+        $(document).ready(function () {
+            $('.ui.dropdown').dropdown();
+            $('#tableContainer').slimScroll({
+                height: '300px'
+            })
+        })
+    </script>
+{% endblock %}

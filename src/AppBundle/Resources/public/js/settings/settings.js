@@ -14,32 +14,36 @@ const app = function () {
         $('.ui .tab[data-tab="' + $(this).data('tab') + '"]').addClass('active');
     });
 
+    $("a[data-tab=t2]").on('click', function () {
+        table.ajax.reload().draw();
+    });
+
     var table = $('#paramsTable').DataTable({
-        "dom": '<"ui inline form"<"ui two fields"<"field"l><"field"f>>>t<"input"p>',
-        "language": '',
+        "dom": 't',
+        "language": dataTablesPL,
         "ajax": {
-            url: '',
+            url: routeGetDictionary,
             type: "POST"
         },
         "bInfo": false,
-        "scroller": true,
-        "scrollX": true,
         "order": [],
         "scrollY": '65vh',
+        "scroller": true,
+        "scrollX": true,
         "deferRender": true,
+        "sSortable": false,
         "bLengthChange": false,
-        "pageLength": 25,
-        "initComplete": function () {},
+        "pageLength": 20,
         "columns": [
             {
                 data: "category",
                 className: "text-center",
-                bSearchable: true
+                bSearchable: false
             },
             {
                 data: "name",
                 className: "text-center",
-                bSearchable: true
+                bSearchable: false
             }
         ]
     });

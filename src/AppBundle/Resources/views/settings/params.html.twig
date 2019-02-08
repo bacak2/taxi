@@ -1,113 +1,73 @@
-{% extends "@App/base.html.twig" %}
-{% block stylesheets %}
-    {{ parent() }}
-    <style>
-        label{
-            width: 250px!important;
-        }
-    </style>
-{% endblock %}
-
-{% block body %}
-<div class="main-content">
-    <div class="ui pointing secondary menu">
-        <a class="item item-tab active" data-tab="t1">Dane firmy</a>
-        <a class="item item-tab" data-tab="t2">Słownik</a>
-        <div class="right menu">
+<div class="ui active tab" data-tab="t1">
+    {{ form_start(form, {'attr': {'novalidate':'novalidate'}}) }}
+    {{ form_row(form._token) }}
+    <div class="ui segment">
+        <div class="ui two column grid">
+            <div class="column">
+                <div class="inline field">
+                    <label>American Express</label>
+                    {{ form_widget(form.americanExpress, {'attr':{'style':'width: 250px'}}) }}
+                </div>
+                <div class="inline field">
+                    <label>Visa/MasterCard/Inne</label>
+                    {{ form_widget(form.visaMasterCard, {'attr':{'style':'width: 250px'}}) }}
+                </div>
+                <div class="inline field">
+                    <label>Karty własne</label>
+                    {{ form_widget(form.card, {'attr':{'style':'width: 250px'}}) }}
+                </div>
+                <div class="inline field">
+                    <label>Voucher</label>
+                    {{ form_widget(form.voucher, {'attr':{'style':'width: 250px'}}) }}
+                </div>
+                <div class="inline field">
+                    <label>eVoucher</label>
+                    {{ form_widget(form.eVoucher, {'attr':{'style':'width: 250px'}}) }}
+                </div>
+                <div class="inline field">
+                    <label>Koszt przelewu</label>
+                    <div class="ui right labeled input">
+                        {{ form_widget(form.bankTransferCost, {'attr':{'style':'width: 235px'}}) }}
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="inline field">
+                    <label>Nazwa Banku</label>
+                    {{ form_widget(form.bankName, {'attr':{'style':'width: 300px'}}) }}
+                </div>
+                <div class="inline field">
+                    <label>Konto do przelewu</label>
+                    {{ form_widget(form.bankAccount, {'attr':{'style':'width: 300px'}}) }}
+                </div>
+                <div class="inline field">
+                    <label>Konto do wpłat od firm</label>
+                    {{ form_widget(form.bankAccountToFirm, {'attr':{'style':'width: 300px'}}) }}
+                </div>
+                <div class="inline field">
+                    <label>SWIFT</label>
+                    {{ form_widget(form.swift, {'attr':{'style':'width: 300px'}}) }}
+                </div>
+                <div class="inline field">
+                    <label>Darmowe przelewy</label>
+                    {{ form_widget(form.freeTransferBankAccount, {'attr':{'style':'width: 300px'}}) }}
+                </div>
+                <div class="inline field">
+                    <label>VAT</label>
+                    {{ form_widget(form.vat, {'attr':{'style':'width: 270px'}}) }}
+                </div>
+                <div class="inline field">
+                    <label>Termin płatności(dni)</label>
+                    {{ form_widget(form.daysToPay, {'attr':{'style':'width: 300px'}}) }}
+                </div>
+            </div>
+        </div>
+        <div id="right-content">
             <a class="ui item" id="save">
                 <div class="ui green button">ZAPISZ</div>
             </a>
         </div>
     </div>
-
-    <div class="ui form">
-        {{ form_start(form, {'attr': {'novalidate':'novalidate'}}) }}
-        {#Dane firmy#}
-        <div class="ui active tab" data-tab="t1">
-            <div class="ui segment">
-                <div class="ui two column grid">
-                    <div class="column">
-                        <div class="inline field">
-                            <label>American Express</label>
-                            {{ form_widget(form.americanExpress, {'attr':{'style':'width: 250px'}}) }}
-                        </div>
-                        <div class="inline field">
-                            <label>Visa/MasterCard/Inne</label>
-                            {{ form_widget(form.visaMasterCard, {'attr':{'style':'width: 250px'}}) }}
-                        </div>
-                        <div class="inline field">
-                            <label>Karty własne</label>
-                            {{ form_widget(form.card, {'attr':{'style':'width: 250px'}}) }}
-                        </div>
-                        <div class="inline field">
-                            <label>Voucher</label>
-                            {{ form_widget(form.voucher, {'attr':{'style':'width: 250px'}}) }}
-                        </div>
-                        <div class="inline field">
-                            <label>eVoucher</label>
-                            {{ form_widget(form.eVoucher, {'attr':{'style':'width: 250px'}}) }}
-                        </div>
-                        <div class="inline field">
-                            <label>Koszt przelewu</label>
-                            <div class="ui right labeled input">
-                                {{ form_widget(form.bankTransferCost, {'attr':{'style':'width: 235px'}}) }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <div class="inline field">
-                            <label>Nazwa Banku</label>
-                            {{ form_widget(form.bankName, {'attr':{'style':'width: 300px'}}) }}
-                        </div>
-                        <div class="inline field">
-                            <label>Konto do przelewu</label>
-                            {{ form_widget(form.bankAccount, {'attr':{'style':'width: 300px'}}) }}
-                        </div>
-                        <div class="inline field">
-                            <label>Konto do wpłat od firm</label>
-                            {{ form_widget(form.bankAccountToFirm, {'attr':{'style':'width: 300px'}}) }}
-                        </div>
-                        <div class="inline field">
-                            <label>SWIFT</label>
-                            {{ form_widget(form.swift, {'attr':{'style':'width: 300px'}}) }}
-                        </div>
-                        <div class="inline field">
-                            <label>Darmowe przelewy</label>
-                            {{ form_widget(form.freeTransferBankAccount, {'attr':{'style':'width: 300px'}}) }}
-                        </div>
-                        <div class="inline field">
-                            <label>VAT</label>
-                            {{ form_widget(form.vat, {'attr':{'style':'width: 270px'}}) }}
-                        </div>
-                        <div class="inline field">
-                            <label>Termin płatności(dni)</label>
-                            {{ form_widget(form.daysToPay, {'attr':{'style':'width: 300px'}}) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {#Umowy,prowizje i inne#}
-        <div class="ui tab" data-tab="t2">
-            <div class="ui segment">
-            </div>
-        </div>
-
-        {{ form_end(form) }}
-    </div>
+    {{ form_end(form) }}
 </div>
 
-
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('bundles/app/js/assets/jquery.inputmask.bundle.min.js') }}"></script>
-    <script src="{{ asset('bundles/app/js/settings/settings.js') }}"></script>
-    <script>
-        $('#spf_bankAccount').inputmask("99 9999 9999 9999 9999 9999 9999",);
-        $('#spf_bankAccountToFirm').inputmask("99 9999 9999 9999 9999 9999 9999");
-        $('#spf_freeTransferBankAccount').inputmask("99 9999 9999 9999 9999 9999 9999");
-    </script>
-{% endblock %}
