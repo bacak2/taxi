@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\ApiTaxi360\Client;
 use AppBundle\Entity\Form\SettingsFormData;
 use AppBundle\Entity\Params\Param;
+use AppBundle\Entity\Params\ParamCategory;
+use AppBundle\Entity\Dictionary\DictionaryParam;
 use AppBundle\Entity\Params\TaxiSettings;
 use AppBundle\Form\Settings\ParamForm;
 use AppBundle\Form\Settings\ParamsForm;
@@ -65,10 +67,26 @@ class SettingsController extends Controller
      */
     public function dictionaryGetAction()
     {
-        $repo = $this->getDoctrine()->getRepository(Param::class);
+        $repo = $this->getDoctrine()->getRepository(DictionaryParam::class);
 
         return $this->json(array(
             'data' => $repo->getParamList()
+        ));
+    }
+
+    /**
+     * @Route(
+     *     "/slownik-dodaj",
+     *     name="route_dictionary_api_add"
+     * )
+     */
+    public function dictionaryAddAction(Request $request, TaxiSettingsService $settings)
+    {
+        $params = $request->request->get('formData');
+        $settings->addDictionaryParam($params);
+
+        return $this->json(array(
+            'data' => true
         ));
     }
 

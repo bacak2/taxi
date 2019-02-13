@@ -4,6 +4,7 @@ const app = function () {
     var $tabs = $content.find('.item-tab'),
         $tabContent = $content.find('.ui .tab')
     ;
+    var $buttonAdd = $('#addNewParam');
 
     // TABS
     $tabs.on('click', function () {
@@ -18,6 +19,28 @@ const app = function () {
         table.ajax.reload().draw();
     });
 
+    $("#addNewParam").on('click', function (e) {
+        e.preventDefault();
+        let data = $('form[name=form_dictionary]').serializeArray();
+        $.ajax({
+            url: routeAddDictionary,
+            beforeSend: function(){
+                $buttonAdd.addClass('loading');
+            },
+            type: 'POST',
+            data: {
+                'formData': data
+            },
+            success: function () {
+                $('#form_dictionary_name').val('');
+            },
+            complete: function () {
+                $buttonAdd.removeClass('loading');
+                table.ajax.reload().draw();
+            }
+        });
+    });
+
     var table = $('#paramsTable').DataTable({
         "dom": 't',
         "language": dataTablesPL,
@@ -27,7 +50,7 @@ const app = function () {
         },
         "bInfo": false,
         "order": [],
-        "scrollY": '65vh',
+        "scrollY": '60vh',
         "scroller": true,
         "scrollX": true,
         "deferRender": true,

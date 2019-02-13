@@ -2,8 +2,8 @@
 
 namespace AppBundle\Form\Settings;
 
-use AppBundle\Entity\Params\Param;
-use AppBundle\Entity\Params\ParamCategory;
+use AppBundle\Entity\Dictionary\DictionaryCategory;
+use AppBundle\Entity\Dictionary\DictionaryParam;
 use Composer\Repository\RepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,7 +38,7 @@ class ParamForm extends AbstractType
     {
         $builder
             ->add('category', EntityType::class, array(
-                'class' => ParamCategory::class,
+                'class' => DictionaryCategory::class,
                 'attr' => array(
                     'class' => 'ui search dropdown'
                 )
@@ -52,7 +52,7 @@ class ParamForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         return $resolver->setDefaults(array(
-            'data_class' => Param::class
+            'data_class' => DictionaryParam::class
         ));
     }
 

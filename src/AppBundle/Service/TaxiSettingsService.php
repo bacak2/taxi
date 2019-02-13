@@ -48,4 +48,14 @@ class TaxiSettingsService
 
         return $settingsFormData;
     }
+
+    public function addDictionaryParam($params){
+        $sql = "INSERT INTO dictionary(category_id, user_id, value, editable) VALUES (:id, 1, :value, 1)";
+        /** @var \PDOStatement $stmt */
+        $stmt = $this->doctrine->getConnection()->prepare($sql);
+        $stmt->execute(array(
+            ':id' => $params[0]['value'],
+            ':value' => $params[1]['value']
+        ));
+    }
 }

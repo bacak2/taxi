@@ -1,17 +1,19 @@
 <div class="ui segment">
     <div class="ui grid">
         <div class="ui ten wide column">
-            <table id="paramsTable" class="display" style="width:100%" cellspacing="0">
-                <thead>
-                <tr>
-                    <th>Kategoria</th>
-                    <th>Nazwa</th>
-                </tr>
-                </thead>
-            </table>
+            <div class="ui segment">
+                <table id="paramsTable" class="display" style="width:100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Kategoria</th>
+                        <th>Nazwa</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
         <div class="ui six wide column">
-            <div class="ui segment" >
+            <div class="ui segment">
                 <h3>Dodawanie</h3>
                 <div>
                     <div class="ui form">
@@ -25,7 +27,7 @@
                             {{ form_widget(form.name) }}
                         </div>
                         <div class="field">
-                            <input type="submit" value="Zapisz" class="ui fluid green button">
+                            <buton id="addNewParam" class="ui fluid green button">Zapisz</buton>
                         </div>
                     {{ form_end(form) }}
                     </div>

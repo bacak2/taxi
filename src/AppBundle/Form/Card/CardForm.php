@@ -6,7 +6,8 @@ use AppBundle\DataTransformer\ComaToDotTransformer;
 use AppBundle\Entity\ApiTaxi360\Card;
 use AppBundle\Entity\ApiTaxi360\Client;
 use AppBundle\Entity\ApiTaxi360\Passenger;
-use AppBundle\Entity\Settings\Param;
+use AppBundle\Entity\Dictionary\DictionaryParam;
+use AppBundle\Repository\DictionaryRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -21,6 +22,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Doctrine\ORM\EntityManagerInterface;
 
 class CardForm extends AbstractType
 {
@@ -30,12 +32,18 @@ class CardForm extends AbstractType
     private $dotTransformer;
 
     /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
      * CardForm constructor.
      * @param ComaToDotTransformer $dotTransformer
      */
-    public function __construct(ComaToDotTransformer $dotTransformer)
+    public function __construct(ComaToDotTransformer $dotTransformer, EntityManagerInterface $em)
     {
         $this->dotTransformer = $dotTransformer;
+        $this->em = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -64,11 +72,31 @@ class CardForm extends AbstractType
                     'placeholder' => 'Pasażer z systemu Taxi360'
                 )
             ))
-            ->add('cardType', TextType::class, array(
-
+            ->add('cardType', EntityType::class, array(
+                'class' => DictionaryParam::class,
+                'query_builder' => function(EntityRepository $er){
+                    return $er->createQueryBuilder('dp')
+                        ->where("dp.category = :categoryId")
+                        ->setParameter(':categoryId', 1)
+                        ;
+                },
+                'placeholder' => 'Typ karty',
+                'attr' => array(
+                    'class' => 'ui search dropdown'
+                )
             ))
-            ->add('status', TextType::class, array(
-
+            ->add('status', EntityType::class, array(
+                'class' => DictionaryParam::class,
+                'query_builder' => function(EntityRepository $er){
+                    return $er->createQueryBuilder('dp')
+                        ->where("dp.category = :categoryId")
+                        ->setParameter(':categoryId', 2)
+                        ;
+                },
+                'placeholder' => 'Status',
+                'attr' => array(
+                    'class' => 'ui search dropdown'
+                )
             ))
             ->add('dailyLimit', TextType::class, array(
 
