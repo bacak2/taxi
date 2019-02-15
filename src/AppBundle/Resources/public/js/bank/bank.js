@@ -3,6 +3,7 @@ var app = function () {
         $itemTab = $mainContent.find('.bank-item-tab'),
         $btnGenerate = $('#btnGenerate'),
         $btnFile = $('#btnFile'),
+        $btnSettle = $('#btnSettle'),
         $forSettlement = $('#forSettlement'),
         $responseDiv = $('#responseDiv')
     ;
@@ -40,6 +41,32 @@ var app = function () {
                 }catch (e) {
 
                 }
+            },
+            complete: function () {
+                self.removeClass('loading');
+            }
+        });
+    });
+
+    $btnSettle.on('click', function (e) {
+        e.preventDefault();
+        var self = $(this);
+
+        var data = $('form').serializeArray();
+
+        $.ajax({
+            url: $(this).data('href'),
+            type: 'POST',
+            beforeSend: function(){
+                self.addClass('loading');
+                $responseDiv.html('');
+            },
+            data: {
+                'formData': data
+            },
+            success: function (resp) {
+                console.log(resp);
+                window.open('/wydruk/standard-kw/'+resp.insertedKw, '_blank');
             },
             complete: function () {
                 self.removeClass('loading');

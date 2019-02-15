@@ -126,11 +126,11 @@ class CashRegisterRepository extends \Doctrine\ORM\EntityRepository
                   date_format(c.transaction_date,'%Y-%m-%d') transactionDate, 
                   cd.brutto amount, concat(d.first_name,' ',d.surname) driver, 
                   d.license_number licenseNumber,
-                  u.username user, p.name itemName, c.title,
+                  u.username user, di.value itemName, c.title,
                   cd.netto, round(cd.vat*100,1) vat, cd.brutto, cd.quantity
               FROM cash_register c
               LEFT JOIN cash_register_detail cd ON c.id = cd.cash_register_id
-              LEFT JOIN param p ON cd.param_id = p.id
+              LEFT JOIN dictionary di ON cd.param_id = di.id
               LEFT JOIN user u ON c.user_id = u.id
               LEFT JOIN driver d ON c.driver_id = d.id
             WHERE 1=1

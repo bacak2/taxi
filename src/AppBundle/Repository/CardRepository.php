@@ -55,10 +55,12 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
         $date->sub(new \DateInterval('P366D'));
         $sql = "SELECT 
             c.id, c.pan, f.name as firm_name, c.department, concat(p.first_name,' ',p.surname) name, 
-            c.card_type as type, c.status, date(c.valid_until) as valid_until, c.discount, c.comment, c.is_active
+            d.value as type, di.value as status, date(c.valid_until) as valid_until, c.discount, c.comment, c.is_active
           FROM card c
               LEFT JOIN client f ON c.client_id = f.id
               LEFT JOIN passenger p ON c.taxi_passenger_id = p.taxi_passenger_id
+              LEFT JOIN dictionary d ON c.card_type = d.id
+              LEFT JOIN dictionary di ON c.status = di.id
           WHERE 1=1
             AND c.valid_until >= '{$date->format('Y-m-d')}'
           ";

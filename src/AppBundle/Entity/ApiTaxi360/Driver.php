@@ -287,6 +287,20 @@ class Driver implements UserInterface, \Serializable
     }
 
     /**
+     * Set id.
+     *
+     * @param int $id
+     *
+     * @return Driver
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Get id.
      *
      * @return int

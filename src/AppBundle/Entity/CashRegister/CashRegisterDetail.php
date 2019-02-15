@@ -33,7 +33,7 @@ class CashRegisterDetail
 
     /**
      * @ORM\ManyToOne(
-     *     targetEntity="AppBundle\Entity\Params\Param"
+     *     targetEntity="AppBundle\Entity\Dictionary\DictionaryParam"
      * )
      * @ORM\JoinColumn(
      *     name="param_id",
@@ -195,11 +195,11 @@ class CashRegisterDetail
     /**
      * Set param.
      *
-     * @param \AppBundle\Entity\Params\Param|null $param
+     * @param \AppBundle\Entity\Dictionary\DictionaryParam|null $param
      *
      * @return CashRegisterDetail
      */
-    public function setParam(\AppBundle\Entity\Params\Param $param = null)
+    public function setParam(\AppBundle\Entity\Dictionary\DictionaryParam $param = null)
     {
         $this->param = $param;
 
@@ -209,7 +209,7 @@ class CashRegisterDetail
     /**
      * Get param.
      *
-     * @return \AppBundle\Entity\Params\Param|null
+     * @return \AppBundle\Entity\Dictionary\DictionaryParam|null
      */
     public function getParam()
     {

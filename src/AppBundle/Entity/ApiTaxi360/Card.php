@@ -80,14 +80,28 @@ class Card
     private $movementDate;
 
     /**
-     * @ORM\Column(type="string", name="card_type", nullable=true)
-     * PREPAID | STANDARD | VOUCHER
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\Dictionary\DictionaryParam",
+     *     inversedBy="cards"
+     * )
+     * @ORM\JoinColumn(
+     *     name="card_type",
+     *     referencedColumnName="id",
+     *     nullable=true
+     * )
      */
     private $cardType;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
-     * ACTIVE | BLOCKED | DEFINITION | NEW | RETIRED | SPENT | INIT
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\Dictionary\DictionaryParam",
+     *     inversedBy="cards"
+     * )
+     * @ORM\JoinColumn(
+     *     name="status",
+     *     referencedColumnName="id",
+     *     nullable=true
+     * )
      */
     private $status;
 

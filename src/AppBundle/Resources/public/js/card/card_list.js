@@ -1,6 +1,5 @@
 $(document)
     .ready(function() {
-        console.log('przed');
         var table = $('#cardTable').DataTable({
             "dom": '<f>t',
             "language": dataTablesPL,
@@ -77,7 +76,8 @@ $(document)
             if(this.checked){
                 $.fn.dataTable.ext.search.push(
                     function (settings, data, dataIndex){
-                        return (data[5] == 'BLOCKED') ? false : true;
+
+                        return (['BLOCKED', 'RETIRED', 'SPENT'].indexOf(data[5]) != -1) ? false : true;
                     }
                 );
             }

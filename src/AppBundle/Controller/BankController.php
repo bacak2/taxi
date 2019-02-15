@@ -13,6 +13,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+use AppBundle\Entity\ApiTaxi360\Driver;
+use AppBundle\Entity\CashRegister\CashRegister;
+use AppBundle\Entity\CashRegister\CashRegisterDetail;
+use AppBundle\Entity\Dictionary\DictionaryParam;
+use AppBundle\Entity\Enumerator;
 
 /**
  * @Route(
@@ -108,12 +113,37 @@ class BankController extends Controller
     public function settleAction(Request $request, BankService $bank)
     {
         $formData = $request->request->get('formData');
-        $response = $this->forward('AppBundle\Controller\KWController::createKwFromTransaction', [
-        ]);
-        return $response;
-        $bank->updateSettlements($formData);
+        $manager = $this->getDoctrine()->getManager();
+        $enumerator = $this->getDoctrine()->getRepository(Enumerator::class)
+            ->getEnumerator(Enumerator::TYPE_KW, $this->getUser());
+        //pobrać id drivera z form
+        $driver = $this->getDoctrine()->getRepository(Driver::class)->find(1);
+        //zamiast dictionary param wyświetla się zwykły param...
+        $param = $this->getDoctrine()->getRepository(DictionaryParam::class)->find(74);
+        $cashRegister = new CashRegister();
+        $cashRegister
+            ->setTransactionDate(new \DateTime())
+            ->setTransactionType('kw')
+            ->setDriver($driver)
+            ->setUser($this->getUser())
+            ->setTitle('Rozliczenie przelewów')
+            ->setCashRegisterNumber($enumerator->getCashRegisterNumber());
+        $details = new CashRegisterDetail();
+        $details
+            ->setCashRegister($cashRegister)
+            ->setParam($param)
+            ->setQuantity(1)
+            //pobrać kwotę z form
+            ->setBrutto(12);
+        $manager->persist($cashRegister);
+        $manager->persist($details);
+        $manager->persist($enumerator);
+        $manager->flush();
+        //$bank->updateSettlements($formData);
+
+        //odliczyć koszty przelewu - pobrać kwotę kosztu przelewu i dodać ją jako nowa transakcja
         return $this->json([
-            'response' => 'true'
+            'insertedKw' => $cashRegister->getId(),
         ]);
     }
 }

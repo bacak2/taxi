@@ -9,6 +9,7 @@ use AppBundle\Entity\ApiTaxi360\Driver;
 use AppBundle\Entity\CashRegister\CashRegister;
 use AppBundle\Entity\Enumerator;
 use AppBundle\Entity\Params\Param;
+use AppBundle\Entity\Dictionary\DictionaryParam;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -81,15 +82,14 @@ class KWForm extends AbstractType
                 'mapped' => false
             ))
             ->add('param', EntityType::class, array(
-                'class' => Param::class,
+                'class' => DictionaryParam::class,
                 'placeholder' => 'Rodzaj',
                 'label' => 'Rodzaj',
                 'mapped' => false,
                 'query_builder' => function(EntityRepository $er){
-                    return $er->createQueryBuilder('p')
-                        ->join('p.category', 'c')
-                        ->where("c.slug = :type")
-                        ->setParameter(':type', CashRegister::SLUG_KW)
+                    return $er->createQueryBuilder('dp')
+                        ->where("dp.category = :categoryId")
+                        ->setParameter(':categoryId', 6)
                         ;
                 },
                 'attr' => array(

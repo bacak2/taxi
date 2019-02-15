@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use AppBundle\Entity\ApiTaxi360\Driver;
 use AppBundle\Entity\CashRegister\CashRegister;
 use AppBundle\Entity\Params\Param;
+use AppBundle\Entity\Dictionary\DictionaryParam;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -80,13 +81,12 @@ class SettlementTransForm extends AbstractType
             ))
             ->add('param', EntityType::class, array(
                 'mapped' => false,
-                'class' => Param::class,
+                'class' => DictionaryParam::class,
                 'placeholder' => 'Typ transakcji',
                 'query_builder' => function(EntityRepository $er){
-                    return $er->createQueryBuilder('p')
-                        ->join('p.category', 'c')
-                        ->where('c.slug = :categoryName')
-                        ->setParameter('categoryName', CashRegister::SLUG_KW_B)
+                    return $er->createQueryBuilder('dp')
+                        ->where("dp.category = :categoryId")
+                        ->setParameter(':categoryId', 7)
                         ;
                 },
                 'attr' => array(
