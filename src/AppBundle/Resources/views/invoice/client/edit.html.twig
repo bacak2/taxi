@@ -3,6 +3,7 @@
 {% block body %}
     <div class="ui segment">
         <h3>Edycja faktury NR: {{ invoiceNumber }}</h3>
+        <button id="formSubmit" class="ui green button">Zapisz</button>
         <a class="ui button" href="{{ path('route_invoice_client') }}">Powrót</a>
 
         <div class="ui form">
@@ -10,4 +11,13 @@
         </div>
 
     </div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+    $(document).on('click', "#formSubmit",function (e) {
+        $("form[name=app_bundle_edit_invoice]").submit();
+    })
+</script>
 {% endblock %}

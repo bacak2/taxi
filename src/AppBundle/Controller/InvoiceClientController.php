@@ -26,7 +26,7 @@ class InvoiceClientController extends Controller
     public function indexAction(InvoiceService $service)
     {
 //        $clients = ["52"];
-//        $service->createInvoiceForClient($clients,'03','2018');
+//       $service->createInvoiceForClient($clients,'03','2018');
 
         return $this->render('@App/invoice/client/index.html.twig', array());
     }
@@ -99,12 +99,29 @@ class InvoiceClientController extends Controller
      *     name="route_invoice_edit"
      * )
      */
-    public function editInvoiceAction($id)
+    public function editInvoiceAction($id, Request $request)
     {
         $invoice = $this->getDoctrine()->getRepository(Invoice::class)
             ->find($id);
 
         $form = $this->createForm(EditClientInvoice::class, $invoice);
+
+        if($request->isMethod('POST'))
+        {
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid())
+            {
+                $manager = $this->getDoctrine()->getManager();
+                $invoice
+                ->setInvoiceNumber($form->get('invoiceNumber')->getData())
+                ->setAmountBrutto($form->get('amountBrutto')->getData())
+                ->setAmountNetto($form->get('amountNetto')->getData())
+                ->setDiscount($form->get('discount')->getData())
+                ;
+                $manager->persist($invoice);
+                $manager->flush();
+            }
+        }
 
         return $this->render(
             '@App/invoice/client/edit.html.twig',

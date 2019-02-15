@@ -6,17 +6,27 @@ use AppBundle\Entity\Invoice\Invoice;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class EditClientInvoice extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('invoiceNumber')
-            ->add('invoiceFormat')
-            ->add('amountBrutto')
-            ->add('amountNetto')
-            ->add('discount');
+            ->add('invoiceNumber', TextType::class, [
+                'label' => 'Numer faktury'
+            ])
+            //->add('invoiceFormat')
+            ->add('amountBrutto', TextType::class, [
+                'label' => 'Kwota bruto'
+            ])
+            ->add('amountNetto', TextType::class, [
+                'label' => 'Kwota netto'
+            ])
+            ->add('discount', TextType::class, [
+                'label' => 'Zniżka'
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
