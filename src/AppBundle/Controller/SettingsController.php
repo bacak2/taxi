@@ -43,13 +43,11 @@ class SettingsController extends Controller
             if($form->isSubmitted() && $form->isValid())
             {
                 $manager = $this->getDoctrine()->getManager();
-                $manager->persist($settings);
+                $settingsForm = $request->request->all();
+                $settings = $settings->prepareSave($settingsForm);
+                //var_dump($settings); exit();
+                $manager->merge($settings);
                 $manager->flush();
-                /**
-                 * TODO:: Uwazgledniac tylko transakcje ktore nie zostaly rozliczone
-                 */
-
-                return $this->redirectToRoute('route_settings_params');
             }
         }
 

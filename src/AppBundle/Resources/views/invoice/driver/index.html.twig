@@ -11,7 +11,8 @@
 {% block body %}
 
     <div class="ui segments main-content"
-         data-createinvoice="{{ path('route_invoice_driver') }}">
+         data-createinvoice="{{ path('route_invoice_driver') }}"
+         data-createallinvoice="{{ path('route_all_invoices_driver') }}">
         <div class="ui segment">
             <div class="ui form">
                 <div class="five fields">
@@ -53,7 +54,7 @@
                        data-tab="t2">Kierowcy do fakturowania</a>
                     <div class="right menu">
                         <a class="ui item" id="save">
-                            <div class="ui green button" id="btnCreateInvoice">Wystaw faktury</div>
+                            <div class="ui green button" id="btnCreateInvoice" style="display: none;">Wystaw faktury</div>
                         </a>
                     </div>
                 </div>

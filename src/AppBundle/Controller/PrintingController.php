@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Params\TaxiSettings;
 
 /**
  * @Route(
@@ -241,8 +242,7 @@ class PrintingController extends Controller
     {
         $repo = $this->getDoctrine()->getRepository(Invoice::class);
         $document = $repo->find($invoiceId);
-//        dump($document);
-//        die;
+        //dump($document);die;
         if($document == NULL)
         {
             return $this->createNotFoundException("Nie znaleziono takiego dokumentu w bazie danych!");
@@ -251,6 +251,7 @@ class PrintingController extends Controller
 
         $transactions = $this->getDoctrine()->getRepository(Transaction::class)
             ->getTransactionForInvoiceAttachment($invoiceId);
+        dump($transactions);die;
         $currency = explode('.',
             number_format( $transactions[80]['totalAmount']*$transactions['vat']+$transactions[80]['totalAmount'],2));
         $obj = new \Numbers_Words_Locale_pl();
@@ -302,21 +303,24 @@ class PrintingController extends Controller
         $path = $this->get('kernel')->getRootDir(). '/../web/assets/transparent_logo.png';
 
         $transactions = $this->getDoctrine()->getRepository(Transaction::class)
-            ->getTransactionForInvoiceAttachment($invoiceId);
+            ->getTransactionForDriverInvoiceAttachment($invoiceId);
+        dump($transactions);die;
         $currency = explode('.', number_format( $transactions[80]['totalAmount']*$transactions['vat']+$transactions[80]['totalAmount'],2));
         $obj = new \Numbers_Words_Locale_pl();
         $word = $obj->toCurrencyWords('PLN', $currency[0], $currency[1], true);
+        $settings = $this->getDoctrine()->getRepository(TaxiSettings::class)->find(1);
 
-
-        $this->pdf->setHTMLFooter($this->renderView('@App/print/clientInvoice/footer.html.twig'));
-        $this->pdf->WriteHTML($this->renderView('@App/print/clientInvoice/invoice.html.twig', array(
+        $this->pdf->setHTMLFooter($this->renderView('@App/print/driverInvoice/footer.html.twig'));
+        $this->pdf->WriteHTML($this->renderView('@App/print/driverInvoice/invoice.html.twig', array(
+            'invoice' => $document,
             'document' => $transactions,
             'logo' => $path,
-            'word' => $word
+            'word' => $word,
+            'settings' => $settings
         )));
         $this->pdf->AddPage();
         $this->pdf->WriteHTML($this->renderView(
-            '@App/print/clientInvoice/attachment.html.twig', [
+            '@App/print/driverInvoice/attachment.html.twig', [
                 'document' => $transactions,
                 'logo' => $path
             ]

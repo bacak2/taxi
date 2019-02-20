@@ -23,7 +23,6 @@ class TaxiSettingsService
     public function getFormData(){
 
         $taxiRepo = $this->doctrine->getRepository(TaxiSettings::class);
-        $paramsRepo = $this->doctrine->getRepository(Param::class);
 
         $settings = $taxiRepo->find(1);
         if($settings == null){
@@ -43,10 +42,21 @@ class TaxiSettingsService
             ->setSwift($settings->getSwift())
             ->setFreeTransferBankAccount($settings->getFreeTransferBankAccount())
             ->setVat($settings->getVat())
-            ->setDaysToPay($settings->getDaysToPay())
-            ->setParams($paramsRepo->findAll());
+            ->setDaysToPay($settings->getDaysToPay());
 
         return $settingsFormData;
+    }
+
+    public function getSettingsFormData($formData)
+    {
+        $params = $formData->request->all();
+        $result = [];
+
+        foreach($params as $key => $value){
+            $result[$key] = $value;
+        }
+
+        return $result;
     }
 
     public function addDictionaryParam($params){
@@ -58,4 +68,31 @@ class TaxiSettingsService
             ':value' => $params[1]['value']
         ));
     }
+
+    public function prepareSave($settings){
+        $settings = $settings['spf'];
+//var_dump($settings); exit;
+
+
+        $settingsFormData = new SettingsFormData();
+        $settingsFormData
+            ->setId(1)
+            ->setAmericanExpress($settings['americanExpress'])
+        ->setBankName($settings['americanExpress']);
+        /*
+            ->setVisaMasterCard($settings->getVisaMasterCard())
+            ->setCard($settings->getCard())
+            ->setVoucher($settings->getVoucher())
+            ->setEVoucher($settings->getEVoucher())
+            ->setBankTransferCost($settings->getBankTransferCost())
+            ->setBankName($settings->getBankName())
+            ->setBankAccount($settings->getBankAccount())
+            ->setSwift($settings->getSwift())
+            ->setFreeTransferBankAccount($settings->getFreeTransferBankAccount())
+            ->setVat($settings->getVat())
+            ->setDaysToPay($settings->getDaysToPay());
+        */
+        return $settingsFormData;
+    }
+
 }

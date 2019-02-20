@@ -162,10 +162,10 @@ class CashRegisterRepository extends \Doctrine\ORM\EntityRepository
                   concat(d.first_name,' ',d.surname) driver, 
                   ifnull(concat(d.first_name,' ',d.surname), c2.name) as recipient, 
                   d.license_number licenseNumber,
-                  u.username user, p.name itemName, c.title, cd.brutto amount, cd.quantity
+                  u.username user, di.value itemName, c.title, cd.brutto amount, cd.quantity
               FROM cash_register c
               LEFT JOIN cash_register_detail cd ON c.id = cd.cash_register_id
-              LEFT JOIN param p ON cd.param_id = p.id
+              LEFT JOIN dictionary di ON cd.param_id = di.id
               LEFT JOIN user u ON c.user_id = u.id
               LEFT JOIN driver d ON c.driver_id = d.id
               LEFT JOIN client c2 ON c.client_id = c2.id

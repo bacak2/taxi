@@ -3,9 +3,22 @@
 namespace AppBundle\Entity\Form;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\SettingRepository")
+ * @ORM\Table(name="settings")
+ * @ORM\HasLifecycleCallbacks()
+ */
 class SettingsFormData
 {
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
     private $americanExpress;
 
     private $visaMasterCard;
@@ -33,6 +46,20 @@ class SettingsFormData
     private $daysToPay;
 
     private $params;
+
+    /**
+     * Set id.
+     *
+     * @param integer $id
+     *
+     * @return SettingsFormData
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * @return mixed

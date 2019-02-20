@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ document['invoiceNumber'] }}</title>
+    <style>
+        table, table td{
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        #tblDetail .header td{
+            font-size: 11px;
+            font-weight: bold;
+            padding: 5px;
+            background-color: #eeeeee;
+        }
+        #tblDetail td{
+            border: 1px solid black;
+            font-size: 11px;
+            padding: 5px;
+        }
+        #tblVat thead td{
+            font-size: 11px;
+            font-weight: bold;
+            background-color: #eeeeee;
+        }
+        #tblVat #footer td{
+            background-color: #eeeeee;
+        }
+        #tblVat td{
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+        #headerTable{
+            border: 1px solid black;
+        }
+        #headerTable td{
+            padding: 5px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        #tblWords{border: 1px solid black;}
+        #tblWords td{
+            font-size: 11px;
+            padding: 10px;
+            background-color: #eeeeee;
+        }
+        #tblPayment td{
+            padding: 3px;
+        }
+        #tblSign td{
+            text-align: center;
+        }
+        .color{
+            background-color: #eeeeee;
+        }
+        .left{
+            text-align: left;
+        }
+        .right{
+            text-align: right;
+        }
+        .center{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <table width="100%" class="ui table" id="mainTable">
+        <tr>
+            <td style="text-align: left">
+                <img src="{{ logo }}" alt="" width="240" height="80">
+            </td>
+            <td style="width: 430px">
+                <table id="headerTable" style="width: 100%;" class="color">
+                    <tr>
+                        <td style="height: 80px;">
+                            <span style="font-weight: bold; font-size: 16px;">FAKTURA VAT</span>
+                            <br/>
+                            <span style="font-weight: bold;">Nr {{ document['invoiceNumber'] }}</span>
+                        </td>
+                        <td style="text-align: left;padding-left: 20px;">
+                            <div style="margin-bottom: 15px">Data sprzedaży:  {{ "now"|date('Y-m-d') }}</div>
+                            <br/>
+                            <div>Data wystawienia: {{ "now"|date('Y-m-d') }}</div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 20px;"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table style="width: 100%; height: 100%">
+                    <tr>
+                        <td class="color"
+                            style="font-weight: bold;
+                            border: 1px solid black;
+                            font-size: 13px;
+                            padding: 5px;
+                            width: 48%;">Sprzedawca</td>
+                        <td></td>
+                        <td class="color"
+                            style="font-weight: bold;
+                            border: 1px solid black;
+                            font-size: 13px;
+                            width: 48%;
+                            padding: 5px;">Nabywca</td>
+                    </tr>
+                    <tr><td colspan="2" style="height: 10px"></td></tr>
+                    <tr>
+                        <td>
+                            <div style="font-weight: bold; font-size: 16px;">RADIO TAXI 919 SP. Z O.O.</div>
+                            <div style="padding-top: 15px">
+                                ul. Prof. Stefana Myczkowskiego 1/4
+                                <br>
+                                30-198 Krakow
+                                <br>
+                                NIP: 676-010-10-00
+                                <br>
+                            </div>
+                        </td>
+                        <td></td>
+                        <td>
+                            <div style="font-weight: bold; font-size: 16px;">{{ document['clientName'] }}</div>
+                            <div>
+                                {{ document['clientStreet'] }}
+                                <br>
+                                {{ document['clientCity'] }}
+                                <br>
+                                NIP: {{ document['clientNip'] }}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 40px;"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table style="width: 100%; height: 100%; font-size: 10px;"
+                       id="tblDetail">
+                    <tr class="header">
+                        <td class="center" style="width: 40px;">Lp.</td>
+                        <td class="left">Towar/usługa</td>
+                        <td class="center">Rabat</td>
+                        <td class="center">Ilość</td>
+                        <td class="center">j.m</td>
+                        <td class="center">Kwota netto</td>
+                        <td class="center">VAT</td>
+                        <td class="center" style="width: 100px;">Kwota brutto</td>
+                    </tr>
+                    <tr>
+                        <td class="center">1</td>
+                        <td class="left">Usługi taksówkowe w okresie od {{ document['minTransactionDate'] }} do {{ document['maxTransactionDate'] }}</td>
+                        <td class="center">{{ document['invoiceDiscount'] }}%</td>
+                        <td class="center">1</td>
+                        <td class="center">szt.</td>
+                        <td class="center">{{ document[80]['totalAmount']|number_format(2) }}zł</td>
+                        <td class="center">{{ document['vat']*100 }}%</td>
+                        {%  set brutto = document[80]['totalAmount']*document['vat']+document[80]['totalAmount']  %}
+                        <td class="center">{{ brutto|number_format(2) }}zł</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 20px;"></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="right">
+                <table id="tblVat" style="width: 48%">
+                    <thead>
+                        <tr>
+                            <td style="background-color: #FFF; border: none;"></td>
+                            <td colspan="4" class="center">Razem (rozbicie na stawki podatku)</td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: #FFF; border: none"></td>
+                            <td class="center">netto</td>
+                            <td class="center">stawka</td>
+                            <td class="center">VAT</td>
+                            <td class="center">brutto</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: none;"></td>
+                            <td class="center">{{ document[80]['totalAmount']|number_format(2) }}zł</td>
+                            <td class="center">{{ document['vat']*100 }}%</td>
+                            <td class="center">{{ document[80]['totalAmount']*document['vat'] }}zł</td>
+                            <td class="center">{{ brutto }}zł</td>
+                        </tr>
+                        <tr id="footer">
+                            <td>Razem</td>
+                            <td class="center">{{ document[80]['totalAmount']|number_format(2) }}zł</td>
+                            <td class="center">-</td>
+                            <td class="center">{{ document[80]['totalAmount']*document['vat'] }}zł</td>
+                            <td class="center">{{ brutto }}zł</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 10px;"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table id="tblWords" style="width: 100%">
+                    <tr>
+                        <td style="width: 220px">
+                            Należność ogółem: <span style="font-weight: bold; font-size: 14px;">{{ brutto }} zł</span>
+                        </td>
+                        <td>
+                            <span style="font-style: italic;">Słownie: {{ word }}</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 10px;"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table id="tblPayment" width="100%">
+                    <tr>
+                        <td style="width: 130px">Forma płatności:</td>
+                        <td>Przelew</td>
+                    </tr>
+                    <tr>
+                        <td>Termin płatności:</td>
+                        <td>{{ invoice.paymentDate|date('d.m.Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Konto bankowe:</td>
+                        <td>{{ settings.bankAccount }} {{ settings.bankName }}</td>
+                    </tr>
+                    <tr>
+                        <td>BIC (SWIFT):</td>
+                        <td>{{ settings.swift }}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 50px;"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table id="tblSign" style="width: 100%">
+                    <tr>
+                        <td style="width: 48%; height: 120px; vertical-align: bottom;
+                                border: 1px solid black;
+                                border-bottom: none;
+                        ">
+                            .....................................................................
+                        </td>
+                        <td></td>
+                        <td style="width: 48%; height: 120px; vertical-align: bottom; border: 1px solid black;
+                                border-bottom: none;">
+                            .....................................................................
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: small; padding: 5px; border: 1px solid black; border-top: none;">
+                            Podpis osoby upoważnionej do odbioru faktury
+                        </td>
+                        <td></td>
+                        <td style="font-size: small; padding: 5px; border: 1px solid black; border-top: none;">
+                            Uprawniona osoba do wystawienia i odbioru faktury VAT
+                            <br>
+                            Marcin Zych
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -130,6 +130,21 @@ class BankService
         return $result;
     }
 
+    public function getDriverIdFromForm($formData)
+    {
+        $result = [
+            'driver' => null
+        ];
+        foreach ($formData as $item){
+            $key = sscanf($item['name'], 'bank[%[^]]')[0];
+            if(array_key_exists($key, $result) && $item['value'] != '') return $item['value'];
+        }
+    }
+
+    public function getTransferCost(){
+        return $this->transferCost;
+    }
+
     protected function getFormData($formData)
     {
         $params = $formData->request->all();

@@ -293,7 +293,7 @@ class TransactionRepository extends \Doctrine\ORM\EntityRepository
                   t.id transactionId,
                   t.total_amount totalNetto,
                   t.vat,
-                  format((t.total_amount*t.vat+t.total_amount),2) totalBrutto,
+                  CAST((t.total_amount*t.vat+t.total_amount) AS DECIMAL(10,2)) totalBrutto,
                   TRANSACTION_DATE   transactionDate
                 FROM transaction t
                   LEFT JOIN client c ON t.client_id = c.id
@@ -325,6 +325,46 @@ class TransactionRepository extends \Doctrine\ORM\EntityRepository
         }
     }
 
+    public function getTransactionForDriverInvoiceDetails($params = array())
+    {
+        $sql = "SELECT
+                  d.id driverId,
+                  concat(d.first_name, ' ', d.surname) AS name,
+                  t.id transactionId,
+                  t.total_amount totalNetto,
+                  t.vat,
+                  CAST((t.total_amount*t.vat+t.total_amount) AS DECIMAL(10,2)) totalBrutto,
+                  TRANSACTION_DATE   transactionDate
+                FROM transaction t
+                  LEFT JOIN driver d ON t.driver_id = d.id
+                  LEFT JOIN passenger p ON p.id = t.taxi_passenger_id
+                WHERE 1=1
+                      AND date_format(TRANSACTION_DATE, '%Y') = :transactionYear
+                      AND date_format(TRANSACTION_DATE, '%m') = :transactionMonth
+                      AND TRANSACTION_STATUS = 'ACCEPTED'
+                      AND driver_invoice_id IS NULL
+                      AND driver_id = :driverId";
+
+        $pdo = $this->getEntityManager()->getConnection();
+        try{
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':transactionYear' => $params['year'],
+                ':transactionMonth' => $params['month'],
+                ':driverId' => $params['driverId']
+            ]);
+
+            $result = [];
+            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC))
+            {
+                $result[] = $row;
+            }
+            return $result;
+        }catch(DBALException $e){
+
+        }
+    }
+
     /**
      * Aktualizuje transakcje uzupełniają numer faktury
      * @param array $params
@@ -337,6 +377,20 @@ class TransactionRepository extends \Doctrine\ORM\EntityRepository
         {
             $transaction = $this->find($transaction);
             $transaction->setClientInvoice($fv);
+
+            $manager->persist($transaction);
+        }
+
+        $manager->flush();
+    }
+
+    public function updateTransactionByDriverInvoice($transactions, $fv)
+    {
+        $manager = $this->getEntityManager();
+        foreach ($transactions as $transaction)
+        {
+            $transaction = $this->find($transaction);
+            $transaction->setDriverInvoice($fv);
 
             $manager->persist($transaction);
         }
@@ -456,10 +510,11 @@ class TransactionRepository extends \Doctrine\ORM\EntityRepository
               JOIN settlement s ON t.id = s.transaction_id
               LEFT JOIN driver d ON d.id = t.driver_id
             WHERE 1=1
-                  AND  date_format(t.transaction_date,'%Y') = :transactionYear
-                  AND  date_format(t.transaction_date,'%m') = :transactionMonth
-                  AND t.transaction_status = 'ACCEPTED'
-                AND t.is_settled = 0
+              AND  date_format(t.transaction_date,'%Y') = :transactionYear
+              AND  date_format(t.transaction_date,'%m') = :transactionMonth
+              AND t.transaction_status = 'ACCEPTED'
+              AND t.is_settled = 0
+              AND driver_invoice_id IS NULL
             GROUP BY d.license_number";
 
         $pdo = $this->getEntityManager()->getConnection();
@@ -517,5 +572,65 @@ class TransactionRepository extends \Doctrine\ORM\EntityRepository
         }catch(DBALException $e){
 
         }
+    }
+
+
+    public function getTransactionForDriverInvoiceAttachment($invoiceId)
+    {
+        $sql = "select
+             i.invoice_number invoiceNumber, format(i.discount*100,1) invoiceDiscount,
+              date_format(t.transaction_date,'%Y-%m-%d') transactionDate,
+              t.original_license_number licenseNumber, t.original_pan originalPan,
+              t.total_amount totalAmount, t.vat
+              , t.vat AS passangerName
+              , t.vat AS comment
+            from transaction t
+              JOIN invoice i ON t.driver_invoice_id = i.id
+              JOIN driver d ON t.client_id = d.id
+            where 1=1
+              and driver_invoice_id = :invoiceId
+            order by transactionDate";
+        $pdo = $this->getEntityManager()->getConnection();
+        $rows = $pdo->prepare($sql);
+        $rows->execute([
+            ':invoiceId' => $invoiceId
+        ]);
+        $result = [];
+        while ($row = $rows->fetch(\PDO::FETCH_ASSOC))
+        {
+            $result['invoiceNumber'] = $row['invoiceNumber'];
+            $result['invoiceDiscount'] = $row['invoiceDiscount'];
+            $result['clientName'] = 'Arek';//$row['clientName'];
+            $result['clientStreet'] = 'Arek';//$row['clientStreet'];
+            $result['clientCity'] = 'Arek';//$row['clientCity'];
+            $result['clientNip'] = 'Arek';//$row['clientNip'];
+            $result['passangerName'] = 'Arek';
+            $result['vat'] = $row['vat'];
+            if(!isset($result[$row['vat']*1000]['totalAmount']))
+            {
+                $result[$row['vat']*1000]['totalAmount'] = $row['totalAmount'];
+            }else{
+                $result[$row['vat']*1000]['totalAmount'] += $row['totalAmount'];
+            }
+
+            if(isset($result['minTransactionDate']))
+            {
+                $result['minTransactionDate'] = ($result['minTransactionDate'] > $row['transactionDate'])
+                    ? $row['transactionDate'] : $result['minTransactionDate'];
+            }else{
+                $result['minTransactionDate'] = $row['transactionDate'];
+            }
+            if(isset($result['maxTransactionDate']))
+            {
+                $result['maxTransactionDate'] = ($result['maxTransactionDate'] < $row['transactionDate'])
+                    ? $row['transactionDate'] : $result['maxTransactionDate'];
+            }else{
+                $result['maxTransactionDate'] = $row['transactionDate'];
+            }
+
+            $result['items'][] = $row;
+        }
+
+        return $result;
     }
 }

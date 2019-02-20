@@ -162,5 +162,129 @@ class InvoiceService
         }
     }
 
+    public function createInvoiceForDriver($drivers, $month, $year)
+    {
+        $manager = $this->doctrine->getManager();
+        $transRepo = $this->doctrine->getRepository(Transaction::class);
+
+        $invoiceType = $this->doctrine->getRepository(InvoiceType::class)
+            ->findOneBy([
+                'slug' => 'bezgotowka'
+            ]);
+        $invoiceFormat = $this->doctrine->getRepository(InvoiceFormat::class)
+            ->findOneBy([
+                'format' => 'Faktura'
+            ]);
+        $paymentMethod = $this->doctrine->getRepository(PaymentMethod::class)
+            ->findOneBy([
+                'slug' => 'przelew'
+            ]);
+
+        foreach ($drivers as $driver)
+        {
+            $transactions = $transRepo->getTransactionForDriverInvoiceDetails([
+                'year' => $year,
+                'month' => $month,
+                'driverId' => $driver
+            ]);
+            if ($transactions == null) continue;
+            $invoiceData = [];
+            $transactionToUpdate = [];
+
+            foreach ($transactions as $transaction)
+            {
+                $invoiceData['clientId'] = $transaction['driverId'];
+                $invoiceData['clientName'] = $transaction['name'];
+                $invoiceData['agreementNumber'] = 10;
+                $invoiceData['clientDiscount'] = 10;
+                $invoiceData['paymentDays'] = 10;
+                $invoiceData['vat'] = $transaction['vat'];
+
+                if(!isset($invoiceData['totalNetto']))
+                {
+                    $invoiceData['totalNetto'] = 0;
+                }
+                $invoiceData['totalNetto'] += $transaction['totalNetto'];
+
+                if(!isset($invoiceData['totalBrutto']))
+                {
+                    $invoiceData['totalBrutto'] = 0;
+                }
+                $invoiceData['totalBrutto'] += $transaction['totalBrutto'];
+
+                if(isset($invoiceData['minDate']))
+                {
+                    $invoiceData['minDate'] = $transaction['transactionDate'] > $invoiceData['minDate']
+                        ? $invoiceData['minDate'] : $transaction['transactionDate'];
+                }else{
+                    $invoiceData['minDate'] = $transaction['transactionDate'];
+                }
+                if(isset($invoiceData['maxDate']))
+                {
+                    $invoiceData['maxDate'] = $transaction['transactionDate'] < $invoiceData['maxDate']
+                        ? $invoiceData['maxDate'] : $transaction['transactionDate'];
+                }else{
+                    $invoiceData['maxDate'] = $transaction['transactionDate'];
+                }
+
+                $item['transactionId'] = $transaction['transactionId'];
+                $item['transactionDate'] = $transaction['transactionDate'];
+                $item['totalNetto'] = $transaction['totalNetto'];
+                $item['vat'] = $transaction['vat'];
+                $item['totalButto'] = $transaction['totalBrutto'];
+
+                $invoiceData['transactions'][] = $item;
+                $transactionToUpdate[] = $transaction['transactionId'];
+            }
+
+            /**
+             * @var Enumerator $enumerator
+             */
+            $enumerator = $this->doctrine->getRepository(Enumerator::class)
+                ->getEnumerator(Enumerator::TYPE_FV);
+
+            $invoiceDetail = new InvoiceDetail();
+            $invoiceDetail->setLp(1)
+                ->setTitle(sprintf('Za od %s do %s',
+                    $invoiceData['minDate'],$invoiceData['maxDate']))
+                ->setQuantity(1)
+                ->setVat($invoiceData['vat'])
+                ->setAmountNetto($invoiceData['totalNetto'])
+                ->setAmountBrutto($invoiceData['totalBrutto'])
+            ;
+
+            $date = new \DateTime();
+            $paymentDate = (new \DateTime())->add(new \DateInterval('P'.$invoiceData['paymentDays'].'D'));
+
+            $invoice = new Invoice();
+            $invoice->setVat($invoiceData['vat'])
+                ->setAmountNetto($invoiceData['totalNetto'])
+                ->setAmountBrutto($invoiceData['totalBrutto'])
+                ->setCreateDate($date)
+                ->setTransactionType(Invoice::TYPE_SALE)
+                ->setInvoiceType($invoiceType)
+                ->setSeller(0)
+                ->setSellerType(Invoice::TYPE_DRIVER)
+                ->setBuyer($driver)
+                ->setBuyerType(Invoice::TYPE_DRIVER)
+                ->setDiscount(0)
+                ->setInvoiceFormat($invoiceFormat)
+                ->setInvoiceMonth($date->format('m'))
+                ->setInvoiceYear($date->format('y'))
+                ->setInvoiceNumber($enumerator->getInvoiceNumber())
+                ->setPaymentDate($paymentDate)
+                ->setPaymentMethod($paymentMethod)
+                ->setUser($this->storage->getToken()->getUser())
+                ;
+            $invoice->addInvoiceDetail($invoiceDetail);
+
+            $manager->persist($enumerator);
+            $manager->persist($invoice);
+            $manager->flush();
+
+            $transRepo->updateTransactionByDriverInvoice($transactionToUpdate, $invoice);
+        }
+    }
+
 
 }

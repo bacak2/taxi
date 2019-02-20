@@ -18,6 +18,8 @@ use AppBundle\Entity\CashRegister\CashRegister;
 use AppBundle\Entity\CashRegister\CashRegisterDetail;
 use AppBundle\Entity\Dictionary\DictionaryParam;
 use AppBundle\Entity\Enumerator;
+use AppBundle\Entity\Settlement;
+use AppBundle\Entity\ApiTaxi360\Transaction;
 
 /**
  * @Route(
@@ -114,18 +116,22 @@ class BankController extends Controller
     {
         $formData = $request->request->get('formData');
         $manager = $this->getDoctrine()->getManager();
-        $enumerator = $this->getDoctrine()->getRepository(Enumerator::class)
-            ->getEnumerator(Enumerator::TYPE_KW, $this->getUser());
-        //pobrać id drivera z form
-        $driver = $this->getDoctrine()->getRepository(Driver::class)->find(1);
-        //zamiast dictionary param wyświetla się zwykły param...
+        $user = $this->getUser();
+        $transactionDate = new \DateTime();
+        $enumerator = $this->getDoctrine()->getRepository(Enumerator::class)->getEnumerator(Enumerator::TYPE_KW, $this->getUser());
+        $driverId = $bank->getDriverIdFromForm($formData);
+        $driver = $this->getDoctrine()->getRepository(Driver::class)->find($driverId);
         $param = $this->getDoctrine()->getRepository(DictionaryParam::class)->find(74);
+        $sum = $bank->calculate($formData, false);
+        $amountForSettlement = $sum['forSettlement']['amount'];
+
+        //add new KW
         $cashRegister = new CashRegister();
         $cashRegister
-            ->setTransactionDate(new \DateTime())
+            ->setTransactionDate($transactionDate)
             ->setTransactionType('kw')
             ->setDriver($driver)
-            ->setUser($this->getUser())
+            ->setUser($user)
             ->setTitle('Rozliczenie przelewów')
             ->setCashRegisterNumber($enumerator->getCashRegisterNumber());
         $details = new CashRegisterDetail();
@@ -133,17 +139,45 @@ class BankController extends Controller
             ->setCashRegister($cashRegister)
             ->setParam($param)
             ->setQuantity(1)
-            //pobrać kwotę z form
-            ->setBrutto(12);
+            ->setBrutto($amountForSettlement);
         $manager->persist($cashRegister);
         $manager->persist($details);
         $manager->persist($enumerator);
         $manager->flush();
-        //$bank->updateSettlements($formData);
+
+        $bank->updateSettlements($formData);
 
         //odliczyć koszty przelewu - pobrać kwotę kosztu przelewu i dodać ją jako nowa transakcja
+        $transferCost = $bank->getTransferCost();
+        $transaction = new Transaction();
+        $transaction
+            ->setDriverId($driver)
+            ->setUser($user)
+            ->setTransactionDate($transactionDate)
+            ->setTransactionStatus('ACCEPTED')
+            ->setTransactionStatusCode('000')
+            ->setTotalAmount($transferCost)
+            ->setDriverAmount($transferCost)
+            ->setPrice($transferCost)
+            ->setManual(1)
+            ->setCardAliasUsed('NO')
+            ->setCorpoAliasUsed('NO')
+            ->setAuthDate($transactionDate)
+            ->setUpdateDate($transactionDate);
+        $manager->persist($transaction);
+        $manager->flush();
+
+        $settlement = new Settlement();
+        $settlement
+            ->setTransaction($transaction)
+            ->setUser($user)
+            ->setTotalAmount($transferCost)
+            ->setPercentage(0);
+        $manager->persist($settlement);
+        $manager->flush();
+
         return $this->json([
-            'insertedKw' => $cashRegister->getId(),
+            'insertedKw' => $cashRegister->getId()
         ]);
     }
 }
