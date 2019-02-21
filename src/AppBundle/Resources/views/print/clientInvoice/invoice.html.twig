@@ -244,11 +244,11 @@
                     </tr>
                     <tr>
                         <td>Konto bankowe:</td>
-                        <td>61 0000 1111 2222 3333 4444 5555 Małopolski Bank Spółdzielczu</td>
+                        <td>{{ settings.bankAccount }} {{ settings.bankName }}</td>
                     </tr>
                     <tr>
                         <td>BIC (SWIFT):</td>
-                        <td>POLUPLPR</td>
+                        <td>{{ settings.swift }}</td>
                     </tr>
                 </table>
             </td>
@@ -280,7 +280,7 @@
                         <td style="font-size: small; padding: 5px; border: 1px solid black; border-top: none;">
                             Uprawniona osoba do wystawienia i odbioru faktury VAT
                             <br>
-                            Marcin Zych
+                            {{ invoice.user.name }}
                         </td>
                     </tr>
                 </table>

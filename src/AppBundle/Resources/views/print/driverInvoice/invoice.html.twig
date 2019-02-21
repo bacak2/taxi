@@ -133,7 +133,7 @@
                             <div>
                                 {{ document['clientStreet'] }}
                                 <br>
-                                {{ document['clientCity'] }}
+                                {{ document['driverPostalCode'] }} {{ document['clientCity'] }}
                                 <br>
                                 NIP: {{ document['clientNip'] }}
                             </div>
@@ -196,16 +196,16 @@
                         <tr>
                             <td style="border: none;"></td>
                             <td class="center">{{ document[80]['totalAmount']|number_format(2) }}zł</td>
-                            <td class="center">{{ document['vat']*100 }}%</td>
-                            <td class="center">{{ document[80]['totalAmount']*document['vat'] }}zł</td>
-                            <td class="center">{{ brutto }}zł</td>
+                            <td class="center">{{ document['vat']*100|number_format(2) }}%</td>
+                            <td class="center">{{ (document[80]['totalAmount']*document['vat'])|number_format(2) }}zł</td>
+                            <td class="center">{{ brutto|number_format(2) }}zł</td>
                         </tr>
                         <tr id="footer">
                             <td>Razem</td>
                             <td class="center">{{ document[80]['totalAmount']|number_format(2) }}zł</td>
                             <td class="center">-</td>
-                            <td class="center">{{ document[80]['totalAmount']*document['vat'] }}zł</td>
-                            <td class="center">{{ brutto }}zł</td>
+                            <td class="center">{{ (document[80]['totalAmount']*document['vat'])|number_format(2) }}zł</td>
+                            <td class="center">{{ brutto|number_format(2) }}zł</td>
                         </tr>
                     </tbody>
                 </table>
@@ -219,7 +219,7 @@
                 <table id="tblWords" style="width: 100%">
                     <tr>
                         <td style="width: 220px">
-                            Należność ogółem: <span style="font-weight: bold; font-size: 14px;">{{ brutto }} zł</span>
+                            Należność ogółem: <span style="font-weight: bold; font-size: 14px;">{{ brutto|number_format(2) }} zł</span>
                         </td>
                         <td>
                             <span style="font-style: italic;">Słownie: {{ word }}</span>
@@ -280,7 +280,7 @@
                         <td style="font-size: small; padding: 5px; border: 1px solid black; border-top: none;">
                             Uprawniona osoba do wystawienia i odbioru faktury VAT
                             <br>
-                            Marcin Zych
+                            {{ invoice.user.name }}
                         </td>
                     </tr>
                 </table>

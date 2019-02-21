@@ -13,6 +13,9 @@
     <div class="ui segments main-content"
       data-createinvoice="{{ path('route_invoice_client_create') }}"
       data-editinvoice="{{ path('route_invoice_edit', {'id':'__id__'}) }}"
+      data-printallinvoices="{{ path('print_all_invoices_for_client', {'month': '__m__', 'year': '__y__'}) }}"
+      data-registerbook="{{ path('print_register_book', {'month': '__m__', 'year': '__y__'}) }}"
+      data-printenvelopes="{{ path('print_envelopes', {'month': '__m__', 'year': '__y__'}) }}"
     >
        <div class="ui segment">
           <div class="ui form">

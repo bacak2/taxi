@@ -12,7 +12,8 @@
 
     <div class="ui segments main-content"
          data-createinvoice="{{ path('route_invoice_driver') }}"
-         data-createallinvoice="{{ path('route_all_invoices_driver') }}">
+         data-createallinvoice="{{ path('route_all_invoices_driver') }}"
+         data-printallinvoices="{{ path('print_all_invoices_for_driver', {'month': '__m__', 'year': '__y__'}) }}">
         <div class="ui segment">
             <div class="ui form">
                 <div class="five fields">

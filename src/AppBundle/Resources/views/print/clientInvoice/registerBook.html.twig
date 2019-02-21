@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Książka nadawcza</title>
+    <style>
+        table{
+            border-collapse: collapse;
+            text-align: center;
+        }
+        td{
+            border: solid 1px black;
+        }
+        .container{
+            border: solid 1px #727272;
+            padding: 20px;
+        }
+        #firstRow, #secondRow{
+            border-left: none;
+            border-top: none;
+            border-right: none;
+            font-weight: bold;
+            padding-bottom: 10px;
+        }
+        #firstRow{
+            border-bottom: none;
+            text-align: right;
+        }
+        .tdSmall{
+            width: 40px;
+        }
+        .tdMedium{
+            width: 80px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <table width="100%">
+        <tr><td id="firstRow" colspan="13">Załącznik nr 1</td></tr>
+        <tr><td id="secondRow" colspan="13">Imię i nazwisko (nazwa) oraz adres nadawcy: RadioTaxi 919 Sp. z o.o. ul. Prof. Stefana Myczkowskiego 1/4, 30-198 Kraków</td></tr>
+        <tr><td rowspan="2">Lp.</td><td rowspan="2">ADRESAT</td><td rowspan="2">Dokładne miejsce doręczenia</td><td colspan="2">Kwota zadekl. wartości</td><td colspan="2">Masa</td><td rowspan="2">Nr nadawczy</td><td rowspan="2">Uwagi</td><td colspan="2">Opłata</td><td colspan="2">Kwota pobrania</td></tr>
+        <tr><td>zł</td><td>gr</td><td>kg</td><td>g</td><td>zł</td><td>gr</td><td>zł</td><td>gr</td></tr>
+        <tr><td>1</td><td>2</td><td>3</td><td colspan="2">4</td><td colspan="2">5</td><td>6</td><td>7</td><td colspan="2">8</td><td colspan="2">9</td></tr>
+        {% for index, document in documents %}
+            <tr>
+                <td style="width: 30px;">{{ index+1 }}.</td>
+                <td style="width: 100px;">{{ document['name'] }}</td>
+                <td class="tdMedium">{{ document['mailing_address'] }}</td>
+                <td class="tdSmall"></td>
+                <td class="tdSmall"></td>
+                <td class="tdSmall"></td>
+                <td class="tdSmall"></td>
+                <td class="tdMedium"></td>
+                <td class="tdSmall"></td>
+                <td class="tdSmall"></td>
+                <td class="tdSmall"></td>
+                <td class="tdSmall"></td>
+                <td class="tdSmall"></td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+</body>
+</html>

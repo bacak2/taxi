@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Koperty</title>
+    <style>
+        table{
+            border-collapse: collapse;
+            text-align: left;
+        }
+        td{
+            border: solid 1px black;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <table width="100%">
+        {% for index, document in documents %}
+            {%  if (index % 3 == 0) %}<tr>{% endif %}
+                <td width="33%">
+                    {{ document['name'] }}<br>
+                    {{ document['mailing_address_street'] }}<br>
+                    {{ document['mailing_address_postal_code'] }} {{ document['mailing_address_town'] }}
+                </td>
+            {%  if (index % 3 == 2) %}</tr>{% endif %}
+        {% endfor %}
+    </table>
+</div>
+</body>
+</html>

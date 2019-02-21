@@ -408,7 +408,7 @@ class TransactionRepository extends \Doctrine\ORM\EntityRepository
                 i.amount_netto amountNetto, i.vat, i.amount_brutto amountBrutto
             FROM invoice i
                 LEFT JOIN client c ON c.id  = i.buyer
-            WHERE 1=1
+            WHERE invoice_type_id = 1
                 AND date_format(create_date, '%Y') = :transactionYear
                 AND date_format(create_date, '%m') = :transactionMonth ";
         $pdo = $this->getEntityManager()->getConnection();
@@ -543,7 +543,7 @@ class TransactionRepository extends \Doctrine\ORM\EntityRepository
                   IFNULL(ds.license_number, db.license_number) licenseNumber,
                   i.transaction_type transactionType, i.invoice_number invoiceNumber,
                   f.format documentType,
-                  seller, buyer,
+                  db.firm_name AS buyer,
                   it.invoice_type type,
                   i.amount_brutto amountToPay
                 FROM invoice i
@@ -551,7 +551,7 @@ class TransactionRepository extends \Doctrine\ORM\EntityRepository
                   LEFT JOIN invoice_format f ON i.invoice_format_id = f.id
                   LEFT JOIN driver ds ON ds.id = i.seller
                   LEFT JOIN driver db ON db.id = i.buyer
-                WHERE 1=1
+                WHERE invoice_type_id = 2
                       AND date_format(create_date, '%Y') = :transactionYear
                       AND date_format(create_date, '%m') = :transactionMonth";
         $pdo = $this->getEntityManager()->getConnection();
@@ -566,6 +566,7 @@ class TransactionRepository extends \Doctrine\ORM\EntityRepository
             while ($row = $stmt->fetch(\PDO::FETCH_ASSOC))
             {
                 $row['printBtn'] = '<button class="print-invoice" id="'.$row['id'].'"><i class="print icon"></i></button>';
+                $row['seller'] = 'RADIO TAXI 919';
                 $result[] = $row;
             }
             return $result;
@@ -578,33 +579,37 @@ class TransactionRepository extends \Doctrine\ORM\EntityRepository
     public function getTransactionForDriverInvoiceAttachment($invoiceId)
     {
         $sql = "select
-             i.invoice_number invoiceNumber, format(i.discount*100,1) invoiceDiscount,
+              i.invoice_number invoiceNumber, format(i.discount*100,1) invoiceDiscount,
               date_format(t.transaction_date,'%Y-%m-%d') transactionDate,
               t.original_license_number licenseNumber, t.original_pan originalPan,
-              t.total_amount totalAmount, t.vat
-              , t.vat AS passangerName
-              , t.vat AS comment
-            from transaction t
-              JOIN invoice i ON t.driver_invoice_id = i.id
-              JOIN driver d ON t.client_id = d.id
-            where 1=1
-              and driver_invoice_id = :invoiceId
-            order by transactionDate";
+              t.total_amount totalAmount, t.vat,
+              firm_name AS driverName, nip, address_street AS driverStreet, address_town AS driverCity, address_postal_code AS driverPostalCode,
+              t.vat AS comment
+              FROM invoice i
+              LEFT JOIN invoice_type it ON i.invoice_type_id = it.id
+              LEFT JOIN invoice_format f ON i.invoice_format_id = f.id
+              LEFT JOIN driver d ON d.id = i.buyer
+              LEFT JOIN transaction t ON t.driver_invoice_id = i.id
+                WHERE invoice_type_id = 2
+                AND driver_invoice_id = :invoiceId
+                ORDER BY transactionDate";
         $pdo = $this->getEntityManager()->getConnection();
         $rows = $pdo->prepare($sql);
         $rows->execute([
             ':invoiceId' => $invoiceId
         ]);
+        //dump($rows->fetchAll()); die;
         $result = [];
         while ($row = $rows->fetch(\PDO::FETCH_ASSOC))
         {
             $result['invoiceNumber'] = $row['invoiceNumber'];
             $result['invoiceDiscount'] = $row['invoiceDiscount'];
-            $result['clientName'] = 'Arek';//$row['clientName'];
-            $result['clientStreet'] = 'Arek';//$row['clientStreet'];
-            $result['clientCity'] = 'Arek';//$row['clientCity'];
-            $result['clientNip'] = 'Arek';//$row['clientNip'];
-            $result['passangerName'] = 'Arek';
+            $result['clientName'] = $row['driverName'];
+            $result['clientStreet'] = $row['driverStreet'];
+            $result['clientCity'] = $row['driverCity'];
+            $result['driverPostalCode'] = $row['driverPostalCode'];
+            $result['clientNip'] = $row['nip'];
+            $result['passangerName'] = $row['driverName'];
             $result['vat'] = $row['vat'];
             if(!isset($result[$row['vat']*1000]['totalAmount']))
             {
@@ -632,5 +637,39 @@ class TransactionRepository extends \Doctrine\ORM\EntityRepository
         }
 
         return $result;
+    }
+
+    public function getDataForRegisterBook($month, $year){
+        $sql = "SELECT c.name, concat(c.mailing_address_street,', ', c.mailing_address_postal_code,' ',c.mailing_address_town) AS mailing_address
+                FROM transaction
+                JOIN invoice ON client_invoice_id = invoice.id
+                JOIN client c ON client_id = c.id
+                WHERE
+                date_format(transaction_date, '%Y') = :transactionYear
+                AND date_format(transaction_date, '%m') = :transactionMonth";
+        $pdo = $this->getEntityManager()->getConnection();
+        $rows = $pdo->prepare($sql);
+        $rows->execute([
+            ':transactionMonth' => $month,
+            ':transactionYear' => $year
+        ]);
+        return $rows->fetchAll();
+    }
+
+    public function getDataForEnvelopes($month, $year){
+        $sql = "SELECT c.name, c.mailing_address_street, c.mailing_address_postal_code, c.mailing_address_town
+                FROM transaction  
+                JOIN invoice ON client_invoice_id = invoice.id
+                JOIN client c ON client_id = c.id
+                WHERE
+                date_format(transaction_date, '%Y') = :transactionYear
+                AND date_format(transaction_date, '%m') = :transactionMonth";
+        $pdo = $this->getEntityManager()->getConnection();
+        $rows = $pdo->prepare($sql);
+        $rows->execute([
+            ':transactionMonth' => $month,
+            ':transactionYear' => $year
+        ]);
+        return $rows->fetchAll();
     }
 }

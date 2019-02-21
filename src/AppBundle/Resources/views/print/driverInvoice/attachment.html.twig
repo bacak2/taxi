@@ -6,10 +6,10 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style>
-        td{
+        #mainTableAttachment td{
             border: 1px solid black;
         }
-        table, table td{
+        #mainTableAttachment, #mainTableAttachment td{
             border-collapse: collapse;
             text-align: center;
             font-size: 11px;
@@ -19,14 +19,15 @@
         .left{ text-align: left; }
         .right{ text-align: right; }
         .center{ text-align: center; }
-        #mainTable thead td{
+        #mainTableAttachment thead td{
             font-weight: bold;
         }
-        #firstRow td{
+        #mainTableAttachment #firstRow td{
+            border: none;
             padding: 10px;
             padding-bottom: 20px;
         }
-        #secondRow td{
+        #mainTableAttachment #secondRow td{
             padding: 5px;
             font-weight: bold;
             background-color: #eeeeee;
@@ -45,7 +46,7 @@
     </style>
 </head>
 <body>
-    <table width="100%" id="mainTable">
+    <table width="100%" id="mainTableAttachment">
         <thead>
             <tr id="firstRow">
                 <td colspan="5" class="border-r-none" style="text-align: left">

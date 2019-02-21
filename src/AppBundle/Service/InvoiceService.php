@@ -146,11 +146,12 @@ class InvoiceService
                 ->setDiscount(0)
                 ->setInvoiceFormat($invoiceFormat)
                 ->setInvoiceMonth($date->format('m'))
-                ->setInvoiceYear($date->format('y'))
+                ->setInvoiceYear($date->format('Y'))
                 ->setInvoiceNumber($enumerator->getInvoiceNumber())
                 ->setPaymentDate($paymentDate)
                 ->setPaymentMethod($paymentMethod)
                 ->setUser($this->storage->getToken()->getUser())
+                ->setInvoiceType($this->doctrine->getRepository(InvoiceType::class)->find(1))
                 ;
             $invoice->addInvoiceDetail($invoiceDetail);
 
@@ -245,7 +246,7 @@ class InvoiceService
 
             $invoiceDetail = new InvoiceDetail();
             $invoiceDetail->setLp(1)
-                ->setTitle(sprintf('Za od %s do %s',
+                ->setTitle(sprintf('Usługi taksówkowe w okresie od %s do %s',
                     $invoiceData['minDate'],$invoiceData['maxDate']))
                 ->setQuantity(1)
                 ->setVat($invoiceData['vat'])
@@ -270,11 +271,12 @@ class InvoiceService
                 ->setDiscount(0)
                 ->setInvoiceFormat($invoiceFormat)
                 ->setInvoiceMonth($date->format('m'))
-                ->setInvoiceYear($date->format('y'))
+                ->setInvoiceYear($date->format('Y'))
                 ->setInvoiceNumber($enumerator->getInvoiceNumber())
                 ->setPaymentDate($paymentDate)
                 ->setPaymentMethod($paymentMethod)
                 ->setUser($this->storage->getToken()->getUser())
+                ->setInvoiceType($this->doctrine->getRepository(InvoiceType::class)->find(2))
                 ;
             $invoice->addInvoiceDetail($invoiceDetail);
 
